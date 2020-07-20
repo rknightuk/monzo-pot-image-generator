@@ -67,13 +67,18 @@
 		}
 
 		.color-wrapper {
-			display: flex;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+			align-items: center;
+			justify-content: center;
 		}
 
 		.color {
-			flex: 1;
-			flex-basis: 50px;
+			width: 40px;
+			height: 40px;
 			cursor: pointer;
+			margin: 0 auto;
+			border: 1px solid #b5b5b5;
 		}
 	</style>
 
@@ -101,12 +106,12 @@
 
 	<div class="color-wrapper">
 		{% for color in colors %}
-			<div class="color" onclick="setColor('{{ color }}')" style="background: {{ color }};width: 100px;height: 100px;"></div>	
+			<div class="color" onclick="setColor('{{ color }}')" style="background: {{ color }};"></div>	
 		{% endfor %}
-		<input type="color" id="color-picker">
-		<input type="text" id="hex-input">
-		<input type="checkbox" id="calc-contrast" checked="checked">
+		<input type="color" class="color" id="color-picker" value="{{ defaults.background }}">
 	</div>
+
+	<input type="checkbox" id="calc-contrast" checked="checked">
 
 	<div class="icon-search-wrapper">
 		<input type="text" onkeyup="searchIcons()" id="icon-search">
@@ -136,7 +141,7 @@
 		   var components = getRGBComponents(bgColor);
 		   var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
 
-		   const iconColor = ((255 - bgDelta) < nThreshold) ? "{{ defaults.light }}" : "{{ defaults.dark }}";
+		   const iconColor = ((255 - bgDelta) < nThreshold) ? "{{ defaults.dark }}" : "{{ defaults.light }}";
 		   Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
 		   		icon.style.color = iconColor
 		   })
@@ -158,16 +163,12 @@
 		setColor = function(color) {
 			document.getElementById('generated').style.background = color
 			document.getElementById('preview').style.background = color
+			document.getElementById('color-picker').value = color
 			setIconColor(color)
 		}
 
 		setColorFromInput = function() {
 			setColor(document.getElementById('color-picker').value)
-		}
-
-		setColorFromHexInput = function() {
-			const value = document.getElementById('hex-input').value
-			setColor(value.includes('#') ? value : '#' + value)
 		}
 
 		setIcon = function(icon, prefix) {
@@ -184,7 +185,6 @@
 		}
 
 		document.getElementById('color-picker').addEventListener("input", setColorFromInput, false)
-		document.getElementById('hex-input').addEventListener("keyup", setColorFromHexInput, false)
 
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
