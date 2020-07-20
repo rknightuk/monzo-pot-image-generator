@@ -1,0 +1,195 @@
+<html>
+
+<head>
+
+	<style type="text/css">
+		#preview {
+			width: 316px;
+			height: 205px;
+			background: #EC5B5C;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 10px;
+			box-shadow: 3px 3px 2px 0px rgba(214,214,214,1);
+		}
+
+		.icon {
+			color: #f3fdff;
+		}
+
+		#preview svg {
+			width: 100px;
+			height: 100px;
+		}
+
+		.wrapper {
+			overflow: hidden;
+			height: 0;
+		}
+
+		#real-image {
+			width: 1266px;
+			height: 822px;
+			background: #EC5B5C;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		#real-image svg {
+			width: 400px;
+			height: 400px;
+		}
+
+		.icons {
+			border: 1px solid red;
+			height: 400px;
+			overflow: scroll;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+
+		.icons__single {
+			text-align: center;
+			cursor: pointer;
+			padding: 5px;
+			flex-basis: 75px;
+			font-size: 40px;
+		}
+
+		.color-wrapper {
+			display: flex;
+		}
+
+		.color {
+			flex: 1;
+			flex-basis: 50px;
+			cursor: pointer;
+		}
+	</style>
+
+	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
+	<script src="assets/dom-to-image.min.js"></script>
+	<script src="assets/FileSaver.min.js"></script>
+
+</head>	
+
+<body>
+
+	<div id="preview">
+		<div class="icon">
+			<i id="preview-icon" class="fas fa-glass-cheers"></i>
+		</div>
+	</div>
+
+	<div class="wrapper">
+		<div id="real-image">
+			<div class="icon">
+				<i id="real-image-icon" class="fas fa-glass-cheers"></i>
+			</div>
+		</div>
+	</div>
+
+	<div class="color-wrapper">
+		{% for color in colors %}
+			<div class="color" onclick="setColor('{{ color }}')" style="background: {{ color }};width: 100px;height: 100px;"></div>	
+		{% endfor %}
+		<input type="color" id="color-picker">
+		<input type="text" id="hex-input">
+		<input type="checkbox" id="calc-contrast" checked="checked">
+	</div>
+
+	<div class="icon-search-wrapper">
+		<input type="text" onkeyup="searchIcons()" id="icon-search">
+		<div class="icons">
+			{% for icon in icons %}
+				<div 
+					data-keywords="{{ icon.label }} {% for keyword in icon.search.terms %} {{ keyword }} {% endfor%}"
+					class="icons__single" 
+					onclick="setIcon(
+						'{{ icon.key }}', 
+						'{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}'
+					)"
+				">
+					<i class="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %} fa-{{ icon.key }}"></i>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	<button id="foo">download img</button>
+
+	<script>
+
+		function setIconColor(bgColor) {
+			if (!document.getElementById('calc-contrast').checked) return
+		   var nThreshold = 105;
+		   var components = getRGBComponents(bgColor);
+		   var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
+
+		   const iconColor = ((255 - bgDelta) < nThreshold) ? "#333333" : "#f7f7f7";
+		   Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
+		   		icon.style.color = iconColor
+		   })
+		}
+
+		function getRGBComponents(color) {       
+
+		    var r = color.substring(1, 3);
+		    var g = color.substring(3, 5);
+		    var b = color.substring(5, 7);
+
+		    return {
+		       R: parseInt(r, 16),
+		       G: parseInt(g, 16),
+		       B: parseInt(b, 16)
+		    };
+		}
+
+		setColor = function(color) {
+			document.getElementById('real-image').style.background = color
+			document.getElementById('preview').style.background = color
+			setIconColor(color)
+		}
+
+		setColorFromInput = function() {
+			setColor(document.getElementById('color-picker').value)
+		}
+
+		setColorFromHexInput = function() {
+			const value = document.getElementById('hex-input').value
+			setColor(value.includes('#') ? value : '#' + value)
+		}
+
+		setIcon = function(icon, prefix) {
+			document.getElementById('real-image-icon').className = prefix + ' fa-' + icon
+			document.getElementById('preview-icon').className = prefix + ' fa-' + icon
+		}
+
+		searchIcons = function() {
+			const search = document.getElementById('icon-search').value
+
+			Array.from(document.getElementsByClassName('icons__single')).forEach(function(element) {
+				element.style.display = element.dataset.keywords.includes(search) ? 'block' : 'none'
+			})
+		}
+
+		document.getElementById('color-picker').addEventListener("input", setColorFromInput, false)
+		document.getElementById('hex-input').addEventListener("keyup", setColorFromHexInput, false)
+
+		document.getElementById('foo').onclick = function() {
+		  domtoimage.toBlob(document.getElementById('real-image'))
+		      .then(function (blob) {
+		          window.saveAs(blob, 'my-node.png');
+		      });
+		}
+	</script>
+
+	<script>
+	    FontAwesomeConfig = { autoReplaceSvg: 'nest' }
+	</script>
+</body>
+
+</html>
