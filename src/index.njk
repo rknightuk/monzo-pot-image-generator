@@ -2,11 +2,13 @@
 
 <head>
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+
 	<style type="text/css">
 		#preview {
 			width: 316px;
 			height: 205px;
-			background: #EC5B5C;
+			background-color: {{ defaults.background }};
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -31,7 +33,7 @@
 		#real-image {
 			width: 1266px;
 			height: 822px;
-			background: #EC5B5C;
+			background: {{ defaults.background }};
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -69,8 +71,6 @@
 			cursor: pointer;
 		}
 	</style>
-
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
 
 	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
 	<script src="assets/dom-to-image.min.js"></script>
@@ -131,7 +131,7 @@
 		   var components = getRGBComponents(bgColor);
 		   var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
 
-		   const iconColor = ((255 - bgDelta) < nThreshold) ? "#333333" : "#f7f7f7";
+		   const iconColor = ((255 - bgDelta) < nThreshold) ? "{{ defaults.light }}" : "{{ defaults.dark }}";
 		   Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
 		   		icon.style.color = iconColor
 		   })
