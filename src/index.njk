@@ -70,6 +70,8 @@
 		}
 	</style>
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+
 	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
 	<script src="assets/dom-to-image.min.js"></script>
 	<script src="assets/FileSaver.min.js"></script>
@@ -119,7 +121,7 @@
 		</div>
 	</div>
 
-	<button id="foo">download img</button>
+	<button id="download">Download</button>
 
 	<script>
 
@@ -179,7 +181,7 @@
 		document.getElementById('color-picker').addEventListener("input", setColorFromInput, false)
 		document.getElementById('hex-input').addEventListener("keyup", setColorFromHexInput, false)
 
-		document.getElementById('foo').onclick = function() {
+		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('real-image'))
 		      .then(function (blob) {
 		          window.saveAs(blob, 'my-node.png');
