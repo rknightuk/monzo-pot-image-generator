@@ -306,7 +306,7 @@
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
 		      .then(function (blob) {
-		          window.saveAs(blob, 'my-node.png');
+		          window.saveAs(blob, 'monzo-pot-image.png');
 		      });
 		}
 
