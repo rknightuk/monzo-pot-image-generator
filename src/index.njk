@@ -133,7 +133,7 @@
 		<h3>Background Colour:</h3>
 		<div class="color-wrapper">
 			{% for color in colors.background %}
-				<div class="color" onclick="setColor('{{ color }}')" style="background: {{ color }};"></div>	
+				<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
 			{% endfor %}
 			<input type="color" class="color" id="background-color-picker" value="{{ defaults.primary }}">
 		</div>
@@ -200,15 +200,15 @@
 		    };
 		}
 
-		setColor = function(color) {
+		setBackgroundColor = function(color) {
 			document.getElementById('generated').style.background = color
 			document.getElementById('preview').style.background = color
 			document.getElementById('background-color-picker').value = color
 			setIconColorFromBackground(color)
 		}
 
-		setColorFromInput = function() {
-			setColor(document.getElementById('background-color-picker').value)
+		setBackgroundColorFromInput = function() {
+			setBackgroundColor(document.getElementById('background-color-picker').value)
 		}
 
 		setIcon = function(icon, prefix) {
@@ -224,7 +224,7 @@
 			})
 		}
 
-		document.getElementById('background-color-picker').addEventListener("input", setColorFromInput, false)
+		document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromInput, false)
 
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
@@ -238,7 +238,7 @@
 			const randomElement = icons[Math.floor(Math.random() * icons.length)]
 			setIcon(randomElement.dataset.key, randomElement.dataset.prefix)
 			var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
-			setColor(randomColor)
+			setBackgroundColor(randomColor)
 		}
 	</script>
 
