@@ -108,11 +108,11 @@
 
 </head>	
 
-<body>
+<body onload="run()">
 
 	<div id="preview" class="image-wrapper preview">
 		<div class="icon">
-			<i id="preview-icon" class="fas fa-glass-cheers"></i>
+			<i id="preview-icon" class="{{ defaults.icon.prefix }} fa-{{ defaults.icon.icon }}"></i>
 		</div>
 	</div>
 
@@ -124,7 +124,7 @@
 	<div class="wrapper">
 		<div id="generated" class="image-wrapper">
 			<div class="icon">
-				<i id="generated-icon" class="fas fa-glass-cheers"></i>
+				<i id="generated-icon" class="{{ defaults.icon.prefix }} fa-{{ defaults.icon.icon }}"></i>
 			</div>
 		</div>
 	</div>
@@ -170,11 +170,20 @@
 
 	<script>
 
+		function updateData(key, value) {
+			PotData[key] = value
+			window.location.hash = "i=" + PotData.icon.icon + 
+				"&ip=" + PotData.icon.prefix + 
+				"&c=" + PotData.color.replace('#', '') + 
+				"&bg=" + PotData.background.replace('#', '')
+		}
+
 		function setIconColor(iconColor) {
 			Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
 				icon.style.color = iconColor
 			})
 			document.getElementById('icon-color-picker').value = iconColor
+			updateData('color', iconColor)
 		}
 
 		function setIconColorFromBackground(bgColor) {
@@ -205,6 +214,7 @@
 			document.getElementById('preview').style.background = color
 			document.getElementById('background-color-picker').value = color
 			setIconColorFromBackground(color)
+			updateData('background', color)
 		}
 
 		setBackgroundColorFromInput = function() {
@@ -214,6 +224,10 @@
 		setIcon = function(icon, prefix) {
 			document.getElementById('generated-icon').className = prefix + ' fa-' + icon
 			document.getElementById('preview-icon').className = prefix + ' fa-' + icon
+			updateData('icon', {
+				icon: icon,
+				prefix: prefix,
+			})
 		}
 
 		searchIcons = function() {
@@ -240,10 +254,48 @@
 			var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
 			setBackgroundColor(randomColor)
 		}
+
+		run = function() {
+			window.PotData = {
+				icon: {
+					icon: "{{ defaults.icon.icon }}",
+					prefix: "{{ defaults.icon.prefix }}"
+				},
+				color: "{{ defaults.light }}",
+				background: "{{ defaults.primary }}"
+			}
+			
+			if (window.location.hash.length > 0) {
+				const data = window.location.hash.split('&')
+				const iconData = {
+					icon: null,
+					prefix: null,
+				}
+				data.forEach(function(h) {
+					const values = h.replace('#', '').split('=')
+					const key = values[0]
+					const value = values[1]
+
+					if (key === 'i') {
+						iconData.icon = value
+					} else if (key === 'ip') {
+						iconData.prefix = value
+					} else if (key === 'c') {
+						setIconColor('#' + value)
+					} else if (key === 'bg') {
+						setBackgroundColor('#' + value)
+					}
+				})
+
+				if (iconData.icon && iconData.prefix) {
+					setIcon(iconData.icon, iconData.prefix)
+				}
+			}
+		}
 	</script>
 
 	<script>
-	    FontAwesomeConfig = { autoReplaceSvg: 'nest' }
+		FontAwesomeConfig = { autoReplaceSvg: 'nest' }
 	</script>
 </body>
 
