@@ -5,6 +5,18 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
 
 	<style type="text/css">
+		header {
+			text-align: center;
+		}
+
+		header h1 {
+			margin-bottom: 0;
+		}
+
+		header p {
+			margin-top: 0;
+		}
+
 		.image-wrapper {
 			margin: 0 auto;
 			background: {{ defaults.primary }};
@@ -124,6 +136,10 @@
 
 <body onload="run()">
 
+	<header>
+		<h1>Monzo Pot Image Generator</h1>
+		<p>By <a href="https://twitter.com/rknightuk">Robb Knight</a></p>
+	</header>
 	<div id="preview" class="image-wrapper preview">
 		<div class="icon">
 			<i id="preview-icon" class="{{ defaults.icon.prefix }} fa-{{ defaults.icon.icon }}"></i>
@@ -193,7 +209,7 @@
 	<script>
 
 		function shareToTwitter() {
-			window.open('https://twitter.com/intent/tweet?text=Check out my Monzo pot image!&url=' + encodeURIComponent(generateFullUrl()))
+			window.open('https://twitter.com/intent/tweet?text=Check out new my Monzo pot image!&url=' + encodeURIComponent(generateFullUrl()))
 		}
 
 		function generateQueryString() {
@@ -204,20 +220,27 @@
 		}
 
 		function generateFullUrl() {
-			return window.location.href + '?' + generateQueryString()
+			return window.location.origin + '?' + generateQueryString()
 		}
 
 		function updateData(key, value) {
 			window.PotData[key] = value
+			updateShareUrl()
+		}
 
+		function updateShareUrl() {
 			document.getElementById('share-link').value = generateFullUrl()
 		}
 
 		function setIconColor(iconColor) {
+			console.log('ewdsjabfbsd')
+			console.log(iconColor)
 			Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
 				icon.style.color = iconColor
 			})
 			document.getElementById('icon-color-picker').value = iconColor
+			document.getElementById('generated-icon').value = iconColor
+			document.getElementById('preview-icon').value = iconColor
 			updateData('color', iconColor)
 		}
 
@@ -244,16 +267,20 @@
 		    };
 		}
 
-		setBackgroundColor = function(color) {
+		setBackgroundColor = function(color, skipContrast) {
 			document.getElementById('generated').style.background = color
 			document.getElementById('preview').style.background = color
 			document.getElementById('background-color-picker').value = color
-			setIconColorFromBackground(color)
+			if (!skipContrast) setIconColorFromBackground(color)
 			updateData('background', color)
 		}
 
 		setBackgroundColorFromInput = function() {
 			setBackgroundColor(document.getElementById('background-color-picker').value)
+		}
+
+		setIconColorFromInput = function() {
+			setIconColor(document.getElementById('icon-color-picker').value)
 		}
 
 		setIcon = function(icon, prefix) {
@@ -274,6 +301,7 @@
 		}
 
 		document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromInput, false)
+		document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromInput, false)
 
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
@@ -309,12 +337,14 @@
 			}
 			iconData.icon = urlParams.get('i')
 			iconData.prefix = urlParams.get('ip')
-			setIconColor('#' + urlParams.get('c'))
-			setBackgroundColor('#' + urlParams.get('bg'))
+			if (urlParams.get('c')) setIconColor('#' + urlParams.get('c'))
+			if (urlParams.get('bg')) setBackgroundColor('#' + urlParams.get('bg'), true)
 			
 			if (iconData.icon && iconData.prefix) {
 				setIcon(iconData.icon, iconData.prefix)
 			}
+
+			updateShareUrl()
 		}
 	</script>
 
