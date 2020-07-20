@@ -66,6 +66,10 @@
 			background: #f3f3f3;
 		}
 
+		.color-pickers {
+			margin-bottom: 10px;
+		}
+
 		.color-wrapper {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
@@ -80,6 +84,11 @@
 			margin: 0 auto;
 			border: 1px solid #b5b5b5;
 		}
+
+		#calc-contrast {
+			margin-bottom: 15px;
+		}
+
 	</style>
 
 	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
@@ -104,15 +113,24 @@
 		</div>
 	</div>
 
-	<h3>Background Colour:</h3>
-	<div class="color-wrapper">
-		{% for color in colors %}
-			<div class="color" onclick="setColor('{{ color }}')" style="background: {{ color }};"></div>	
-		{% endfor %}
-		<input type="color" class="color" id="color-picker" value="{{ defaults.background }}">
-	</div>
+	<div class="color-pickers">
+		<h3>Background Colour:</h3>
+		<div class="color-wrapper">
+			{% for color in colors.background %}
+				<div class="color" onclick="setColor('{{ color }}')" style="background: {{ color }};"></div>	
+			{% endfor %}
+			<input type="color" class="color" id="background-color-picker" value="{{ defaults.background }}">
+		</div>
 
-	<input type="checkbox" id="calc-contrast" checked="checked">
+		<h3>Icon Colour:</h3>
+		<input type="checkbox" id="calc-contrast" checked="checked"><label for="calc-contrast">automatically adjust icon contrast</label>
+		<div class="color-wrapper">
+			{% for color in colors.icon %}
+				<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
+			{% endfor %}
+			<input type="color" class="color" id="icon-color-picker" value="{{ defaults.light }}">
+		</div>
+	</div>
 
 	<div class="icon-search-wrapper">
 		<input type="text" onkeyup="searchIcons()" id="icon-search">
@@ -136,16 +154,21 @@
 
 	<script>
 
-		function setIconColor(bgColor) {
+		function setIconColor(iconColor) {
+			Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
+				icon.style.color = iconColor
+			})
+			document.getElementById('icon-color-picker').value = iconColor
+		}
+
+		function setIconColorFromBackground(bgColor) {
 			if (!document.getElementById('calc-contrast').checked) return
 		   var nThreshold = 105;
 		   var components = getRGBComponents(bgColor);
 		   var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
 
 		   const iconColor = ((255 - bgDelta) < nThreshold) ? "{{ defaults.dark }}" : "{{ defaults.light }}";
-		   Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
-		   		icon.style.color = iconColor
-		   })
+		   setIconColor(iconColor)
 		}
 
 		function getRGBComponents(color) {       
@@ -164,12 +187,12 @@
 		setColor = function(color) {
 			document.getElementById('generated').style.background = color
 			document.getElementById('preview').style.background = color
-			document.getElementById('color-picker').value = color
-			setIconColor(color)
+			document.getElementById('background-color-picker').value = color
+			setIconColorFromBackground(color)
 		}
 
 		setColorFromInput = function() {
-			setColor(document.getElementById('color-picker').value)
+			setColor(document.getElementById('background-color-picker').value)
 		}
 
 		setIcon = function(icon, prefix) {
@@ -185,7 +208,7 @@
 			})
 		}
 
-		document.getElementById('color-picker').addEventListener("input", setColorFromInput, false)
+		document.getElementById('background-color-picker').addEventListener("input", setColorFromInput, false)
 
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
