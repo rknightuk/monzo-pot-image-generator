@@ -2,17 +2,21 @@
 
 <head>
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
 
 	<style type="text/css">
-		#preview {
-			width: 316px;
-			height: 205px;
-			background-color: {{ defaults.background }};
+		.image-wrapper {
+			margin: 0 auto;
+			background: {{ defaults.background }};
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			border-radius: 10px;
+		}
+
+		#preview {
+			width: 316px;
+			height: 205px;
 			box-shadow: 3px 3px 2px 0px rgba(214,214,214,1);
 		}
 
@@ -30,16 +34,12 @@
 			height: 0;
 		}
 
-		#real-image {
+		#generated {
 			width: 1266px;
 			height: 822px;
-			background: {{ defaults.background }};
-			display: flex;
-			align-items: center;
-			justify-content: center;
 		}
 
-		#real-image svg {
+		#generated svg {
 			width: 400px;
 			height: 400px;
 		}
@@ -47,7 +47,7 @@
 		.icons {
 			border: 1px solid red;
 			height: 400px;
-			overflow: scroll;
+			overflow: auto;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
@@ -59,6 +59,10 @@
 			padding: 5px;
 			flex-basis: 75px;
 			font-size: 40px;
+		}
+
+		.icons__single:hover {
+			background: #f3f3f3;
 		}
 
 		.color-wrapper {
@@ -80,16 +84,16 @@
 
 <body>
 
-	<div id="preview">
+	<div id="preview" class="image-wrapper">
 		<div class="icon">
 			<i id="preview-icon" class="fas fa-glass-cheers"></i>
 		</div>
 	</div>
 
 	<div class="wrapper">
-		<div id="real-image">
+		<div id="generated" class="image-wrapper">
 			<div class="icon">
-				<i id="real-image-icon" class="fas fa-glass-cheers"></i>
+				<i id="generated-icon" class="fas fa-glass-cheers"></i>
 			</div>
 		</div>
 	</div>
@@ -151,7 +155,7 @@
 		}
 
 		setColor = function(color) {
-			document.getElementById('real-image').style.background = color
+			document.getElementById('generated').style.background = color
 			document.getElementById('preview').style.background = color
 			setIconColor(color)
 		}
@@ -166,7 +170,7 @@
 		}
 
 		setIcon = function(icon, prefix) {
-			document.getElementById('real-image-icon').className = prefix + ' fa-' + icon
+			document.getElementById('generated-icon').className = prefix + ' fa-' + icon
 			document.getElementById('preview-icon').className = prefix + ' fa-' + icon
 		}
 
@@ -182,7 +186,7 @@
 		document.getElementById('hex-input').addEventListener("keyup", setColorFromHexInput, false)
 
 		document.getElementById('download').onclick = function() {
-		  domtoimage.toBlob(document.getElementById('real-image'))
+		  domtoimage.toBlob(document.getElementById('generated'))
 		      .then(function (blob) {
 		          window.saveAs(blob, 'my-node.png');
 		      });
