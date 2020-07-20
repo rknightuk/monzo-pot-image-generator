@@ -45,8 +45,21 @@
 			height: 400px;
 		}
 
-		.buttons {
+		.manage {
 			text-align: center;
+		}
+
+		.buttons {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.share-link {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-weight: bold;
 		}
 
 		.color-pickers {
@@ -103,6 +116,7 @@
 	</style>
 
 	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
+	<script src="assets/clipboard.min.js"></script>
 	<script src="assets/dom-to-image.min.js"></script>
 	<script src="assets/FileSaver.min.js"></script>
 
@@ -116,9 +130,17 @@
 		</div>
 	</div>
 
-	<div class="buttons">
-		<button id="random">Randomise</button>
-		<button id="download">Download</button>
+	<div class="manage">
+		<div class="buttons">
+			<button id="random"><i class="fas fa-random"></i> Randomise</button>
+			<button id="download"><i class="fas fa-download"></i> Download</button>
+		</div>
+		<h3>Share Your Image</h3>
+		<div class="share-link">
+			<input type="text" id="share-link" onfocus="this.select()">
+			<button id="share-link-copy" data-clipboard-target="#share-link"><i class="fas fa-copy"></i></button>
+			<button onclick="shareToTwitter()"><i class="fab fa-twitter"></i></button>
+		</div>
 	</div>
 
 	<div class="wrapper">
@@ -155,7 +177,7 @@
 				<div 
 					data-key="{{ icon.key }}"
 					data-prefix="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}"
-					data-keywords="{{ icon.label }} {% for keyword in icon.search.terms %} {{ keyword }} {% endfor%}"
+					data-keywords="{{ icon.label.toLowerCase() }} {% for keyword in icon.search.terms %} {{ keyword }} {% endfor%}"
 					class="icons__single" 
 					onclick="setIcon(
 						'{{ icon.key }}', 
@@ -170,12 +192,25 @@
 
 	<script>
 
-		function updateData(key, value) {
-			PotData[key] = value
-			window.location.hash = "i=" + PotData.icon.icon + 
+		function shareToTwitter() {
+			window.open('https://twitter.com/intent/tweet?text=Check out my Monzo pot image!&url=' + encodeURIComponent(generateFullUrl()))
+		}
+
+		function generateQueryString() {
+			return "i=" + PotData.icon.icon + 
 				"&ip=" + PotData.icon.prefix + 
 				"&c=" + PotData.color.replace('#', '') + 
 				"&bg=" + PotData.background.replace('#', '')
+		}
+
+		function generateFullUrl() {
+			return window.location.href + '?' + generateQueryString()
+		}
+
+		function updateData(key, value) {
+			window.PotData[key] = value
+
+			document.getElementById('share-link').value = generateFullUrl()
 		}
 
 		function setIconColor(iconColor) {
@@ -256,6 +291,8 @@
 		}
 
 		run = function() {
+			new ClipboardJS('button');
+
 			window.PotData = {
 				icon: {
 					icon: "{{ defaults.icon.icon }}",
@@ -264,32 +301,19 @@
 				color: "{{ defaults.light }}",
 				background: "{{ defaults.primary }}"
 			}
+
+			const urlParams = new URLSearchParams(window.location.search);
+			const iconData = {
+				icon: null,
+				prefix: null,
+			}
+			iconData.icon = urlParams.get('i')
+			iconData.prefix = urlParams.get('ip')
+			setIconColor('#' + urlParams.get('c'))
+			setBackgroundColor('#' + urlParams.get('bg'))
 			
-			if (window.location.hash.length > 0) {
-				const data = window.location.hash.split('&')
-				const iconData = {
-					icon: null,
-					prefix: null,
-				}
-				data.forEach(function(h) {
-					const values = h.replace('#', '').split('=')
-					const key = values[0]
-					const value = values[1]
-
-					if (key === 'i') {
-						iconData.icon = value
-					} else if (key === 'ip') {
-						iconData.prefix = value
-					} else if (key === 'c') {
-						setIconColor('#' + value)
-					} else if (key === 'bg') {
-						setBackgroundColor('#' + value)
-					}
-				})
-
-				if (iconData.icon && iconData.prefix) {
-					setIcon(iconData.icon, iconData.prefix)
-				}
+			if (iconData.icon && iconData.prefix) {
+				setIcon(iconData.icon, iconData.prefix)
 			}
 		}
 	</script>
