@@ -7,7 +7,7 @@
 	<style type="text/css">
 		.image-wrapper {
 			margin: 0 auto;
-			background: {{ defaults.background }};
+			background: {{ defaults.primary }};
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -45,25 +45,8 @@
 			height: 400px;
 		}
 
-		.icons {
-			border: 1px solid red;
-			height: 400px;
-			overflow: auto;
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-		}
-
-		.icons__single {
+		.buttons {
 			text-align: center;
-			cursor: pointer;
-			padding: 5px;
-			flex-basis: 75px;
-			font-size: 40px;
-		}
-
-		.icons__single:hover {
-			background: #f3f3f3;
 		}
 
 		.color-pickers {
@@ -89,6 +72,34 @@
 			margin-bottom: 15px;
 		}
 
+		.icon-search-wrapper {
+			margin-top: 20px;
+		}
+
+		.icon-search {
+			width: 100%;
+		}
+
+		.icons {
+			height: 400px;
+			overflow: auto;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+
+		.icons__single {
+			text-align: center;
+			cursor: pointer;
+			padding: 5px;
+			flex-basis: 75px;
+			font-size: 40px;
+		}
+
+		.icons__single:hover {
+			background: #f3f3f3;
+		}
+
 	</style>
 
 	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
@@ -105,6 +116,11 @@
 		</div>
 	</div>
 
+	<div class="buttons">
+		<button id="random">Randomise</button>
+		<button id="download">Download</button>
+	</div>
+
 	<div class="wrapper">
 		<div id="generated" class="image-wrapper">
 			<div class="icon">
@@ -119,7 +135,7 @@
 			{% for color in colors.background %}
 				<div class="color" onclick="setColor('{{ color }}')" style="background: {{ color }};"></div>	
 			{% endfor %}
-			<input type="color" class="color" id="background-color-picker" value="{{ defaults.background }}">
+			<input type="color" class="color" id="background-color-picker" value="{{ defaults.primary }}">
 		</div>
 
 		<h3>Icon Colour:</h3>
@@ -133,10 +149,12 @@
 	</div>
 
 	<div class="icon-search-wrapper">
-		<input type="text" onkeyup="searchIcons()" id="icon-search">
+		<input type="text" onkeyup="searchIcons()" id="icon-search" class="icon-search" placeholder="Search for an icon">
 		<div class="icons">
 			{% for icon in icons %}
 				<div 
+					data-key="{{ icon.key }}"
+					data-prefix="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}"
 					data-keywords="{{ icon.label }} {% for keyword in icon.search.terms %} {{ keyword }} {% endfor%}"
 					class="icons__single" 
 					onclick="setIcon(
@@ -149,8 +167,6 @@
 			{% endfor %}
 		</div>
 	</div>
-
-	<button id="download">Download</button>
 
 	<script>
 
@@ -215,6 +231,14 @@
 		      .then(function (blob) {
 		          window.saveAs(blob, 'my-node.png');
 		      });
+		}
+
+		document.getElementById('random').onclick = function() {
+			const icons = Array.from(document.getElementsByClassName('icons__single'))
+			const randomElement = icons[Math.floor(Math.random() * icons.length)]
+			setIcon(randomElement.dataset.key, randomElement.dataset.prefix)
+			var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
+			setColor(randomColor)
 		}
 	</script>
 
