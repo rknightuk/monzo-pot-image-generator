@@ -120,11 +120,31 @@
 			margin-bottom: 10px;
 		}
 
+		.color-pickers-wrapper {
+			display: flex;
+		}
+
+		.picker-wrap {
+			flex: 1;
+		}
+
+		.picker-wrap h3 {
+			margin: 0;
+		}
+
 		.color-wrapper {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
 			align-items: center;
-			justify-content: center;
+			grid-template-columns: repeat(6, 50px);
+			grid-template-rows: 50px;
+			grid-auto-flow: row;
+		}
+
+		@media (max-width: 800px) {
+			.color-wrapper {
+				grid-template-columns: repeat(3, 50px);
+			}			
 		}
 
 		.color {
@@ -151,6 +171,11 @@
 
 		#calc-contrast {
 			margin-bottom: 15px;
+		}
+
+		.calc-contrast-label {
+			font-weight: normal;
+			font-size: 14px;
 		}
 
 		.icon-search-wrapper {
@@ -239,7 +264,6 @@
 			<button id="download"><i class="fas fa-download"></i> Download</button>
 		</div>
 		<div class="share-link">
-			<div style="margin-bottom:7px;margin-right: 10px;">Share:</div>
 			<input type="text" id="share-link" onfocus="this.select()">
 			<button id="share-link-copy" data-clipboard-target="#share-link"><i class="fas fa-copy"></i></button>
 			<button onclick="shareToTwitter()"><i class="fab fa-twitter"></i></button>
@@ -254,15 +278,29 @@
 		</div>
 	</div>
 
-	<div class="color-pickers">
-		<h3>Background Colour:</h3>
-		<div class="color-wrapper">
-			{% for color in colors.background %}
-				<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
-			{% endfor %}
-			<input type="color" class="color color-picker" id="background-color-picker" value="{{ config.primary }}">
+	<div class="color-pickers-wrapper">
+		<div class="picker-wrap">
+			<h3>Background</h3>
+			<div class="color-wrapper">
+				{% for color in colors.background %}
+					<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
+				{% endfor %}
+				<input type="color" class="color color-picker" id="background-color-picker" value="{{ config.primary }}">
+			</div>
 		</div>
+		<div class="picker-wrap">
+			<h3>Icon</h3>
+			<div class="color-wrapper">
+				{% for color in colors.icon %}
+					<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
+				{% endfor %}
+				<input type="color" class="color color-picker" id="icon-color-picker" value="{{ config.light }}">
+			</div>
+			<input type="checkbox" id="calc-contrast" checked="checked"><label class="calc-contrast-label" for="calc-contrast">auto change</label>
+		</div>
+	</div>
 
+	<div class="color-pickers">
 		<h3>or Image:</h3>
 		<div class="image-picker">
 			{% for image in images %}
@@ -272,15 +310,6 @@
 					onclick="setBackgroundImage('/assets/img/backgrounds/{{ image.path }}', {% if image.type === 'light' %}true{% else %}false{% endif %})"
 				>
 			{% endfor %}
-		</div>
-
-		<h3>Icon Colour:</h3>
-		<input type="checkbox" id="calc-contrast" checked="checked"><label for="calc-contrast">automatically adjust icon contrast</label>
-		<div class="color-wrapper">
-			{% for color in colors.icon %}
-				<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
-			{% endfor %}
-			<input type="color" class="color color-picker" id="icon-color-picker" value="{{ config.light }}">
 		</div>
 	</div>
 
