@@ -1,6 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+
+	<meta charset="UTF-8" />
+
+	<meta name="viewport" content="width=device-width" />
+	<meta name="Description" content="Monzo Pot Image Generator">
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -252,9 +258,7 @@
 			document.getElementById('share-link').value = generateFullUrl()
 		}
 
-		function setIconColor(iconColor) {
-			console.log('ewdsjabfbsd')
-			console.log(iconColor)
+		function setIconColor(iconColor) {		
 			Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
 				icon.style.color = iconColor
 			})
