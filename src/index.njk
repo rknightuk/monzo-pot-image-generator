@@ -122,6 +122,7 @@
 
 		.image-picker {
 			display: flex;
+			height: 65px;
 		}
 
 		.image {
@@ -186,7 +187,7 @@
 		<h1>{{ config.title }}</h1>
 		<p>By <a href="https://twitter.com/rknightuk">Robb Knight</a></p>
 	</header>
-	<div id="preview" class="image-wrapper preview withBackground">
+	<div id="preview" class="image-wrapper preview">
 		<div class="icon">
 			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 		</div>
@@ -206,7 +207,7 @@
 	</div>
 
 	<div class="wrapper">
-		<div id="generated" class="image-wrapper withBackground">
+		<div id="generated" class="image-wrapper">
 			<div class="icon">
 				<i id="generated-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 			</div>
@@ -222,9 +223,7 @@
 			<input type="color" class="color color-picker" id="background-color-picker" value="{{ config.primary }}">
 		</div>
 
-		<p><em>using images as backgrounds are disabled while I work out some bugs</em></p>
-
-		<!-- <h3>or Image:</h3>
+		<h3>or Image:</h3>
 		<div class="image-picker">
 			{% for image in images %}
 				<img 
@@ -233,7 +232,7 @@
 					onclick="setBackgroundImage('/assets/img/backgrounds/{{ image.path }}', {% if image.type === 'light' %}true{% else %}false{% endif %})"
 				>
 			{% endfor %}
-		</div> -->
+		</div>
 
 		<h3>Icon Colour:</h3>
 		<input type="checkbox" id="calc-contrast" checked="checked"><label for="calc-contrast">automatically adjust icon contrast</label>
@@ -289,10 +288,17 @@
 			const backgroundImage = PotData.image
 
 			if (backgroundImage) {
-				generated.style.background = 'url(' + backgroundImage + ')'
+				generated.style.backgroundImage = "url('" + backgroundImage + "')"
+				generated.style.backgroundRepeat = 'no-repeat'
 				generated.style.backgroundSize = 'cover'
-				preview.style.background = 'url(' + backgroundImage + ')'
+				generated.className = 'image-wrapper withImage'
+				preview.style.backgroundImage = "url('" + backgroundImage + "')"
+				preview.style.backgroundRepeat = 'no-repeat'
 				preview.style.backgroundSize = 'cover'
+				preview.className = 'image-wrapper withImage'
+			} else {
+				generated.className = 'image-wrapper'
+				preview.className = 'image-wrapper'
 			}
 
 			// update icon and prefix
