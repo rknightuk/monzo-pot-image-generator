@@ -269,6 +269,77 @@
 
 	<script>
 
+		update = function() {
+			const generated = document.getElementById('generated')
+			const generatedIcon = document.getElementById('generated-icon')
+			const preview = document.getElementById('preview')
+			const previewIcon = document.getElementById('preview-icon')
+			const backgroundColorPicker = document.getElementById('background-color-picker')
+			const iconColorPicker = document.getElementById('icon-color-picker')
+
+			// update background color
+			const backgroundColor = PotData.background
+			generated.style.background = backgroundColor
+			preview.style.background = backgroundColor
+			backgroundColorPicker.value = backgroundColor
+
+			// update background image
+			const backgroundImage = PotData.image
+
+			if (backgroundImage) {
+				generated.style.background = 'url(' + backgroundImage + ')'
+				generated.style.backgroundSize = 'cover'
+				preview.style.background = 'url(' + backgroundImage + ')'
+				preview.style.backgroundSize = 'cover'
+			}
+
+			// update icon and prefix
+			const icon = PotData.icon.icon
+			const prefix = PotData.icon.prefix
+			generatedIcon.className = prefix + ' fa-' + icon
+			previewIcon.className = prefix + ' fa-' + icon
+
+			// update icon color
+			const iconColor = PotData.color
+			iconColorPicker.value = iconColor
+			generatedIcon.style.color = iconColor
+			previewIcon.style.color = iconColor
+
+			// set share url
+			document.getElementById('share-link').value = generateFullUrl()
+		}
+
+		contrastChangeEnabled = function() {
+			return document.getElementById('calc-contrast').checked
+		}
+
+		setBackgroundColor = function(color, skipContrast) {
+			PotData.background = color
+			PotData.image = null
+			if (contrastChangeEnabled()) {
+				PotData.color = getIconColorFromBackground(color)
+			}
+			update()
+		}
+
+		setBackgroundColorFromInput = function() {
+			setBackgroundColor(document.getElementById('background-color-picker').value)
+		}
+
+		setBackgroundImage = function(backgroundImage, setToDarkIcon) {
+			PotData.image = backgroundImage
+			if (contrastChangeEnabled()) PotData.color = setToDarkIcon ? "{{ config.dark }}" : "{{ config.light }}"
+			update()
+		}
+
+		setIcon = function(icon, prefix) {
+			PotData.icon = {
+				icon: icon,
+				prefix: prefix,
+			}
+			update()
+		}
+
 		function shareToTwitter() {
 			window.open('https://twitter.com/intent/tweet?text=Check out new my Monzo pot image!&url=' + encodeURIComponent(generateFullUrl()))
 		}
@@ -290,33 +361,17 @@
 			return window.location.origin + '?' + generateQueryString()
 		}
 
-		function updateData(key, value) {
-			window.PotData[key] = value
-			updateShareUrl()
+		function setIconColor(iconColor) {
+			PotData.color = iconColor
+			update()
 		}
 
-		function updateShareUrl() {
-			document.getElementById('share-link').value = generateFullUrl()
-		}
-
-		function setIconColor(iconColor) {		
-			Array.from(document.getElementsByClassName('icon')).forEach(function(icon) {
-				icon.style.color = iconColor
-			})
-			document.getElementById('icon-color-picker').value = iconColor
-			document.getElementById('generated-icon').value = iconColor
-			document.getElementById('preview-icon').value = iconColor
-			updateData('color', iconColor)
-		}
-
-		function setIconColorFromBackground(bgColor) {
-			if (!document.getElementById('calc-contrast').checked) return
+		function getIconColorFromBackground(bgColor) {
 		   var nThreshold = 105;
 		   var components = getRGBComponents(bgColor);
 		   var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
 
-		   const iconColor = ((255 - bgDelta) < nThreshold) ? "{{ config.dark }}" : "{{ config.light }}";
-		   setIconColor(iconColor)
+		   return (255 - bgDelta) < nThreshold ? "{{ config.dark }}" : "{{ config.light }}";
 		}
 
 		function getRGBComponents(color) {       
@@ -332,38 +387,8 @@
 		    };
 		}
 
-		setBackgroundColor = function(color, skipContrast) {
-			document.getElementById('generated').style.background = color
-			document.getElementById('preview').style.background = color
-			document.getElementById('background-color-picker').value = color
-			if (!skipContrast) setIconColorFromBackground(color)
-			updateData('background', color)
-		}
-
-		setBackgroundImage = function(backgroundImage, setToDarkIcon) {
-			document.getElementById('generated').style.background = 'url(' + backgroundImage + ')'
-			document.getElementById('generated').style.backgroundSize = 'cover'
-			document.getElementById('preview').style.background = 'url(' + backgroundImage + ')'
-			document.getElementById('preview').style.backgroundSize = 'cover'
-			setIconColor(setToDarkIcon ? "{{ config.dark }}" : "{{ config.light }}")
-			updateData('image', backgroundImage)
-		}
-
-		setBackgroundColorFromInput = function() {
-			setBackgroundColor(document.getElementById('background-color-picker').value)
-		}
-
 		setIconColorFromInput = function() {
 			setIconColor(document.getElementById('icon-color-picker').value)
-		}
-
-		setIcon = function(icon, prefix) {
-			document.getElementById('generated-icon').className = prefix + ' fa-' + icon
-			document.getElementById('preview-icon').className = prefix + ' fa-' + icon
-			updateData('icon', {
-				icon: icon,
-				prefix: prefix,
-			})
 		}
 
 		searchIcons = function() {
@@ -387,40 +412,32 @@
 		document.getElementById('random').onclick = function() {
 			const icons = Array.from(document.getElementsByClassName('icons__single'))
 			const randomElement = icons[Math.floor(Math.random() * icons.length)]
-			setIcon(randomElement.dataset.key, randomElement.dataset.prefix)
-			var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
-			setBackgroundColor(randomColor)
+			const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
+
+			PotData.icon = {
+				icon: randomElement.dataset.key,
+				prefix: randomElement.dataset.prefix
+			}
+			PotData.background = randomColor
+			update()
 		}
 
 		run = function() {
 			new ClipboardJS('button');
 
+			const urlParams = new URLSearchParams(window.location.search);
+
 			window.PotData = {
 				icon: {
-					icon: "{{ config.icon.icon }}",
-					prefix: "{{ config.icon.prefix }}"
+					icon: urlParams.get('i') ? urlParams.get('i') : "{{ config.icon.icon }}",
+					prefix: urlParams.get('ip') ? urlParams.get('ip') : "{{ config.icon.prefix }}"
 				},
-				color: "{{ config.light }}",
-				background: "{{ config.primary }}",
-				image: null,
+				color: urlParams.get('c') ? '#' + urlParams.get('c') : "{{ config.light }}",
+				background: urlParams.get('bg') ? '#' + urlParams.get('bg') : "{{ config.primary }}",
+				image: urlParams.get('img') ? urlParams.get('img') : null,
 			}
 
-			const urlParams = new URLSearchParams(window.location.search);
-			const iconData = {
-				icon: null,
-				prefix: null,
-			}
-			iconData.icon = urlParams.get('i')
-			iconData.prefix = urlParams.get('ip')
-			if (urlParams.get('img')) setBackgroundImage(urlParams.get('img'))
-			if (urlParams.get('c')) setIconColor('#' + urlParams.get('c'))
-			if (urlParams.get('bg') && !urlParams.get('img')) setBackgroundColor('#' + urlParams.get('bg'), true)
-			
-			if (iconData.icon && iconData.prefix) {
-				setIcon(iconData.icon, iconData.prefix)
-			}
-
-			updateShareUrl()
+			update()
 		}
 	</script>
 
