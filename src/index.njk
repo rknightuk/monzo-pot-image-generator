@@ -313,7 +313,7 @@
 		}
 
 		searchIcons = function() {
-			const search = document.getElementById('icon-search').value
+			const search = document.getElementById('icon-search').value.toLowerCase()
 
 			Array.from(document.getElementsByClassName('icons__single')).forEach(function(element) {
 				element.style.display = element.dataset.keywords.includes(search) ? 'block' : 'none'
