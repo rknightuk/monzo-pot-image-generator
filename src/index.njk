@@ -222,7 +222,9 @@
 			<input type="color" class="color color-picker" id="background-color-picker" value="{{ config.primary }}">
 		</div>
 
-		<h3>or Image:</h3>
+		<p><em>Image background options are disabled while I work out some bugs</em></p>
+
+		<!-- <h3>or Image:</h3>
 		<div class="image-picker">
 			{% for image in images %}
 				<img 
@@ -231,7 +233,7 @@
 					onclick="setBackgroundImage('/assets/img/backgrounds/{{ image.path }}', {% if image.type === 'light' %}true{% else %}false{% endif %})"
 				>
 			{% endfor %}
-		</div>
+		</div> -->
 
 		<h3>Icon Colour:</h3>
 		<input type="checkbox" id="calc-contrast" checked="checked"><label for="calc-contrast">automatically adjust icon contrast</label>
