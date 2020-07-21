@@ -96,6 +96,11 @@
 			font-weight: bold;
 		}
 
+		.color-picker {
+			border-radius: 0;
+			padding: 0;
+		}
+
 		.color-pickers {
 			margin-bottom: 10px;
 		}
@@ -201,7 +206,7 @@
 			{% for color in colors.background %}
 				<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
 			{% endfor %}
-			<input type="color" class="color" id="background-color-picker" value="{{ config.primary }}">
+			<input type="color" class="color color-picker" id="background-color-picker" value="{{ config.primary }}">
 		</div>
 
 		<h3>Icon Colour:</h3>
@@ -210,7 +215,7 @@
 			{% for color in colors.icon %}
 				<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
 			{% endfor %}
-			<input type="color" class="color" id="icon-color-picker" value="{{ config.light }}">
+			<input type="color" class="color color-picker" id="icon-color-picker" value="{{ config.light }}">
 		</div>
 	</div>
 
