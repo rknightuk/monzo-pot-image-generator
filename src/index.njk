@@ -341,7 +341,7 @@
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
 		      .then(function (blob) {
-		          window.saveAs(blob, 'monzo-pot-image.png');
+		          window.saveAs(blob, 'monzo-pot-image-' + window.PotData.icon.icon + '-' + PotData.background.replace('#', '') + '.png');
 		      });
 		}
 
