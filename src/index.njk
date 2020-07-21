@@ -20,7 +20,7 @@
 	<meta name="twitter:site" content="@rknightuk" />
 	<meta name="twitter:title" content="{{ config.title }}" />
 	<meta name="twitter:description" content="{{ config.description }}" />
-	<meta name="twitter:image" content="https://potimages.rknight.me/assets/preview-image.png" />
+	<meta name="twitter:image" content="https://potimages.rknight.me/assets/img/preview-image.png" />
 
 	<title>{{ config.title }}</title>
 
@@ -120,6 +120,19 @@
 			border: 1px solid #b5b5b5;
 		}
 
+		.image-picker {
+			display: flex;
+		}
+
+		.image {
+			flex: 1;
+			max-width: 100px;
+			margin-right: 5px;
+			cursor: pointer;
+			border-radius: 5px;
+			box-shadow: 3px 3px 2px 0px rgba(214,214,214,1);
+		}
+
 		#calc-contrast {
 			margin-bottom: 15px;
 		}
@@ -161,9 +174,9 @@
 	</style>
 
 	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
-	<script src="/assets/clipboard.min.js"></script>
-	<script src="/assets/dom-to-image.min.js"></script>
-	<script src="/assets/FileSaver.min.js"></script>
+	<script src="/assets/js/clipboard.min.js"></script>
+	<script src="/assets/js/dom-to-image.min.js"></script>
+	<script src="/assets/js/FileSaver.min.js"></script>
 
 </head>	
 
@@ -173,7 +186,7 @@
 		<h1>{{ config.title }}</h1>
 		<p>By <a href="https://twitter.com/rknightuk">Robb Knight</a></p>
 	</header>
-	<div id="preview" class="image-wrapper preview">
+	<div id="preview" class="image-wrapper preview withBackground">
 		<div class="icon">
 			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 		</div>
@@ -193,7 +206,7 @@
 	</div>
 
 	<div class="wrapper">
-		<div id="generated" class="image-wrapper">
+		<div id="generated" class="image-wrapper withBackground">
 			<div class="icon">
 				<i id="generated-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 			</div>
@@ -207,6 +220,17 @@
 				<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
 			{% endfor %}
 			<input type="color" class="color color-picker" id="background-color-picker" value="{{ config.primary }}">
+		</div>
+
+		<h3>or Background Image:</h3>
+		<div class="image-picker">
+			{% for image in images %}
+				<img 
+					src="/assets/img/backgrounds/{{ image.path }}" 
+					class="image" 
+					onclick="setBackgroundImage('/assets/img/backgrounds/{{ image.path }}', {% if image.type === 'light' %}true{% else %}false{% endif %})"
+				>
+			{% endfor %}
 		</div>
 
 		<h3>Icon Colour:</h3>
@@ -250,10 +274,16 @@
 		}
 
 		function generateQueryString() {
-			return "i=" + PotData.icon.icon + 
+			let path = "i=" + PotData.icon.icon + 
 				"&ip=" + PotData.icon.prefix + 
 				"&c=" + PotData.color.replace('#', '') + 
 				"&bg=" + PotData.background.replace('#', '')
+
+			if (PotData.image) {
+				path += "&img=" + PotData.image
+			}
+
+			return path
 		}
 
 		function generateFullUrl() {
@@ -310,6 +340,15 @@
 			updateData('background', color)
 		}
 
+		setBackgroundImage = function(backgroundImage, setToDarkIcon) {
+			document.getElementById('generated').style.background = 'url(' + backgroundImage + ')'
+			document.getElementById('generated').style.backgroundSize = 'cover'
+			document.getElementById('preview').style.background = 'url(' + backgroundImage + ')'
+			document.getElementById('preview').style.backgroundSize = 'cover'
+			setIconColor(setToDarkIcon ? "{{ config.dark }}" : "{{ config.light }}")
+			updateData('image', backgroundImage)
+		}
+
 		setBackgroundColorFromInput = function() {
 			setBackgroundColor(document.getElementById('background-color-picker').value)
 		}
@@ -362,7 +401,8 @@
 					prefix: "{{ config.icon.prefix }}"
 				},
 				color: "{{ config.light }}",
-				background: "{{ config.primary }}"
+				background: "{{ config.primary }}",
+				image: null,
 			}
 
 			const urlParams = new URLSearchParams(window.location.search);
@@ -372,8 +412,9 @@
 			}
 			iconData.icon = urlParams.get('i')
 			iconData.prefix = urlParams.get('ip')
+			if (urlParams.get('img')) setBackgroundImage(urlParams.get('img'))
 			if (urlParams.get('c')) setIconColor('#' + urlParams.get('c'))
-			if (urlParams.get('bg')) setBackgroundColor('#' + urlParams.get('bg'), true)
+			if (urlParams.get('bg') && !urlParams.get('img')) setBackgroundColor('#' + urlParams.get('bg'), true)
 			
 			if (iconData.icon && iconData.prefix) {
 				setIcon(iconData.icon, iconData.prefix)
