@@ -6,6 +6,7 @@ module.exports = {
 	light: "#f7f7f7",
 	icon: {
 		icon: "glass-cheers",
-		prefix: "fas"
+		prefix: "fas",
+		size: 100
 	}
 }

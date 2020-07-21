@@ -55,18 +55,23 @@
 			border-radius: 10px;
 		}
 
-		.icon {
-			color: #f3fdff;
+		#preview .icon-wrapper {
+			color: {{ config.light }};
+			height: 100px;
+			width: 100px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		#preview svg {
-			width: 100px;
-			height: 100px;
+			width: 100%;
+			height: 100%;
 		}
 
 		.wrapper {
-			overflow: hidden;
-			height: 0;
+			/*overflow: hidden;*/
+			/*height: 0;*/
 		}
 
 		#generated {
@@ -74,9 +79,18 @@
 			height: 822px;
 		}
 
-		#generated svg {
-			width: 400px;
+		#generated .icon-wrapper {
+			color: {{ config.light }};
 			height: 400px;
+			width: 400px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		#generated svg {
+			width: 100%;
+			height: 100%;
 		}
 
 		.manage {
@@ -188,7 +202,7 @@
 		<p>By <a href="https://twitter.com/rknightuk">Robb Knight</a></p>
 	</header>
 	<div id="preview" class="image-wrapper preview">
-		<div class="icon">
+		<div class="icon-wrapper" id="preview-icon-wrapper">
 			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 		</div>
 	</div>
@@ -208,7 +222,7 @@
 
 	<div class="wrapper">
 		<div id="generated" class="image-wrapper">
-			<div class="icon">
+			<div class="icon-wrapper" id="generated-icon-wrapper">
 				<i id="generated-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 			</div>
 		</div>
@@ -313,6 +327,12 @@
 			generatedIcon.style.color = iconColor
 			previewIcon.style.color = iconColor
 
+			// update icon size
+			document.getElementById('preview-icon-wrapper').style.width = PotData.icon.size + 'px';
+			document.getElementById('preview-icon-wrapper').style.height = PotData.icon.size + 'px';
+			document.getElementById('generated-icon-wrapper').style.width = (PotData.icon.size * 4) + 'px';
+			document.getElementById('generated-icon-wrapper').style.height = (PotData.icon.size * 4) + 'px';
+
 			// set share url
 			document.getElementById('share-link').value = generateFullUrl()
 		}
@@ -355,6 +375,7 @@
 		function generateQueryString() {
 			let path = "i=" + PotData.icon.icon + 
 				"&ip=" + PotData.icon.prefix + 
+				"&is=" + PotData.icon.size +
 				"&c=" + PotData.color.replace('#', '') + 
 				"&bg=" + PotData.background.replace('#', '')
 
@@ -440,7 +461,8 @@
 			window.PotData = {
 				icon: {
 					icon: urlParams.get('i') ? urlParams.get('i') : "{{ config.icon.icon }}",
-					prefix: urlParams.get('ip') ? urlParams.get('ip') : "{{ config.icon.prefix }}"
+					prefix: urlParams.get('ip') ? urlParams.get('ip') : "{{ config.icon.prefix }}",
+					size: urlParams.get('is') && parseInt(urlParams.get('is'), 10) <= 200 ? urlParams.get('is') : "{{ config.icon.size }}",
 				},
 				color: urlParams.get('c') ? '#' + urlParams.get('c') : "{{ config.light }}",
 				background: urlParams.get('bg') ? '#' + urlParams.get('bg') : "{{ config.primary }}",
