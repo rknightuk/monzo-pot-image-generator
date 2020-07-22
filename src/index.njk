@@ -27,6 +27,10 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
 
 	<style type="text/css">
+		h2 {
+			margin-top: 0;
+		}
+
 		.header {
 			text-align: center;
 		}
@@ -122,6 +126,65 @@
 			justify-content: center;
 		}
 
+		.config-wrapper {
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.picker-wrapper {
+			flex: 1;
+		}
+
+		@media (max-width: 700px) {
+			.picker-wrapper {
+				flex-basis: 50%;
+			}
+		}
+
+		.picker {
+			overflow: auto;
+			padding: 5px;
+		}
+
+		.color {
+			height: 30px;
+			width: 30px;
+			cursor: pointer;
+			position: relative;
+			outline: none;
+			float: left;
+			border-radius: 4px;
+			margin: 0px 6px 6px 0px;
+		}
+
+		.color-input {
+		    position: relative;
+			float: left;
+			width: 30px;
+		    height: 30px;
+		}
+
+		.color-input input {
+			outline: none;
+			padding: 0;
+		    margin: 0;
+		    border-radius: 0;
+		    width: 100%;
+		    height: 100%;
+		}
+
+		.background {
+			height: 50px;
+			width: 75px;
+			max-width: 100%;
+			cursor: pointer;
+			position: relative;
+			outline: none;
+			float: left;
+			border-radius: 4px;
+			margin: 0px 6px 6px 0px;
+		}
+
 		.footer {
 			text-align: center;
 		}
@@ -146,7 +209,7 @@
 	</header>
 
 	<div class="image" id="preview">
-		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/plus-blank.png" style="display: none">
+		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/pride.png" style="display: none">
 		<div class="image__iconwrapper" id="preview-icon-wrap">
 			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 		</div>
@@ -169,6 +232,44 @@
 		</div>
 		<button id="random"><i class="fas fa-random"></i></button>
 		<button id="download"><i class="fas fa-download"></i></button>
+	</div>
+
+	<div class="config-wrapper">
+		<div class="picker-wrapper">
+			<div class="picker">
+				<h2>Background Colour</h2>
+				{% for color in colors.background %}
+					<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
+				{% endfor %}
+				<div class="color-input">
+					<input type="color" id="background-color-picker" value="{{ config.primary }}">
+				</div>
+			</div>
+		</div>
+		<div class="picker-wrapper">
+			<div class="picker">
+				<h2>Icon Colour</h2>
+				{% for color in colors.icon %}
+					<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
+				{% endfor %}
+				<div class="color-input">
+					<input type="color" id="icon-color-picker" value="{{ config.light }}">
+				</div>
+				<div style="clear:both;"><input type="checkbox" id="calc-contrast" checked="checked"><label class="calc-contrast-label" for="calc-contrast">auto change</label></div>
+			</div>
+		</div>
+		<div class="picker-wrapper">
+			<div class="picker">
+				<h2>Background Image</h2>
+				{% for image in images %}
+					<img 
+						src="/assets/img/backgrounds/{{ image.path }}" 
+						class="background" 
+						onclick="setBackgroundImage('/assets/img/backgrounds/{{ image.path }}', {% if image.type === 'light' %}true{% else %}false{% endif %})"
+					>
+				{% endfor %}
+			</div>
+		</div>
 	</div>
 
 	<footer class="footer">
