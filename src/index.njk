@@ -185,6 +185,35 @@
 			margin: 0px 6px 6px 0px;
 		}
 
+		.icon-search-wrapper {
+			margin-top: 20px;
+		}
+
+		.icon-search {
+			width: 100%;
+		    margin-left: -10px;
+		}
+
+		.icons {
+			height: 400px;
+			overflow: auto;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+
+		.icons__single {
+			text-align: center;
+			cursor: pointer;
+			padding: 5px;
+			flex-basis: 75px;
+			font-size: 40px;
+		}
+
+		.icons__single:hover {
+			background: #f3f3f3;
+		}
+
 		.footer {
 			text-align: center;
 		}
@@ -255,7 +284,7 @@
 				<div class="color-input">
 					<input type="color" id="icon-color-picker" value="{{ config.light }}">
 				</div>
-				<div style="clear:both;"><input type="checkbox" id="calc-contrast" checked="checked"><label class="calc-contrast-label" for="calc-contrast">auto change</label></div>
+				<div style="clear:both;"><input type="checkbox" id="calc-contrast" checked="checked"><label class="calc-contrast-label" for="calc-contrast">auto change colour</label></div>
 			</div>
 		</div>
 		<div class="picker-wrapper">
@@ -269,6 +298,26 @@
 					>
 				{% endfor %}
 			</div>
+		</div>
+	</div>
+
+	<div class="icon-search-wrapper">
+		<input type="text" onkeyup="searchIcons()" id="icon-search" class="icon-search" placeholder="Search for an icon">
+		<div class="icons">
+			{% for icon in icons %}
+				<div 
+					data-key="{{ icon.key }}"
+					data-prefix="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}"
+					data-keywords="{{ icon.label.toLowerCase() }} {% for keyword in icon.search.terms %} {{ keyword }} {% endfor%}"
+					class="icons__single" 
+					onclick="setIcon(
+						'{{ icon.key }}', 
+						'{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}'
+					)"
+				">
+					<i class="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %} fa-{{ icon.key }}"></i>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 
