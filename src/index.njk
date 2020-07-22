@@ -102,6 +102,10 @@
 
 	</style>
 
+	<script>
+		FontAwesomeConfig = { autoReplaceSvg: 'nest' }
+	</script>
+
 	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
 	<script src="/assets/js/clipboard.min.js"></script>
 	<script src="/assets/js/dom-to-image.min.js"></script>
@@ -119,7 +123,7 @@
 	<div class="image" id="preview">
 		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/plus-blank.png" style="display: none">
 		<div class="image__iconwrapper" id="preview-icon-wrap">
-			<i id="preview-icon" class="image__icon fas fa-glass-cheers"></i>
+			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 		</div>
 	</div>
 
@@ -127,7 +131,7 @@
 		<div class="image" id="generated">
 			<img id="generated-overlay-image" class="overlay-image" src="/assets/img/backgrounds/plus-blank.png" style="display: none">
 			<div class="image__iconwrapper" id="generated-icon-wrap">
-				<i id="generated-icon" class="image__icon fas fa-glass-cheers"></i>
+				<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 			</div>
 		</div>
 	</div>
@@ -136,10 +140,6 @@
 		<p>{{ config.title }} by <a href="https://rknight.me">Robb Knight</a> | Icons from <a href="https://fontawesome.com/">Font Awesome</a></p>
 		<p><a href="https://github.com/rknightuk/monzo-pot-image-generator">Source on GitHub</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a></p>
 	</footer>
-
-	<script>
-		FontAwesomeConfig = { autoReplaceSvg: 'nest' }
-	</script>
 
 	<script>
 		run = function() {
