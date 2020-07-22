@@ -27,209 +27,20 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
 
 	<style type="text/css">
-		header {
+		.header {
 			text-align: center;
 		}
 
-		header h1 {
+		.header__main {
 			margin-bottom: 0;
 		}
 
-		header p {
+		.header__subtitle {
 			margin-top: 0;
 		}
 
-		.image-wrapper {
-			margin: 0 auto;
-			background: {{ config.primary }};
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		#preview {
-			width: 316px;
-			height: 205px;
-			box-shadow: 3px 3px 2px 0px rgba(214,214,214,1);
-			margin-bottom: 20px;
-			border-radius: 10px;
-		}
-
-		#preview .icon-wrapper {
-			color: {{ config.light }};
-			height: 100px;
-			width: 100px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		#preview svg {
-			width: 100%;
-			height: 100%;
-		}
-
-		.wrapper {
-			overflow: hidden;
-			height: 0;
-		}
-
-		#generated {
-			width: 1266px;
-			height: 822px;
-		}
-
-		#generated .icon-wrapper {
-			color: {{ config.light }};
-			height: 400px;
-			width: 400px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		#generated svg,
-		#generated-icon {
-			width: 100%;
-			height: 100%;
-		}
-
-		.manage {
+		.footer {
 			text-align: center;
-		}
-
-		.buttons {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.share-link {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			font-weight: bold;
-		}
-
-		.color-picker {
-			border-radius: 0;
-			padding: 0;
-		}
-
-		.color-pickers {
-			margin-bottom: 10px;
-		}
-
-		.color-pickers-wrapper {
-			display: flex;
-		}
-
-		.picker-wrap {
-			flex: 1;
-		}
-
-		.picker-wrap h3 {
-			margin: 0;
-		}
-
-		.color-wrapper {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
-			align-items: center;
-			grid-template-columns: repeat(6, 50px);
-			grid-template-rows: 50px;
-			grid-auto-flow: row;
-		}
-
-		@media (max-width: 800px) {
-			.color-wrapper {
-				grid-template-columns: repeat(3, 50px);
-			}			
-		}
-
-		.color {
-			width: 40px;
-			height: 40px;
-			cursor: pointer;
-			margin: 0 auto;
-			border: 1px solid #b5b5b5;
-		}
-
-		.image-picker {
-			display: flex;
-			height: 65px;
-		}
-
-		.image {
-			flex: 1;
-			max-width: 100px;
-			margin-right: 5px;
-			cursor: pointer;
-			border-radius: 5px;
-			box-shadow: 3px 3px 2px 0px rgba(214,214,214,1);
-		}
-
-		#calc-contrast {
-			margin-bottom: 15px;
-		}
-
-		.calc-contrast-label {
-			font-weight: normal;
-			font-size: 14px;
-		}
-
-		.icon-search-wrapper {
-			margin-top: 20px;
-		}
-
-		.icon-search {
-			width: 100%;
-		}
-
-		.icons {
-			height: 400px;
-			overflow: auto;
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-		}
-
-		.icons__single {
-			text-align: center;
-			cursor: pointer;
-			padding: 5px;
-			flex-basis: 75px;
-			font-size: 40px;
-		}
-
-		.icons__single:hover {
-			background: #f3f3f3;
-		}
-
-		footer {
-			margin-top: 30px;
-			text-align: center;
-			font-size: 14px;
-		}
-
-		.size-wrapper {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			margin-bottom: 10px;
-		}
-
-		.size-wrapper button {
-			margin: 0;
-			padding: 3px 10px;
-		}
-
-		#icon-size {
-			margin-left: 10px;
-			margin-right: 10px;
-			font-size: 12px;
-			font-weight: bold;
-			text-transform: uppercase;
 		}
 
 	</style>
@@ -243,307 +54,34 @@
 
 <body onload="run()">
 
-	<header>
-		<h1>{{ config.title }}</h1>
-		<p>By <a href="https://twitter.com/rknightuk">Robb Knight</a></p>
+	<header class="header">
+		<h1 class="header__main">{{ config.title }}</h1>
+		<p class="header__subtitle">By <a href="https://twitter.com/rknightuk">Robb Knight</a></p>
 	</header>
-	<div id="preview" class="image-wrapper preview">
-		<div class="icon-wrapper" id="preview-icon-wrapper">
-			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
-		</div>
-	</div>
 
-	<div class="manage">
-		<div class="size-wrapper">
-			<div><button onclick="decreaseSize()"><i class="fas fa-minus"></i></button></div>
-			<div id="icon-size">{{ config.icon.size }}</div>
-			<div><button onclick="increaseSize()"><i class="fas fa-plus"></i></button></div>
-		</div>
-		<div class="buttons">
-			<button id="random"><i class="fas fa-random"></i> Randomise</button>
-			<button id="download"><i class="fas fa-download"></i> Download</button>
-		</div>
-		<div class="share-link">
-			<input type="text" id="share-link" onfocus="this.select()">
-			<button id="share-link-copy" data-clipboard-target="#share-link"><i class="fas fa-copy"></i></button>
-			<button onclick="shareToTwitter()"><i class="fab fa-twitter"></i></button>
-		</div>
-	</div>
-
-	<div class="wrapper">
-		<div id="generated" class="image-wrapper">
-			<div class="icon-wrapper" id="generated-icon-wrapper">
-				<i id="generated-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
-			</div>
-		</div>
-	</div>
-
-	<div class="color-pickers-wrapper">
-		<div class="picker-wrap">
-			<h3>Background</h3>
-			<div class="color-wrapper">
-				{% for color in colors.background %}
-					<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
-				{% endfor %}
-				<input type="color" class="color color-picker" id="background-color-picker" value="{{ config.primary }}">
-			</div>
-		</div>
-		<div class="picker-wrap">
-			<h3>Icon</h3>
-			<div class="color-wrapper">
-				{% for color in colors.icon %}
-					<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
-				{% endfor %}
-				<input type="color" class="color color-picker" id="icon-color-picker" value="{{ config.light }}">
-			</div>
-			<input type="checkbox" id="calc-contrast" checked="checked"><label class="calc-contrast-label" for="calc-contrast">auto change</label>
-		</div>
-	</div>
-
-	<div class="color-pickers">
-		<h3>or Image:</h3>
-		<div class="image-picker">
-			{% for image in images %}
-				<img 
-					src="/assets/img/backgrounds/{{ image.path }}" 
-					class="image" 
-					onclick="setBackgroundImage('/assets/img/backgrounds/{{ image.path }}', {% if image.type === 'light' %}true{% else %}false{% endif %})"
-				>
-			{% endfor %}
-		</div>
-	</div>
-
-	<div class="icon-search-wrapper">
-		<input type="text" onkeyup="searchIcons()" id="icon-search" class="icon-search" placeholder="Search for an icon">
-		<div class="icons">
-			{% for icon in icons %}
-				<div 
-					data-key="{{ icon.key }}"
-					data-prefix="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}"
-					data-keywords="{{ icon.label.toLowerCase() }} {% for keyword in icon.search.terms %} {{ keyword }} {% endfor%}"
-					class="icons__single" 
-					onclick="setIcon(
-						'{{ icon.key }}', 
-						'{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}'
-					)"
-				">
-					<i class="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %} fa-{{ icon.key }}"></i>
-				</div>
-			{% endfor %}
-		</div>
-	</div>
-
-	<footer>
-		{{ config.title }} by <a href="https://rknight.me">Robb Knight</a> | Icons from <a href="https://fontawesome.com/">Font Awesome</a> | <a href="https://github.com/rknightuk/monzo-pot-image-generator">Source</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a>
+	<footer class="footer">
+		<p>{{ config.title }} by <a href="https://rknight.me">Robb Knight</a> | Icons from <a href="https://fontawesome.com/">Font Awesome</a></p>
+		<p><a href="https://github.com/rknightuk/monzo-pot-image-generator">Source on GitHub</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a></p>
 	</footer>
 
 	<script>
-
-		update = function() {
-			const generated = document.getElementById('generated')
-			const generatedIcon = document.getElementById('generated-icon')
-			const preview = document.getElementById('preview')
-			const previewIcon = document.getElementById('preview-icon')
-			const backgroundColorPicker = document.getElementById('background-color-picker')
-			const iconColorPicker = document.getElementById('icon-color-picker')
-
-			// update background color
-			const backgroundColor = PotData.background
-			generated.style.background = backgroundColor
-			preview.style.background = backgroundColor
-			backgroundColorPicker.value = backgroundColor
-
-			// update background image
-			const backgroundImage = PotData.image
-
-			if (backgroundImage) {
-				generated.style.backgroundImage = "url('" + backgroundImage + "')"
-				generated.style.backgroundRepeat = 'no-repeat'
-				generated.style.backgroundSize = 'cover'
-				generated.className = 'image-wrapper withImage'
-				preview.style.backgroundImage = "url('" + backgroundImage + "')"
-				preview.style.backgroundRepeat = 'no-repeat'
-				preview.style.backgroundSize = 'cover'
-				preview.className = 'image-wrapper withImage'
-			} else {
-				generated.className = 'image-wrapper'
-				preview.className = 'image-wrapper'
-			}
-
-			// update icon and prefix
-			const icon = PotData.icon.icon
-			const prefix = PotData.icon.prefix
-			generatedIcon.className = prefix + ' fa-' + icon
-			previewIcon.className = prefix + ' fa-' + icon
-
-			// update icon color
-			const iconColor = PotData.color
-			iconColorPicker.value = iconColor
-			generatedIcon.style.color = iconColor
-			previewIcon.style.color = iconColor
-
-			// update icon size
-			const previewIconWrapper = document.getElementById('preview-icon-wrapper')
-			const generatedIconWrapper = document.getElementById('generated-icon-wrapper')
-			const sizeDisplay = document.getElementById('icon-size')
-			const iconSize = PotData.icon.size
-			previewIconWrapper.style.width = iconSize + 'px';
-			previewIconWrapper.style.height = iconSize + 'px';
-			generatedIconWrapper.style.width = (parseInt(iconSize, 10) * 4) + 'px';
-			generatedIconWrapper.style.height = (parseInt(iconSize, 10) * 4) + 'px';
-			sizeDisplay.innerHTML = iconSize
-
-			// set share url
-			document.getElementById('share-link').value = generateFullUrl()
-		}
-
-		changeSize = function(change) {
-			const result = parseInt(PotData.icon.size, 10) + change
-			if (result <= 200 && result >= 25) {
-				PotData.icon.size = parseInt(PotData.icon.size, 10) + change
-				update()
-			}
-		}
-
-		increaseSize = function() { changeSize(25) }
-
-		decreaseSize = function() { changeSize(-25) }
-
-		contrastChangeEnabled = function() {
-			return document.getElementById('calc-contrast').checked
-		}
-
-		setBackgroundColor = function(color, skipContrast) {
-			PotData.background = color
-			PotData.image = null
-			if (contrastChangeEnabled()) {
-				PotData.color = getIconColorFromBackground(color)
-			}
-			update()
-		}
-
-		setBackgroundColorFromInput = function() {
-			setBackgroundColor(document.getElementById('background-color-picker').value)
-		}
-
-		setBackgroundImage = function(backgroundImage, setToDarkIcon) {
-			PotData.image = backgroundImage
-			if (contrastChangeEnabled()) PotData.color = setToDarkIcon ? "{{ config.dark }}" : "{{ config.light }}"
-			update()
-		}
-
-		setIcon = function(icon, prefix) {
-			PotData.icon = {
-				icon: icon,
-				prefix: prefix,
-				size: PotData.icon.size
-			}
-			update()
-		}
-
-		function shareToTwitter() {
-			window.open('https://twitter.com/intent/tweet?text=Check out new my Monzo pot image!&url=' + encodeURIComponent(generateFullUrl()))
-		}
-
-		function generateQueryString() {
-			let path = "i=" + PotData.icon.icon + 
-				"&ip=" + PotData.icon.prefix + 
-				"&is=" + PotData.icon.size +
-				"&c=" + PotData.color.replace('#', '') + 
-				"&bg=" + PotData.background.replace('#', '')
-
-			if (PotData.image) {
-				path += "&img=" + PotData.image
-			}
-
-			return path
-		}
-
-		function generateFullUrl() {
-			return window.location.origin + '?' + generateQueryString()
-		}
-
-		function setIconColor(iconColor) {
-			PotData.color = iconColor
-			update()
-		}
-
-		function getIconColorFromBackground(bgColor) {
-		   var nThreshold = 105;
-		   var components = getRGBComponents(bgColor);
-		   var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
-
-		   return (255 - bgDelta) < nThreshold ? "{{ config.dark }}" : "{{ config.light }}";
-		}
-
-		function getRGBComponents(color) {       
-
-		    var r = color.substring(1, 3);
-		    var g = color.substring(3, 5);
-		    var b = color.substring(5, 7);
-
-		    return {
-		       R: parseInt(r, 16),
-		       G: parseInt(g, 16),
-		       B: parseInt(b, 16)
-		    };
-		}
-
-		setIconColorFromInput = function() {
-			setIconColor(document.getElementById('icon-color-picker').value)
-		}
-
-		searchIcons = function() {
-			const search = document.getElementById('icon-search').value.toLowerCase()
-
-			Array.from(document.getElementsByClassName('icons__single')).forEach(function(element) {
-				element.style.display = element.dataset.keywords.includes(search) ? 'block' : 'none'
-			})
-		}
-
-		document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromInput, false)
-		document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromInput, false)
-
-		document.getElementById('download').onclick = function() {
-		  domtoimage.toBlob(document.getElementById('generated'))
-		      .then(function (blob) {
-		          window.saveAs(blob, 'monzo-pot-image-' + window.PotData.icon.icon + '-' + PotData.background.replace('#', '') + '.png');
-		      });
-		}
-
-		document.getElementById('random').onclick = function() {
-			const icons = Array.from(document.getElementsByClassName('icons__single'))
-			const randomElement = icons[Math.floor(Math.random() * icons.length)]
-			const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
-
-			PotData.icon = {
-				icon: randomElement.dataset.key,
-				prefix: randomElement.dataset.prefix,
-				size: PotData.icon.size,
-			}
-			PotData.color = getIconColorFromBackground(randomColor)
-			PotData.background = randomColor
-			PotData.image = null
-			update()
-		}
-
 		run = function() {
-			new ClipboardJS('button');
+			// new ClipboardJS('button');
 
-			const urlParams = new URLSearchParams(window.location.search);
+			// const urlParams = new URLSearchParams(window.location.search);
 
-			window.PotData = {
-				icon: {
-					icon: urlParams.get('i') ? urlParams.get('i') : "{{ config.icon.icon }}",
-					prefix: urlParams.get('ip') ? urlParams.get('ip') : "{{ config.icon.prefix }}",
-					size: urlParams.get('is') && parseInt(urlParams.get('is'), 10) <= 200 ? urlParams.get('is') : "{{ config.icon.size }}",
-				},
-				color: urlParams.get('c') ? '#' + urlParams.get('c') : "{{ config.light }}",
-				background: urlParams.get('bg') ? '#' + urlParams.get('bg') : "{{ config.primary }}",
-				image: urlParams.get('img') ? urlParams.get('img') : null,
-			}
+			// window.PotData = {
+			// 	icon: {
+			// 		icon: urlParams.get('i') ? urlParams.get('i') : "{{ config.icon.icon }}",
+			// 		prefix: urlParams.get('ip') ? urlParams.get('ip') : "{{ config.icon.prefix }}",
+			// 		size: urlParams.get('is') && parseInt(urlParams.get('is'), 10) <= 200 ? urlParams.get('is') : "{{ config.icon.size }}",
+			// 	},
+			// 	color: urlParams.get('c') ? '#' + urlParams.get('c') : "{{ config.light }}",
+			// 	background: urlParams.get('bg') ? '#' + urlParams.get('bg') : "{{ config.primary }}",
+			// 	image: urlParams.get('img') ? urlParams.get('img') : null,
+			// }
 
-			update()
+			// update()
 		}
 	</script>
 
