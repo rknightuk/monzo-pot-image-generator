@@ -230,7 +230,7 @@
 
 </head>	
 
-<body onload="run()">
+<body>
 
 	<header class="header">
 		<h1 class="header__main">{{ config.title }}</h1>
@@ -248,7 +248,7 @@
 		<div class="image" id="generated">
 			<img id="generated-overlay-image" class="overlay-image" src="/assets/img/backgrounds/plus-blank.png" style="display: none">
 			<div class="image__iconwrapper" id="generated-icon-wrap">
-				<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
+				<i id="generated-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 			</div>
 		</div>
 	</div>
@@ -327,21 +327,170 @@
 	</footer>
 
 	<script>
-		run = function() {
-			// const urlParams = new URLSearchParams(window.location.search);
+		PotData = {
+			icon: {
+				icon: "{{ config.icon.icon }}",
+				prefix: "{{ config.icon.prefix }}",
+				size: "{{ config.icon.size }}",
+			},
+			color: "{{ config.light }}",
+			background: "{{ config.primary }}",
+			image: null,
+		}
+	</script>
 
-			// window.PotData = {
-			// 	icon: {
-			// 		icon: urlParams.get('i') ? urlParams.get('i') : "{{ config.icon.icon }}",
-			// 		prefix: urlParams.get('ip') ? urlParams.get('ip') : "{{ config.icon.prefix }}",
-			// 		size: urlParams.get('is') && parseInt(urlParams.get('is'), 10) <= 200 ? urlParams.get('is') : "{{ config.icon.size }}",
-			// 	},
-			// 	color: urlParams.get('c') ? '#' + urlParams.get('c') : "{{ config.light }}",
-			// 	background: urlParams.get('bg') ? '#' + urlParams.get('bg') : "{{ config.primary }}",
-			// 	image: urlParams.get('img') ? urlParams.get('img') : null,
-			// }
+	<script>
+		update = function() {
 
-			// update()
+			// background color
+			const backgroundColor = PotData.background
+			document.getElementById('generated').style.background = backgroundColor
+			document.getElementById('preview').style.background = backgroundColor
+			document.getElementById('background-color-picker').value = backgroundColor
+
+			// icon color
+			const iconColor = PotData.color
+			document.getElementById('generated-icon').style.color = iconColor
+			document.getElementById('preview-icon').style.color = iconColor
+			document.getElementById('icon-color-picker').value = iconColor
+
+			// icon size
+			const iconSize = PotData.icon.size
+			document.getElementById('preview-icon-wrap').style.width = iconSize + 'px'
+			document.getElementById('preview-icon-wrap').style.height = iconSize + 'px'
+			document.getElementById('generated-icon-wrap').style.width = (parseInt(iconSize, 10) * 4) + 'px';
+			document.getElementById('generated-icon-wrap').style.height = (parseInt(iconSize, 10) * 4) + 'px';
+			document.getElementById('icon-size').innerHTML = iconSize
+
+			// icon
+			const icon = PotData.icon.icon
+			const prefix = PotData.icon.prefix
+			document.getElementById('generated-icon').className = prefix + ' fa-' + icon
+			document.getElementById('preview-icon').className = prefix + ' fa-' + icon
+
+			// background image
+			const backgroundImage = PotData.image
+
+			if (backgroundImage) {
+				document.getElementById('preview-overlay-image').style.display = 'block'
+				document.getElementById('preview-overlay-image').src = backgroundImage
+				document.getElementById('generated-overlay-image').style.display = 'block'
+				document.getElementById('generated-overlay-image').src = backgroundImage
+			} else {
+				document.getElementById('preview-overlay-image').style.display = 'none'
+				document.getElementById('generated-overlay-image').style.display = 'none'
+			}
+		}
+
+		changeSize = function(change) {
+			const result = parseInt(PotData.icon.size, 10) + change
+			if (result <= 200 && result >= 25) {
+				PotData.icon.size = parseInt(PotData.icon.size, 10) + change
+				update()
+			}
+		}
+
+		increaseSize = function() { changeSize(25) }
+
+		decreaseSize = function() { changeSize(-25) }
+
+		contrastChangeEnabled = function() {
+			return document.getElementById('calc-contrast').checked
+		}
+
+		setBackgroundColor = function(color, skipContrast) {
+			PotData.background = color
+			PotData.image = null
+			if (contrastChangeEnabled()) {
+				PotData.color = getIconColorFromBackground(color)
+			}
+			update()
+		}
+
+		setBackgroundColorFromInput = function() {
+			setBackgroundColor(document.getElementById('background-color-picker').value)
+		}
+
+		setBackgroundImage = function(backgroundImage, setToDarkIcon) {
+			PotData.image = backgroundImage
+			if (contrastChangeEnabled()) PotData.color = setToDarkIcon ? "{{ config.dark }}" : "{{ config.light }}"
+			update()
+		}
+
+		setIcon = function(icon, prefix) {
+			PotData.icon = {
+				icon: icon,
+				prefix: prefix,
+				size: PotData.icon.size
+			}
+			update()
+		}
+
+		setIconColor = function(iconColor) {
+			PotData.color = iconColor
+			update()
+		}
+
+		getIconColorFromBackground = function(bgColor) {
+		   var nThreshold = 105;
+		   var components = getRGBComponents(bgColor);
+		   var bgDelta = (components.R * 0.299) + (components.G * 0.587) + (components.B * 0.114);
+
+		   return (255 - bgDelta) < nThreshold ? "{{ config.dark }}" : "{{ config.light }}";
+		}
+
+		getRGBComponents = function(color) {
+		    var r = color.substring(1, 3);
+		    var g = color.substring(3, 5);
+		    var b = color.substring(5, 7);
+
+		    return {
+		       R: parseInt(r, 16),
+		       G: parseInt(g, 16),
+		       B: parseInt(b, 16)
+		    };
+		}
+
+		setIconColorFromInput = function() {
+			setIconColor(document.getElementById('icon-color-picker').value)
+		}
+
+		searchIcons = function() {
+			const search = document.getElementById('icon-search').value.toLowerCase()
+
+			Array.from(document.getElementsByClassName('icons__single')).forEach(function(element) {
+				element.style.display = element.dataset.keywords.includes(search) ? 'block' : 'none'
+			})
+		}
+
+		document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromInput, false)
+		document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromInput, false)
+
+		document.getElementById('download').onclick = function() {
+		  domtoimage.toBlob(document.getElementById('generated'))
+		      .then(function (blob) {
+		      	// doing this twice fixes a bug where an image background wouldn't show on first download
+		      	domtoimage.toBlob(document.getElementById('generated'))
+		      	    .then(function (blob) {
+		      	        window.saveAs(blob, 'monzo-pot-image-' + window.PotData.icon.icon + '-' + PotData.background.replace('#', '') + '.png');
+		      	    });
+		      });
+		}
+
+		document.getElementById('random').onclick = function() {
+			const icons = Array.from(document.getElementsByClassName('icons__single'))
+			const randomElement = icons[Math.floor(Math.random() * icons.length)]
+			const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
+
+			PotData.icon = {
+				icon: randomElement.dataset.key,
+				prefix: randomElement.dataset.prefix,
+				size: PotData.icon.size,
+			}
+			PotData.color = getIconColorFromBackground(randomColor)
+			PotData.background = randomColor
+			PotData.image = null
+			update()
 		}
 	</script>
 
