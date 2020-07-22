@@ -306,6 +306,7 @@
 		<div class="icons">
 			{% for icon in icons %}
 				<div 
+					title="{{ icon.key }}"
 					data-key="{{ icon.key }}"
 					data-prefix="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}"
 					data-keywords="{{ icon.label.toLowerCase() }} {% for keyword in icon.search.terms %} {{ keyword }} {% endfor%}"
