@@ -1,6 +1,6 @@
 module.exports = {
 	background: [
-		"#ed3b56",
+		"#FE4D59",
 		"#EC5B5C",
 		"#e67e22",
 		"#f1c40f",
