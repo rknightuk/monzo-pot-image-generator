@@ -214,6 +214,39 @@
 			background: #f3f3f3;
 		}
 
+		.history {
+			display: flex;
+			flex-wrap: wrap;
+			margin-top: 5px;
+		}
+
+		.history-card {
+		    position: relative;
+		    float: left;
+    		overflow: hidden;
+			width: 75px;
+			height: 50px;
+			border-radius: 5px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			margin-right: 5px;
+			margin-bottom: 5px;
+			flex-basis: 75px;
+		}
+
+		.history-card img,
+		.history-card-icon {
+			position: absolute;
+		}
+
+		.clear-history-button {
+			padding: 3px 12px;
+			text-transform: uppercase;
+			font-size: 12px;
+		}
+
 		.footer {
 			text-align: center;
 		}
@@ -230,7 +263,7 @@
 
 </head>	
 
-<body>
+<body onload="run()">
 
 	<header class="header">
 		<h1 class="header__main">{{ config.title }}</h1>
@@ -262,6 +295,11 @@
 		<button id="random"><i class="fas fa-random"></i></button>
 		<button id="download"><i class="fas fa-download"></i></button>
 	</div>
+
+	<details open="open">
+	  <summary>Download History <button class="clear-history-button" onclick="clearHistory()">Clear</button></summary>
+	  <div id="history" class="history"></div>
+	</details>
 
 	<div class="config-wrapper">
 		<div class="picker-wrapper">
@@ -337,6 +375,10 @@
 			color: "{{ config.light }}",
 			background: "{{ config.primary }}",
 			image: null,
+		}
+
+		run = function() {
+			loadHistory()
 		}
 	</script>
 
@@ -464,6 +506,67 @@
 			})
 		}
 
+		clearHistory = function() {
+			window.localStorage.clear()
+			document.getElementById('history').innerHTML = ''
+		}
+
+		getHistory = function() {
+			return JSON.parse(window.localStorage.getItem('MPIG-history')) || []
+		}
+
+		addHistoryCard = function(data) {
+			let card = document.createElement('div')
+			card.className = 'history-card'
+			card.style.background = data.background
+			card.onclick = function() {
+				PotData = data
+				update()
+			}
+
+			if (data.image) {
+				let image = document.createElement('img')
+				image.src = data.image
+				card.appendChild(image)
+			}
+
+			let icon = document.createElement('div')
+			icon.className = 'history-card-icon'
+			let i = document.createElement('i')
+			i.className = data.icon.prefix + ' fa-' + data.icon.icon
+			i.style.color = data.color
+			icon.appendChild(i)
+			card.appendChild(icon)
+
+			const historyBlock = document.getElementById('history')
+			historyBlock.insertBefore(card, historyBlock.childNodes[0])
+		}
+
+		loadHistory = function() {
+			getHistory().reverse().map(h => addHistoryCard(h))
+		}
+
+		showHistory = function() {
+			const cards = Array.from(document.getElementsByClassName('history-card'))
+			if (cards.length === 10) {
+				const oldest = cards.pop()
+				oldest.parentNode.removeChild(oldest)
+			}
+			addHistoryCard(PotData)
+		}
+
+		updateHistory = function() {
+			try {
+				let history = getHistory()
+				if (history.length === 10) {
+					history.pop()
+				}
+				history.unshift(PotData)
+				window.localStorage.setItem('MPIG-history', JSON.stringify(history))
+				showHistory(history)
+			} catch (e) {}
+		}
+
 		document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromInput, false)
 		document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromInput, false)
 
@@ -474,6 +577,7 @@
 		      	domtoimage.toBlob(document.getElementById('generated'))
 		      	    .then(function (blob) {
 		      	        window.saveAs(blob, 'monzo-pot-image-' + window.PotData.icon.icon + '-' + PotData.background.replace('#', '') + '.png');
+		      	        updateHistory()
 		      	    });
 		      });
 		}
