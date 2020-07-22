@@ -96,6 +96,32 @@
 		    height: 400px;
 		}
 
+		.size-wrapper {
+			margin: 10px 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.size-wrapper button {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+
+		#icon-size {
+			margin-left: 0;
+    		margin-right: 5px;
+			margin-bottom: 5px;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		.buttons {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
 		.footer {
 			text-align: center;
 		}
@@ -136,9 +162,19 @@
 		</div>
 	</div>
 
+	<div class="buttons">
+		<div class="size-wrapper">
+			<div><button onclick="decreaseSize()"><i class="fas fa-minus"></i></button></div>
+			<div id="icon-size">{{ config.icon.size }}</div>
+			<div><button onclick="increaseSize()"><i class="fas fa-plus"></i></button></div>
+		</div>
+		<button id="random"><i class="fas fa-random"></i></button>
+		<button id="download"><i class="fas fa-download"></i></button>
+	</div>
+
 	<footer class="footer">
 		<p>{{ config.title }} by <a href="https://rknight.me">Robb Knight</a> | Icons from <a href="https://fontawesome.com/">Font Awesome</a></p>
-		<p><a href="https://github.com/rknightuk/monzo-pot-image-generator">Source on GitHub</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a></p>
+		<p><a href="https://github.com/rknightuk/monzo-pot-image-generator">Source</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a></p>
 	</footer>
 
 	<script>
