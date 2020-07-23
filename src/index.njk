@@ -389,6 +389,10 @@
 						value="{{ config.primary.replace('#', '') }}"
 					>
 				</div>
+				<hr style="clear:both">
+				{% for gradient in gradients %}
+					<div class="color" onclick="setGradientColor('{{ gradient.left }}', '{{ gradient.right }}')" style="background-image: linear-gradient(to top right, {{ gradient.left }}, {{ gradient.right }});"></div>	
+				{% endfor %}
 			</div>
 		</div>
 		<div class="picker-wrapper">
@@ -479,6 +483,16 @@
 			document.getElementById('background-color-picker').value = backgroundColor
 			document.getElementById('background-hex-input').value = backgroundColor.replace('#', '')
 
+			// background gradient
+			const gradient = PotData.gradient
+			if (gradient.left && gradient.right) {
+				document.getElementById('generated').style.background = 'none'
+				document.getElementById('preview').style.background = 'none'
+				const gradientStyle = 'linear-gradient(to top right, ' + gradient.left + ', ' + gradient.right + ')'
+				document.getElementById('preview').style.background = gradientStyle
+				document.getElementById('generated').style.background = gradientStyle
+			}
+
 			// icon color
 			const iconColor = PotData.color
 			document.getElementById('generated-icon').style.color = iconColor
@@ -533,9 +547,22 @@
 		setBackgroundColor = function(color, skipContrast) {
 			PotData.background = color
 			PotData.image = null
+			PotData.gradient = {
+				left: null,
+				right: null,
+			}
 			if (contrastChangeEnabled()) {
 				PotData.color = getIconColorFromBackground(color)
 			}
+			update()
+		}
+
+		setGradientColor = function(left, right) {
+			PotData.gradient = {
+				left: left,
+				right: right,
+			}
+			PotData.image = null
 			update()
 		}
 
@@ -626,6 +653,10 @@
 				color: data.color,
 				background: data.background,
 				image: data.image,
+				gradient: {
+					left: null,
+					right: null,
+				}
 			}
 			update()
 		}
