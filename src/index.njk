@@ -654,8 +654,8 @@
 				background: data.background,
 				image: data.image,
 				gradient: {
-					left: null,
-					right: null,
+					left: data.gradientLeft,
+					right: data.gradientRight,
 				}
 			}
 			update()
@@ -665,6 +665,11 @@
 			let card = document.createElement('div')
 			card.className = 'example-card'
 			card.style.background = data.background
+			if (data.gradient && data.gradient.left && data.gradient.right && data.gradient.left !== 'null' && data.gradient.right !== 'null') {
+				card.style.background = 'linear-gradient(to top right, ' + data.gradient.left + ', ' + data.gradient.right + ')'
+				card.dataset.gradientLeft = data.gradient.left
+				card.dataset.gradientRight = data.gradient.right
+			}
 			card.dataset.background = data.background
 			card.dataset.color = data.color
 			card.dataset.icon = data.icon.icon
