@@ -4,7 +4,7 @@ module.exports = [
 		type: "dark"
 	},
 	{
-		path: "plus-icon.png",
+		path: "plus-logo.png",
 		type: "dark"
 	},
 	{
