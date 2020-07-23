@@ -5,7 +5,7 @@ module.exports = {
 	dark: "#333333",
 	light: "#f7f7f7",
 	icon: {
-		icon: "glass-cheers",
+		icon: "rocket",
 		prefix: "fas",
 		size: 100
 	}
