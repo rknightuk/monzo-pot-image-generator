@@ -101,7 +101,6 @@
 		}
 
 		.size-wrapper {
-			margin: 10px 0;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -124,6 +123,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			margin-top: 10px;
 		}
 
 		.config-wrapper {
@@ -299,6 +299,29 @@
 		<button id="random"><i class="fas fa-random"></i></button>
 		<button id="download"><i class="fas fa-download"></i></button>
 	</div>
+
+	<details>
+	  <summary>Popular Images</summary>
+	  <div class="examples">
+	  	{% for example in examples %}
+				<div 
+					class="example-card"
+					data-background="{{ example.background }}" 
+					data-color="{{ example.color }}" 
+					data-icon="{{ example.icon.icon }}" 
+					data-prefix="{{ example.icon.prefix }}" 
+					data-size="{{ example.icon.size }}" 
+					data-image="{{ example.image }}"
+					style="background: {{ example.background }}"
+					onclick="loadCard(event)"
+				>
+					<div class="example-card-icon">
+						<i class="{{ example.icon.prefix }} fa-{{ example.icon.icon }}" style="color:{{ example.color }}"></i>
+					</div>
+				</div>
+			{% endfor %}
+	  </div>
+	</details>
 
 	<details>
 	  <summary>Download History <button class="clear-history-button" onclick="clearHistory()">Clear</button></summary>
@@ -520,7 +543,10 @@
 		}
 
 		loadCard = function(e) {
-			const data = e.target.dataset
+			let data = e.target.dataset
+			if (e.target.className !== 'example-card') { // clicked the icon not the card itself
+				data = e.target.closest('.example-card').dataset
+			}
 			PotData = {
 				icon: {
 					icon: data.icon,
