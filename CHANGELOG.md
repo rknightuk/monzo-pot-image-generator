@@ -1,3 +1,8 @@
+## 2.1
+
+- Input for hex colors
+- Gradient backgrounds based on Monzo Plus virtual cards
+
 ## 2.0
 
 - New layout
