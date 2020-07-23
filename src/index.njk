@@ -441,7 +441,7 @@
 			// background image
 			const backgroundImage = PotData.image
 
-			if (backgroundImage) {
+			if (backgroundImage && backgroundImage !== 'null') {
 				document.getElementById('preview-overlay-image').style.display = 'block'
 				document.getElementById('preview-overlay-image').src = backgroundImage
 				document.getElementById('generated-overlay-image').style.display = 'block'
