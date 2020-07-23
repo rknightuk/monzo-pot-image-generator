@@ -46,7 +46,7 @@ module.exports = [
 			size: 100
 		},
 		color: "#f7f7f7",
-		background: "#0070D1",
+		background: "#003087",
 		image: null
 	},
 	{
@@ -56,7 +56,7 @@ module.exports = [
 			size: 100
 		},
 		color: "#f7f7f7",
-		background: "#0F7C0F",
+		background: "#52b043",
 		image: null
 	},
 	{
