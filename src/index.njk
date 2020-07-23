@@ -515,14 +515,32 @@
 			return JSON.parse(window.localStorage.getItem('MPIG-history')) || []
 		}
 
+		loadCard = function(e) {
+			const data = e.target.dataset
+			PotData = {
+				icon: {
+					icon: data.icon,
+					prefix: data.prefix,
+					size: data.size,
+				},
+				color: data.color,
+				background: data.background,
+				image: data.image,
+			}
+			update()
+		}
+
 		addHistoryCard = function(data) {
 			let card = document.createElement('div')
 			card.className = 'history-card'
 			card.style.background = data.background
-			card.onclick = function() {
-				PotData = data
-				update()
-			}
+			card.dataset.background = data.background
+			card.dataset.color = data.color
+			card.dataset.icon = data.icon.icon
+			card.dataset.prefix = data.icon.prefix
+			card.dataset.size = data.icon.size
+			card.dataset.image = data.image
+			card.onclick = loadCard
 
 			if (data.image) {
 				let image = document.createElement('img')
