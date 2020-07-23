@@ -287,7 +287,6 @@
 
 	<script>
 		if (window.location.hostname !== 'localhost') {
-			console.log('running')
 		    (function(f, a, t, h, o, m){
 		        a[h]=a[h]||function(){
 		            (a[h].q=a[h].q||[]).push(arguments)
@@ -485,7 +484,7 @@
 
 			// background gradient
 			const gradient = PotData.gradient
-			if (gradient.left && gradient.right) {
+			if (gradient && gradient.left && gradient.right) {
 				document.getElementById('generated').style.background = 'none'
 				document.getElementById('preview').style.background = 'none'
 				const gradientStyle = 'linear-gradient(to top right, ' + gradient.left + ', ' + gradient.right + ')'
