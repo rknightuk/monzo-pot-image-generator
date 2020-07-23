@@ -214,13 +214,13 @@
 			background: #f3f3f3;
 		}
 
-		.history {
+		.examples {
 			display: flex;
 			flex-wrap: wrap;
 			margin-top: 5px;
 		}
 
-		.history-card {
+		.example-card {
 		    position: relative;
 		    float: left;
     		overflow: hidden;
@@ -236,12 +236,12 @@
 			flex-basis: 75px;
 		}
 
-		.history-card img,
-		.history-card-icon {
+		.example-card img,
+		.example-card-icon {
 			position: absolute;
 		}
 
-		.history-card img {
+		.example-card img {
 		    height: 100%;
 		}
 
@@ -302,7 +302,7 @@
 
 	<details>
 	  <summary>Download History <button class="clear-history-button" onclick="clearHistory()">Clear</button></summary>
-	  <div id="history" class="history"></div>
+	  <div id="history" class="examples"></div>
 	</details>
 
 	<div class="config-wrapper">
@@ -536,7 +536,7 @@
 
 		addHistoryCard = function(data) {
 			let card = document.createElement('div')
-			card.className = 'history-card'
+			card.className = 'example-card'
 			card.style.background = data.background
 			card.dataset.background = data.background
 			card.dataset.color = data.color
@@ -553,7 +553,7 @@
 			}
 
 			let icon = document.createElement('div')
-			icon.className = 'history-card-icon'
+			icon.className = 'example-card-icon'
 			let i = document.createElement('i')
 			i.className = data.icon.prefix + ' fa-' + data.icon.icon
 			i.style.color = data.color
@@ -569,7 +569,7 @@
 		}
 
 		showHistory = function() {
-			const cards = Array.from(document.getElementsByClassName('history-card'))
+			const cards = Array.from(document.getElementsByClassName('example-card'))
 			if (cards.length === 10) {
 				const oldest = cards.pop()
 				oldest.parentNode.removeChild(oldest)
