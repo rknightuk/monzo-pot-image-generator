@@ -255,6 +255,30 @@
 			text-align: center;
 		}
 
+		.hex-input-wrap {
+			display: flex;
+    		align-items: center;
+		    clear: both;
+		    margin-bottom: 5px;
+		}
+
+		.hex-input-icon {
+	        border: 1px solid #EEEFEE;
+	        height: 36px;
+	        width: 30px;
+	        display: flex;
+	        align-items: center;
+	        justify-content: center;
+	        color: #676767;
+		}
+
+		.hex-input {
+		    margin: 0;
+		    border-top-left-radius: 0;
+		    border-bottom-left-radius: 0;
+		    text-transform: lowercase;
+		}
+
 	</style>
 
 	<script>
@@ -355,6 +379,16 @@
 				<div class="color-input">
 					<input type="color" id="background-color-picker" value="{{ config.primary }}">
 				</div>
+				<div class="hex-input-wrap">
+					<div class="hex-input-icon"><i class="fas fa-hashtag"></i></div>
+					<input 
+						maxlength="6" 
+						type="text" 
+						class="hex-input" 
+						id="background-hex-input" 
+						value="{{ config.primary.replace('#', '') }}"
+					>
+				</div>
 			</div>
 		</div>
 		<div class="picker-wrapper">
@@ -365,6 +399,16 @@
 				{% endfor %}
 				<div class="color-input">
 					<input type="color" id="icon-color-picker" value="{{ config.light }}">
+				</div>
+				<div class="hex-input-wrap">
+					<div class="hex-input-icon"><i class="fas fa-hashtag"></i></div>
+					<input 
+						maxlength="6" 
+						type="text" 
+						class="hex-input" 
+						id="icon-hex-input" 
+						value="{{ config.light.replace('#', '') }}"
+					>
 				</div>
 				<div style="clear:both;"><input type="checkbox" id="calc-contrast" checked="checked"><label class="calc-contrast-label" for="calc-contrast">auto change colour</label></div>
 			</div>
@@ -428,18 +472,19 @@
 
 	<script>
 		update = function() {
-
 			// background color
 			const backgroundColor = PotData.background
 			document.getElementById('generated').style.background = backgroundColor
 			document.getElementById('preview').style.background = backgroundColor
 			document.getElementById('background-color-picker').value = backgroundColor
+			document.getElementById('background-hex-input').value = backgroundColor.replace('#', '')
 
 			// icon color
 			const iconColor = PotData.color
 			document.getElementById('generated-icon').style.color = iconColor
 			document.getElementById('preview-icon').style.color = iconColor
 			document.getElementById('icon-color-picker').value = iconColor
+			document.getElementById('icon-hex-input').value = iconColor.replace('#', '')
 
 			// icon size
 			const iconSize = PotData.icon.size
@@ -494,8 +539,12 @@
 			update()
 		}
 
-		setBackgroundColorFromInput = function() {
+		setBackgroundColorFromPicker = function() {
 			setBackgroundColor(document.getElementById('background-color-picker').value)
+		}
+
+		setBackgroundColorFromInput = function() {
+			setBackgroundColor('#' + document.getElementById('background-hex-input').value)
 		}
 
 		setBackgroundImage = function(backgroundImage, setToDarkIcon) {
@@ -538,8 +587,12 @@
 		    };
 		}
 
-		setIconColorFromInput = function() {
+		setIconColorFromPicker = function() {
 			setIconColor(document.getElementById('icon-color-picker').value)
+		}
+
+		setIconColorFromInput = function() {
+			setIconColor('#' + document.getElementById('icon-hex-input').value)
 		}
 
 		searchIcons = function() {
@@ -632,8 +685,10 @@
 			} catch (e) {}
 		}
 
-		document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromInput, false)
-		document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromInput, false)
+		document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromPicker, false)
+		document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromPicker, false)
+		document.getElementById('background-hex-input').addEventListener("keyup", setBackgroundColorFromInput, false)
+		document.getElementById('icon-hex-input').addEventListener("keyup", setIconColorFromInput, false)
 
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
