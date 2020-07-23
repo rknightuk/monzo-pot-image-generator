@@ -76,7 +76,7 @@ module.exports = [
 			size: 100
 		},
 		color: "#f7f7f7",
-		background: "#006FCF",
+		background: "#4d4f53",
 		image: null
 	}
 ]
