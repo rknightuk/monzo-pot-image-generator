@@ -460,7 +460,7 @@
     				</div>
     				<div class="preview__controls__manage__adjuster">
     					<div><button onclick="rotateLeft()"><i class="fas fa-undo"></i></button></div>
-    					<div id="icon-size" class="preview__controls__manage__adjuster__value">{{ config.rotation }}&deg;</div>
+    					<div id="rotation" class="preview__controls__manage__adjuster__value">{{ config.rotation }}&deg;</div>
     					<div><button onclick="rotateRight()"><i class="fas fa-redo"></i></button></div>
     				</div>
     			</div>
@@ -652,8 +652,16 @@
 			// icon
 			const icon = PotData.icon
 			const prefix = PotData.prefix
-			document.getElementById('generated-icon').className = prefix + ' fa-' + icon
-			document.getElementById('preview-icon').className = prefix + ' fa-' + icon
+			let iconClassName = prefix + ' fa-' + icon
+			const rotation = PotData.rotation
+
+			if (rotation && rotation > 0) {
+				iconClassName += ' fa-rotate-' + rotation
+			}
+
+			document.getElementById('generated-icon').className = iconClassName
+			document.getElementById('preview-icon').className = iconClassName
+			document.getElementById('rotation').innerHTML = rotation + '&deg;'
 
 			// background image
 			const backgroundImage = PotData.image
@@ -678,8 +686,23 @@
 		}
 
 		increaseSize = function() { changeSize(25) }
-
 		decreaseSize = function() { changeSize(-25) }
+
+		rotate = function(change) {
+			let result = parseInt(PotData.rotation ? PotData.rotation : 0, 10) + change
+			if (result > 270) {
+				result = 0
+			} else if (result === -90) {
+				result = 270
+			} else if (result === -180) {
+				result = 180
+			}
+			PotData.rotation = result
+			update()
+		}
+
+		rotateLeft = function() { rotate(-90) }
+		rotateRight = function() { rotate(90) }
 
 		contrastChangeEnabled = function() {
 			return document.getElementById('calc-contrast').checked
@@ -790,7 +813,8 @@
 				backgroundColor: data.background,
 				image: data.image,
 				gradientLeft: data.gradientLeft,
-				gradientRight: data.gradientRight
+				gradientRight: data.gradientRight,
+				rotation: data.rotation ? data.rotation : 0,
 			}
 			update()
 		}
@@ -803,6 +827,9 @@
 				card.style.background = 'linear-gradient(to top right, ' + data.gradientLeft + ', ' + data.gradientRight + ')'
 				card.dataset.gradientLeft = data.gradientLeft
 				card.dataset.gradientRight = data.gradientRight
+			}
+			if (data.rotation) {
+				card.dataset.rotation = data.rotation
 			}
 			card.dataset.background = data.backgroundColor
 			card.dataset.color = data.color
@@ -822,6 +849,9 @@
 			icon.className = 'example-card-icon'
 			let i = document.createElement('i')
 			i.className = data.prefix + ' fa-' + data.icon
+			if (data.rotation) {
+				i.className += ' fa-rotate-' + data.rotation
+			}
 			i.style.color = data.color
 			icon.appendChild(i)
 			card.appendChild(icon)
