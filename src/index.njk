@@ -602,13 +602,11 @@
 
 	<script>
 		PotData = {
-			icon: {
-				icon: "{{ config.icon.icon }}",
-				prefix: "{{ config.icon.prefix }}",
-				size: "{{ config.icon.size }}",
-			},
+			icon: "{{ config.icon.icon }}",
+			prefix: "{{ config.icon.prefix }}",
+			size: "{{ config.icon.size }}",
 			color: "{{ config.light }}",
-			background: "{{ config.primary }}",
+			backgroundColor: "{{ config.primary }}",
 			image: null
 		}
 
@@ -620,7 +618,7 @@
 	<script>
 		update = function() {
 			// background color
-			const backgroundColor = PotData.background
+			const backgroundColor = PotData.backgroundColor
 			document.getElementById('generated').style.background = backgroundColor
 			document.getElementById('preview').style.background = backgroundColor
 			document.getElementById('background-color-picker').value = backgroundColor
@@ -644,7 +642,7 @@
 			document.getElementById('icon-hex-input').value = iconColor.replace('#', '')
 
 			// icon size
-			const iconSize = PotData.icon.size
+			const iconSize = PotData.size
 			document.getElementById('preview-icon-wrap').style.width = iconSize + 'px'
 			document.getElementById('preview-icon-wrap').style.height = iconSize + 'px'
 			document.getElementById('generated-icon-wrap').style.width = (parseInt(iconSize, 10) * 4) + 'px';
@@ -652,8 +650,8 @@
 			document.getElementById('icon-size').innerHTML = iconSize
 
 			// icon
-			const icon = PotData.icon.icon
-			const prefix = PotData.icon.prefix
+			const icon = PotData.icon
+			const prefix = PotData.prefix
 			document.getElementById('generated-icon').className = prefix + ' fa-' + icon
 			document.getElementById('preview-icon').className = prefix + ' fa-' + icon
 
@@ -672,9 +670,9 @@
 		}
 
 		changeSize = function(change) {
-			const result = parseInt(PotData.icon.size, 10) + change
+			const result = parseInt(PotData.size, 10) + change
 			if (result <= 200 && result >= 25) {
-				PotData.icon.size = parseInt(PotData.icon.size, 10) + change
+				PotData.size = parseInt(PotData.size, 10) + change
 				update()
 			}
 		}
@@ -688,7 +686,7 @@
 		}
 
 		setBackgroundColor = function(color, skipContrast) {
-			PotData.background = color
+			PotData.backgroundColor = color
 			PotData.image = null
 			PotData.gradient = {
 				left: null,
@@ -724,11 +722,8 @@
 		}
 
 		setIcon = function(icon, prefix) {
-			PotData.icon = {
-				icon: icon,
-				prefix: prefix,
-				size: PotData.icon.size
-			}
+			PotData.icon = icon
+			PotData.prefix = prefix
 			update()
 		}
 
@@ -788,36 +783,33 @@
 				data = e.target.closest('.example-card').dataset
 			}
 			PotData = {
-				icon: {
-					icon: data.icon,
-					prefix: data.prefix,
-					size: data.size,
-				},
+				icon: data.icon,
+				prefix: data.prefix,
+				size: data.size,
 				color: data.color,
-				background: data.background,
+				backgroundColor: data.background,
 				image: data.image,
-				gradient: {
-					left: data.gradientLeft,
-					right: data.gradientRight,
-				}
+				gradientLeft: data.gradientLeft,
+				gradientRight: data.gradientRight
 			}
 			update()
 		}
 
 		addHistoryCard = function(data) {
+			console.log(data)
 			let card = document.createElement('div')
 			card.className = 'example-card'
-			card.style.background = data.background
-			if (data.gradient && data.gradient.left && data.gradient.right && data.gradient.left !== 'null' && data.gradient.right !== 'null') {
-				card.style.background = 'linear-gradient(to top right, ' + data.gradient.left + ', ' + data.gradient.right + ')'
-				card.dataset.gradientLeft = data.gradient.left
-				card.dataset.gradientRight = data.gradient.right
+			card.style.background = data.backgroundColor
+			if (data.gradientLeft && data.gradientRight && data.gradientLeft !== 'null' && data.gradientRight !== 'null') {
+				card.style.background = 'linear-gradient(to top right, ' + data.gradientLeft + ', ' + data.gradientRight + ')'
+				card.dataset.gradientLeft = data.gradientLeft
+				card.dataset.gradientRight = data.gradientRight
 			}
-			card.dataset.background = data.background
+			card.dataset.background = data.backgroundColor
 			card.dataset.color = data.color
-			card.dataset.icon = data.icon.icon
-			card.dataset.prefix = data.icon.prefix
-			card.dataset.size = data.icon.size
+			card.dataset.icon = data.icon
+			card.dataset.prefix = data.prefix
+			card.dataset.size = data.size
 			card.dataset.image = data.image
 			card.onclick = loadCard
 
@@ -830,7 +822,7 @@
 			let icon = document.createElement('div')
 			icon.className = 'example-card-icon'
 			let i = document.createElement('i')
-			i.className = data.icon.prefix + ' fa-' + data.icon.icon
+			i.className = data.prefix + ' fa-' + data.icon
 			i.style.color = data.color
 			icon.appendChild(i)
 			card.appendChild(icon)
@@ -875,7 +867,7 @@
 		      	// doing this twice fixes a bug where an image background wouldn't show on first download
 		      	domtoimage.toBlob(document.getElementById('generated'))
 		      	    .then(function (blob) {
-		      	        window.saveAs(blob, 'monzo-pot-image-' + window.PotData.icon.icon + '-' + PotData.background.replace('#', '') + '.png');
+		      	        window.saveAs(blob, 'monzo-pot-image-' + window.PotData.icon + '-' + PotData.backgroundColor.replace('#', '') + '.png');
 		      	        updateHistory()
 		      	    });
 		      });
@@ -889,15 +881,13 @@
 			PotData.icon = {
 				icon: randomElement.dataset.key,
 				prefix: randomElement.dataset.prefix,
-				size: PotData.icon.size,
+				size: PotData.size,
 			}
 			PotData.color = getIconColorFromBackground(randomColor)
-			PotData.background = randomColor
+			PotData.backgroundColor = randomColor
 			PotData.image = null
-			PotData.gradient = {
-				left: null,
-				right: null,
-			}
+			PotData.gradientLeft = null
+			PotData.gradientRight = null
 			update()
 		}
 	</script>
