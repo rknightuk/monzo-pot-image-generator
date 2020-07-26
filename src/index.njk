@@ -270,8 +270,8 @@
 		    position: relative;
 		    float: left;
     		overflow: hidden;
-			width: 75px;
-			height: 50px;
+			width: 85px;
+    		height: 55px;
 			border-radius: 5px;
 			display: flex;
 			align-items: center;
@@ -279,7 +279,7 @@
 			cursor: pointer;
 			margin-right: 5px;
 			margin-bottom: 5px;
-			flex-basis: 75px;
+			flex-basis: 85px;
 		}
 
 		.example-card img,
@@ -919,16 +919,15 @@
 			const randomElement = icons[Math.floor(Math.random() * icons.length)]
 			const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
 
-			PotData.icon = {
-				icon: randomElement.dataset.key,
-				prefix: randomElement.dataset.prefix,
-				size: PotData.size,
-			}
+			PotData.icon = randomElement.dataset.key,
+			PotData.prefix = randomElement.dataset.prefix,
+			PotData.size = PotData.size,
 			PotData.color = getIconColorFromBackground(randomColor)
 			PotData.backgroundColor = randomColor
 			PotData.image = null
 			PotData.gradientLeft = null
 			PotData.gradientRight = null
+			PotData.rotation = 0
 			update()
 		}
 	</script>
