@@ -27,6 +27,15 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
 
 	<style type="text/css">
+		body {
+			max-width: 1000px
+		}
+		h2 {
+			font-size: 1.2em;
+			margin-bottom: 3px;
+			margin-top: 0;
+		}
+
 		.header {
 		    margin: 0 auto;
 		}
@@ -307,6 +316,19 @@
 	        align-items: center;
 	        justify-content: center;
 	        color: #676767;
+	        position: relative;
+		}
+
+		.hex-selector {
+			padding: 0;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    right: 0;
+		    bottom: 0;
+		    width: 100%;
+		    height: 100%;
+		    border-radius: 0;
 		}
 
 		.hex-input {
@@ -314,6 +336,7 @@
 		    border-top-left-radius: 0;
 		    border-bottom-left-radius: 0;
 		    text-transform: lowercase;
+		    width: 60px;
 		}
 
 		.preview {
@@ -399,12 +422,6 @@
 		    margin-bottom: 0;
 		}
 
-		.flip-button {
-		    width: 50px;
-		    padding-left: 10px;
-		    padding-right: 10px;
-		}
-
 	</style>
 
 	<script>
@@ -465,10 +482,6 @@
     				</div>
     			</div>
     			<div class="preview__controls__manage__group">
-    				<div><button class="flip-button" onclick="toggleHFlip()"><i class="fas fa-arrows-alt-h"></i></button></div>
-    				<div><button class="flip-button" onclick="toggleVFlip()"><i class="fas fa-arrows-alt-v"></i></button></div>
-    			</div>
-    			<div class="preview__controls__manage__group">
     				<button id="random"><i class="fas fa-random"></i></button>
     				<button id="download"><i class="fas fa-download"></i></button>
     			</div>
@@ -515,15 +528,14 @@
 	<div class="config-wrapper">
 		<div class="picker-wrapper">
 			<div class="picker">
-				<h2>Background Colour</h2>
+				<h2>Colour</h2>
 				{% for color in colors.background %}
 					<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
 				{% endfor %}
-				<div class="color-input">
-					<input type="color" id="background-color-picker" value="{{ config.primary }}">
-				</div>
 				<div class="hex-input-wrap">
-					<div class="hex-input-icon"><i class="fas fa-hashtag"></i></div>
+					<div class="hex-input-icon">
+						<input type="color" class="hex-selector" id="background-color-picker" value="{{ config.primary }}">
+					</div>
 					<input 
 						maxlength="6" 
 						type="text" 
@@ -532,7 +544,11 @@
 						value="{{ config.primary.replace('#', '') }}"
 					>
 				</div>
-				<hr style="clear:both">
+			</div>
+		</div>
+		<div class="picker-wrapper">
+			<div class="picker">
+				<h2>Gradient</h2>
 				{% for gradient in gradients %}
 					<div class="color" onclick="setGradientColor('{{ gradient.left }}', '{{ gradient.right }}')" style="background-image: linear-gradient(to top right, {{ gradient.left }}, {{ gradient.right }});"></div>	
 				{% endfor %}
@@ -544,11 +560,10 @@
 				{% for color in colors.icon %}
 					<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
 				{% endfor %}
-				<div class="color-input">
-					<input type="color" id="icon-color-picker" value="{{ config.light }}">
-				</div>
 				<div class="hex-input-wrap">
-					<div class="hex-input-icon"><i class="fas fa-hashtag"></i></div>
+					<div class="hex-input-icon">
+						<input class="hex-selector" type="color" id="icon-color-picker" value="{{ config.light }}">
+					</div>
 					<input 
 						maxlength="6" 
 						type="text" 
@@ -625,11 +640,12 @@
 			document.getElementById('background-hex-input').value = backgroundColor.replace('#', '')
 
 			// background gradient
-			const gradient = PotData.gradient
-			if (gradient && gradient.left && gradient.right) {
+			const gradientLeft = PotData.gradientLeft
+			const gradientRight = PotData.gradientRight
+			if (gradientLeft && gradientRight) {
 				document.getElementById('generated').style.background = 'none'
 				document.getElementById('preview').style.background = 'none'
-				const gradientStyle = 'linear-gradient(to top right, ' + gradient.left + ', ' + gradient.right + ')'
+				const gradientStyle = 'linear-gradient(to top right, ' + gradientLeft + ', ' + gradientRight + ')'
 				document.getElementById('preview').style.background = gradientStyle
 				document.getElementById('generated').style.background = gradientStyle
 			}
@@ -711,10 +727,8 @@
 		setBackgroundColor = function(color, skipContrast) {
 			PotData.backgroundColor = color
 			PotData.image = null
-			PotData.gradient = {
-				left: null,
-				right: null,
-			}
+			PotData.gradientLeft = null
+			PotData.gradientRight = null
 			if (contrastChangeEnabled()) {
 				PotData.color = getIconColorFromBackground(color)
 			}
@@ -722,10 +736,8 @@
 		}
 
 		setGradientColor = function(left, right) {
-			PotData.gradient = {
-				left: left,
-				right: right,
-			}
+			PotData.gradientLeft =left
+			PotData.gradientRight = right
 			PotData.image = null
 			update()
 		}
