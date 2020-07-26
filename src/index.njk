@@ -473,6 +473,33 @@
     				<button id="download"><i class="fas fa-download"></i></button>
     			</div>
     		</div>
+    		<details>
+    		  <summary>Popular Images</summary>
+    		  <div class="examples">
+    		  	{% for example in examples %}
+					<div 
+						class="example-card"
+						data-background="{{ example.background }}" 
+						data-color="{{ example.color }}" 
+						data-icon="{{ example.icon.icon }}" 
+						data-prefix="{{ example.icon.prefix }}" 
+						data-size="{{ example.icon.size }}" 
+						data-image="{{ example.image }}"
+						style="background: {{ example.background }}"
+						onclick="loadCard(event)"
+					>
+						<div class="example-card-icon">
+							<i class="{{ example.icon.prefix }} fa-{{ example.icon.icon }}" style="color:{{ example.color }}"></i>
+						</div>
+					</div>
+				{% endfor %}
+    		  </div>
+    		</details>
+
+    		<details>
+    		  <summary>Download History <button class="clear-history-button" onclick="clearHistory()">Clear</button></summary>
+    		  <div id="history" class="examples"></div>
+    		</details>
     	</div>
     </div>
 
@@ -484,34 +511,6 @@
 			</div>
 		</div>
 	</div>
-
-	<details>
-	  <summary>Popular Images</summary>
-	  <div class="examples">
-	  	{% for example in examples %}
-				<div 
-					class="example-card"
-					data-background="{{ example.background }}" 
-					data-color="{{ example.color }}" 
-					data-icon="{{ example.icon.icon }}" 
-					data-prefix="{{ example.icon.prefix }}" 
-					data-size="{{ example.icon.size }}" 
-					data-image="{{ example.image }}"
-					style="background: {{ example.background }}"
-					onclick="loadCard(event)"
-				>
-					<div class="example-card-icon">
-						<i class="{{ example.icon.prefix }} fa-{{ example.icon.icon }}" style="color:{{ example.color }}"></i>
-					</div>
-				</div>
-			{% endfor %}
-	  </div>
-	</details>
-
-	<details>
-	  <summary>Download History <button class="clear-history-button" onclick="clearHistory()">Clear</button></summary>
-	  <div id="history" class="examples"></div>
-	</details>
 
 	<div class="config-wrapper">
 		<div class="picker-wrapper">
