@@ -27,20 +27,29 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
 
 	<style type="text/css">
-		h2 {
-			margin-top: 0;
-		}
-
 		.header {
-			text-align: center;
+		    margin: 0 auto;
 		}
 
 		.header__main {
-			margin-bottom: 0;
+		    margin: 0;
+		    font-size: 1.8em;
 		}
 
-		.header__subtitle {
-			margin-top: 0;
+		@media (max-width: 475px) {
+		    .header__main {
+		        font-size: 1.5em;
+		    }
+		}
+
+		.header__icon {
+		    color: #ff1414;
+		}
+
+		@media (max-width: 700px) {
+		    .header {
+		        text-align: center;
+		    }
 		}
 
 		.image {
@@ -310,9 +319,10 @@
 <body onload="run()">
 
 	<header class="header">
-		<h1 class="header__main">{{ config.title }}</h1>
-		<p class="header__subtitle">By <a href="https://twitter.com/rknightuk">Robb Knight</a></p>
-	</header>
+        <h1 class="header__main">
+            <span class="header__icon"><i class="fas fa-money-check"></i></span> {{ config.title }}
+        </h1>
+    </header>
 
 	<div class="image" id="preview">
 		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/pride.png" style="display: none">
