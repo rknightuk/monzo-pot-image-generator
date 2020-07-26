@@ -46,9 +46,26 @@
 		    color: #ff1414;
 		}
 
+		@media (max-width: 800px) {
+		    .preview__controls__manage__group {
+		        flex-direction: column;
+		    }
+		}
+
 		@media (max-width: 700px) {
-		    .header {
+			.header {
 		        text-align: center;
+		    }
+		    .preview-wrapper {
+		        flex-direction: column;
+		    }
+		    .preview__controls {
+		        margin: 0 auto;
+		        margin-top: 10px;
+		        width: 100%;
+		    }
+		    .preview__controls__manage {
+		        justify-content: center;
 		    }
 		}
 
@@ -82,11 +99,22 @@
 		    height: 100%;
 		}
 
+		.preview-wrapper {
+			margin-top: 10px;
+			display: flex;
+			min-height: 225px;
+		}
+
 		#preview {
 			width: 316px;
 			height: 205px;
 			border-radius: 10px;
 			box-shadow: 3px 3px 2px 0px rgba(214,214,214,1);
+			position: relative;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		#preview .image__iconwrapper {
@@ -288,6 +316,95 @@
 		    text-transform: lowercase;
 		}
 
+		.preview {
+		    margin-top: 10px;
+		    display: flex;
+		    min-height: 225px;
+		}
+
+		.preview__controls {
+		    flex: 1;
+		    margin-left: 20px;
+		}
+
+		.preview__controls__manage {
+		    display: flex;
+		}
+
+		.preview__controls__manage__group {
+		    display: flex;
+		}
+
+		.preview__controls__manage__adjuster {
+		    display: flex;
+		    align-items: center;
+		    justify-content: left;
+		}
+
+		.preview__controls__manage__adjuster button {
+		    width: 40px;
+		    padding-left: 10px;
+		    padding-right: 10px;
+		}
+
+		.preview__controls__manage__adjuster__value {
+		    margin-right: 5px;
+		    margin-bottom: 5px;
+		    font-weight: bold;
+		    width: 40px;
+		    text-align: center;
+		}
+
+		@media (max-width: 800px) {
+		    .preview__controls__manage__group {
+		        flex-direction: column;
+		    }
+		}
+
+		@media (max-width: 700px) {
+		    .preview {
+		        flex-direction: column;
+		    }
+		    .preview__controls {
+		        margin: 0 auto;
+		        margin-top: 10px;
+		        width: 100%;
+		    }
+		    .preview__controls__manage {
+		        justify-content: center;
+		    }
+		}
+
+		details {
+		    clear: both;
+		}
+
+		summary {
+		    font-weight: bold;
+		    margin: 5px 0;
+		}
+
+		summary:hover {
+		    cursor: pointer;
+		}
+
+		summary:focus {
+		    outline: none;
+		}
+
+		.clear-history {
+		    padding: 3px 12px;
+		    text-transform: uppercase;
+		    font-size: 12px;
+		    margin-bottom: 0;
+		}
+
+		.flip-button {
+		    width: 50px;
+		    padding-left: 10px;
+		    padding-right: 10px;
+		}
+
 	</style>
 
 	<script>
@@ -324,12 +441,40 @@
         </h1>
     </header>
 
-	<div class="image" id="preview">
-		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/pride.png" style="display: none">
-		<div class="image__iconwrapper" id="preview-icon-wrap">
-			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
-		</div>
-	</div>
+    <div class="preview-wrapper">
+    	<div>
+	    	<div class="image" id="preview">
+	    		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/pride.png" style="display: none">
+	    		<div class="image__iconwrapper" id="preview-icon-wrap">
+	    			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
+	    		</div>
+	    	</div>
+    	</div>
+    	<div class="preview__controls">
+    		<div class="preview__controls__manage">
+    			<div class="preview__controls__manage__group">
+    				<div class="preview__controls__manage__adjuster">
+    					<div><button onclick="decreaseSize()"><i class="fas fa-minus"></i></button></div>
+    					<div id="icon-size" class="preview__controls__manage__adjuster__value">{{ config.icon.size }}</div>
+    					<div><button onclick="increaseSize()"><i class="fas fa-plus"></i></button></div>
+    				</div>
+    				<div class="preview__controls__manage__adjuster">
+    					<div><button onclick="rotateLeft()"><i class="fas fa-undo"></i></button></div>
+    					<div id="icon-size" class="preview__controls__manage__adjuster__value">{{ config.rotation }}&deg;</div>
+    					<div><button onclick="rotateRight()"><i class="fas fa-redo"></i></button></div>
+    				</div>
+    			</div>
+    			<div class="preview__controls__manage__group">
+    				<div><button class="flip-button" onclick="toggleHFlip()"><i class="fas fa-arrows-alt-h"></i></button></div>
+    				<div><button class="flip-button" onclick="toggleVFlip()"><i class="fas fa-arrows-alt-v"></i></button></div>
+    			</div>
+    			<div class="preview__controls__manage__group">
+    				<button id="random"><i class="fas fa-random"></i></button>
+    				<button id="download"><i class="fas fa-download"></i></button>
+    			</div>
+    		</div>
+    	</div>
+    </div>
 
 	<div class="generated-wrapper">
 		<div class="image" id="generated">
@@ -338,16 +483,6 @@
 				<i id="generated-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 			</div>
 		</div>
-	</div>
-
-	<div class="buttons">
-		<div class="size-wrapper">
-			<div><button onclick="decreaseSize()"><i class="fas fa-minus"></i></button></div>
-			<div id="icon-size">{{ config.icon.size }}</div>
-			<div><button onclick="increaseSize()"><i class="fas fa-plus"></i></button></div>
-		</div>
-		<button id="random"><i class="fas fa-random"></i></button>
-		<button id="download"><i class="fas fa-download"></i></button>
 	</div>
 
 	<details>
@@ -475,7 +610,7 @@
 			},
 			color: "{{ config.light }}",
 			background: "{{ config.primary }}",
-			image: null,
+			image: null
 		}
 
 		run = function() {
@@ -760,8 +895,10 @@
 			PotData.color = getIconColorFromBackground(randomColor)
 			PotData.background = randomColor
 			PotData.image = null
-			PotData.gradient.left = null
-			PotData.gradient.right = null
+			PotData.gradient = {
+				left: null,
+				right: null,
+			}
 			update()
 		}
 	</script>

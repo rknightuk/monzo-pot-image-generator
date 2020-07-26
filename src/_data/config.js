@@ -8,5 +8,6 @@ module.exports = {
 		icon: "rocket",
 		prefix: "fas",
 		size: 100
-	}
+	},
+	rotation: 0,
 }
