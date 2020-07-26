@@ -671,8 +671,8 @@
 			let iconClassName = prefix + ' fa-' + icon
 			const rotation = PotData.rotation
 
-			if (rotation && rotation > 0) {
-				iconClassName += ' fa-rotate-' + rotation
+			if (rotation >= 0) {
+				if (rotation > 0) iconClassName += ' fa-rotate-' + rotation
 				document.getElementById('rotation').innerHTML = rotation + '&deg;'
 			}
 
