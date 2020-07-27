@@ -225,6 +225,10 @@
 			margin-top: 20px;
 		}
 
+		.icon-filter {
+			margin-bottom: 5px;
+		}
+
 		.icon-search {
 			width: 100%;
 		    margin-left: -10px;
@@ -621,7 +625,14 @@
 	</div>
 
 	<div class="icon-search-wrapper">
-		<input type="text" onkeyup="searchIcons()" id="icon-search" class="icon-search" placeholder="Search for an icon">
+		<div class="icon-filter">
+			<input id="filter-fas" type="checkbox" checked="checked" onchange="search()"><label for="filter-fas">Solid</label>
+			<input id="filter-far" type="checkbox" checked="checked" onchange="search()"><label for="filter-far">Regular</label>
+			<input id="filter-fal" type="checkbox" checked="checked" onchange="search()"><label for="filter-fal">Line</label>
+			<input id="filter-fad" type="checkbox" checked="checked" onchange="search()"><label for="filter-fad">Dual Tone</label>
+			<input id="filter-fab" type="checkbox" checked="checked" onchange="search()"><label for="filter-fab">Brands</label>
+		</div>
+		<input type="text" onkeyup="search()" id="icon-search" class="icon-search" placeholder="Search for an icon">
 		<div class="icons">
 			{% for icon in pro %}
 				<div 
@@ -675,7 +686,6 @@
 			const gradientLeft = PotData.gradientLeft
 			const gradientRight = PotData.gradientRight
 			if (gradientLeft && gradientRight) {
-				// document.getElementById('gradient-hex-inputs').style.display = 'flex'
 				document.getElementById('generated').style.background = 'none'
 				document.getElementById('preview').style.background = 'none'
 				const gradientStyle = 'linear-gradient(to top right, ' + gradientLeft + ', ' + gradientRight + ')'
@@ -686,8 +696,6 @@
 				document.getElementById('gradient-right-color-picker').value = gradientRight
 				document.getElementById('gradient-left-hex-input').value = gradientLeft.replace('#', '')
 				document.getElementById('gradient-right-hex-input').value = gradientRight.replace('#', '')
-			} else {
-				// document.getElementById('gradient-hex-inputs').style.display = 'none'
 			}
 
 			// icon color
@@ -858,11 +866,19 @@
 			)
 		}
 
-		searchIcons = function() {
+		search = function() {
 			const search = document.getElementById('icon-search').value.toLowerCase()
+			const filters = []
+			if (document.getElementById('filter-fas').checked) filters.push('fas')
+			if (document.getElementById('filter-far').checked) filters.push('far')
+			if (document.getElementById('filter-fal').checked) filters.push('fal')
+			if (document.getElementById('filter-fad').checked) filters.push('fad')
+			if (document.getElementById('filter-fab').checked) filters.push('fab')
 
 			Array.from(document.getElementsByClassName('icons__single')).forEach(function(element) {
-				element.style.display = element.dataset.keywords.includes(search) ? 'block' : 'none'
+				const keywordMatch = element.dataset.keywords.includes(search)
+				const filterMatch = filters.includes(element.dataset.prefix)
+				element.style.display = keywordMatch && filterMatch ? 'block' : 'none'
 			})
 		}
 
