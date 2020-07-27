@@ -152,11 +152,6 @@
 			align-items: center;
 		}
 
-		.size-wrapper button {
-			padding-left: 15px;
-			padding-right: 15px;
-		}
-
 		#icon-size {
 			margin-left: 0;
     		margin-right: 5px;
@@ -284,12 +279,6 @@
 
 		.example-card img {
 		    height: 100%;
-		}
-
-		.clear-history-button {
-			padding: 3px 12px;
-			text-transform: uppercase;
-			font-size: 12px;
 		}
 
 		.footer {
@@ -421,6 +410,19 @@
 		    text-transform: uppercase;
 		    font-size: 12px;
 		    margin-bottom: 0;
+		}
+
+		button {
+			padding-left: 10px;
+			padding-right: 10px;
+			width:40px;
+		}
+
+		.clear-history-button {
+			width: auto;
+			padding: 3px 12px;
+			text-transform: uppercase;
+			font-size: 12px;
 		}
 
 	</style>
@@ -579,6 +581,7 @@
 							value=""
 						>
 					</div>
+					<button id="random-gradient" style="padding-left: 10px;padding-right: 10px;width:40px;"><i class="fas fa-random"></i></button>
 				</div>
 			</div>
 		</div>
@@ -974,7 +977,8 @@
 		document.getElementById('random').onclick = function() {
 			const icons = Array.from(document.getElementsByClassName('icons__single'))
 			const randomElement = icons[Math.floor(Math.random() * icons.length)]
-			const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16)
+			const randomColor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+			const randomColor2 = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
 
 			PotData.icon = randomElement.dataset.key,
 			PotData.prefix = randomElement.dataset.prefix,
@@ -982,9 +986,19 @@
 			PotData.color = getIconColorFromBackground(randomColor)
 			PotData.backgroundColor = randomColor
 			PotData.image = null
-			PotData.gradientLeft = null
-			PotData.gradientRight = null
+			PotData.gradientLeft = randomColor
+			PotData.gradientRight = randomColor2
 			PotData.rotation = 0
+			update()
+		}
+
+		document.getElementById('random-gradient').onclick = function() {
+			const randomColor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+			const randomColor2 = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+
+			PotData.image = null
+			PotData.gradientLeft = randomColor
+			PotData.gradientRight = randomColor2
 			update()
 		}
 	</script>
