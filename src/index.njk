@@ -477,7 +477,6 @@
     				<div class="preview__controls__manage__adjuster">
     					<div><button onclick="decreaseSize()"><i class="fas fa-minus"></i></button></div>
     					<input min="0" max="200" type="number" id="icon-size" style="text-align: center;" value="{{ config.icon.size }}">
-    					<div id="icon-size" class="preview__controls__manage__adjuster__value">{{ config.icon.size }}</div>
     					<div><button onclick="increaseSize()"><i class="fas fa-plus"></i></button></div>
     				</div>
     				<div class="preview__controls__manage__adjuster">
@@ -704,7 +703,7 @@
 			document.getElementById('preview-icon-wrap').style.height = iconSize + 'px'
 			document.getElementById('generated-icon-wrap').style.width = (parseInt(iconSize, 10) * 4) + 'px';
 			document.getElementById('generated-icon-wrap').style.height = (parseInt(iconSize, 10) * 4) + 'px';
-			document.getElementById('icon-size').innerHTML = iconSize
+			document.getElementById('icon-size').value = iconSize
 
 			// icon
 			const icon = PotData.icon
@@ -734,16 +733,23 @@
 			}
 		}
 
-		changeSize = function(change) {
-			const result = parseInt(PotData.size, 10) + change
-			if (result <= 200 && result >= 25) {
-				PotData.size = parseInt(PotData.size, 10) + change
-				update()
-			}
+		changeSizeFromInput = function() {
+			changeSize(parseInt(document.getElementById('icon-size').value, 10))
 		}
 
-		increaseSize = function() { changeSize(25) }
-		decreaseSize = function() { changeSize(-25) }
+		changeSize = function(result) {
+			if (result > 200) { 
+				result = 200
+			} else if (result < 0) {
+				result = 0
+			}
+
+			PotData.size = result
+			update()
+		}
+
+		increaseSize = function() { changeSize(parseInt(PotData.size, 10) + 25) }
+		decreaseSize = function() { changeSize(parseInt(PotData.size, 10) - 25) }
 
 		rotate = function(change) {
 			let result = parseInt(PotData.rotation ? PotData.rotation : 0, 10) + change
@@ -963,6 +969,9 @@
 		document.getElementById('icon-hex-input').addEventListener("keyup", setIconColorFromInput, false)
 		document.getElementById('gradient-left-hex-input').addEventListener("keyup", setGradientFromInputs, false)
 		document.getElementById('gradient-right-hex-input').addEventListener("keyup", setGradientFromInputs, false)
+
+		document.getElementById('icon-size').addEventListener("change", changeSizeFromInput, false)
+		document.getElementById('icon-size').addEventListener("keyup", changeSizeFromInput, false)
 
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
