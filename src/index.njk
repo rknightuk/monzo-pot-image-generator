@@ -296,11 +296,17 @@
 			text-align: center;
 		}
 
+		.hex-inputs {
+			display: flex;
+		    clear: both;
+		}
+
 		.hex-input-wrap {
 			display: flex;
     		align-items: center;
 		    clear: both;
 		    margin-bottom: 5px;
+		    margin-right: 5px;
 		}
 
 		.hex-input-icon {
@@ -547,6 +553,32 @@
 				{% for gradient in gradients %}
 					<div class="color" onclick="setGradientColor('{{ gradient.left }}', '{{ gradient.right }}')" style="background-image: linear-gradient(to top right, {{ gradient.left }}, {{ gradient.right }});"></div>	
 				{% endfor %}
+				<div class="hex-inputs" id="gradient-hex-inputs">
+					<div class="hex-input-wrap">
+						<div class="hex-input-icon">
+							<input class="hex-selector" type="color" id="gradient-left-color-picker" value="">
+						</div>
+						<input 
+							maxlength="6" 
+							type="text" 
+							class="hex-input" 
+							id="gradient-left-hex-input" 
+							value=""
+						>
+					</div>
+					<div class="hex-input-wrap">
+						<div class="hex-input-icon">
+							<input class="hex-selector" type="color" id="gradient-right-color-picker" value="">
+						</div>
+						<input 
+							maxlength="6" 
+							type="text" 
+							class="hex-input" 
+							id="gradient-right-hex-input" 
+							value=""
+						>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="picker-wrapper">
@@ -638,11 +670,19 @@
 			const gradientLeft = PotData.gradientLeft
 			const gradientRight = PotData.gradientRight
 			if (gradientLeft && gradientRight) {
+				// document.getElementById('gradient-hex-inputs').style.display = 'flex'
 				document.getElementById('generated').style.background = 'none'
 				document.getElementById('preview').style.background = 'none'
 				const gradientStyle = 'linear-gradient(to top right, ' + gradientLeft + ', ' + gradientRight + ')'
 				document.getElementById('preview').style.background = gradientStyle
 				document.getElementById('generated').style.background = gradientStyle
+
+				document.getElementById('gradient-left-color-picker').value = gradientLeft
+				document.getElementById('gradient-right-color-picker').value = gradientRight
+				document.getElementById('gradient-left-hex-input').value = gradientLeft.replace('#', '')
+				document.getElementById('gradient-right-hex-input').value = gradientRight.replace('#', '')
+			} else {
+				// document.getElementById('gradient-hex-inputs').style.display = 'none'
 			}
 
 			// icon color
@@ -731,7 +771,7 @@
 		}
 
 		setGradientColor = function(left, right) {
-			PotData.gradientLeft =left
+			PotData.gradientLeft = left
 			PotData.gradientRight = right
 			PotData.image = null
 			update()
@@ -747,6 +787,8 @@
 
 		setBackgroundImage = function(backgroundImage, setToDarkIcon) {
 			PotData.image = backgroundImage
+			PotData.gradientLeft = null
+			PotData.gradientRight = null
 			if (contrastChangeEnabled()) PotData.color = setToDarkIcon ? "{{ config.dark }}" : "{{ config.light }}"
 			update()
 		}
@@ -788,6 +830,20 @@
 
 		setIconColorFromInput = function() {
 			setIconColor('#' + document.getElementById('icon-hex-input').value)
+		}
+
+		setGradientFromPickers = function() {
+			setGradientColor(
+				document.getElementById('gradient-left-color-picker').value,
+				document.getElementById('gradient-right-color-picker').value
+			)
+		}
+
+		setGradientFromInputs = function() {
+			setGradientColor(
+				document.getElementById('gradient-left-hex-input').value ? '#' + document.getElementById('gradient-left-hex-input').value : null,
+				document.getElementById('gradient-right-hex-input').value ? '#' + document.getElementById('gradient-right-hex-input').value : null,
+			)
 		}
 
 		searchIcons = function() {
@@ -894,8 +950,13 @@
 
 		document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromPicker, false)
 		document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromPicker, false)
+		document.getElementById('gradient-left-color-picker').addEventListener("input", setGradientFromPickers, false)
+		document.getElementById('gradient-right-color-picker').addEventListener("input", setGradientFromPickers, false)
+
 		document.getElementById('background-hex-input').addEventListener("keyup", setBackgroundColorFromInput, false)
 		document.getElementById('icon-hex-input').addEventListener("keyup", setIconColorFromInput, false)
+		document.getElementById('gradient-left-hex-input').addEventListener("keyup", setGradientFromInputs, false)
+		document.getElementById('gradient-right-hex-input').addEventListener("keyup", setGradientFromInputs, false)
 
 		document.getElementById('download').onclick = function() {
 		  domtoimage.toBlob(document.getElementById('generated'))
