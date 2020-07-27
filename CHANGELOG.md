@@ -1,3 +1,11 @@
+## 2.2
+
+- Design tweaks to be better on wider screens
+- Custom gradients including generatin random ones
+- Icon rotation
+- Font Awesome Pro: Solid, regular, light, and duotone are all available
+- Filters for icon types
+
 ## 2.1
 
 - Input for hex colors
