@@ -445,7 +445,8 @@
 		}
 	</script>
 
-	<script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script>
+	<script defer src="/assets/js/fa-pro.min.js"></script>
+	<!-- <script src="https://kit.fontawesome.com/1d7e8c2c3e.js" crossorigin="anonymous"></script> -->
 	<script src="/assets/js/dom-to-image.min.js"></script>
 	<script src="/assets/js/FileSaver.min.js"></script>
 
@@ -619,19 +620,19 @@
 	<div class="icon-search-wrapper">
 		<input type="text" onkeyup="searchIcons()" id="icon-search" class="icon-search" placeholder="Search for an icon">
 		<div class="icons">
-			{% for icon in icons %}
+			{% for icon in pro %}
 				<div 
 					title="{{ icon.key }}"
 					data-key="{{ icon.key }}"
-					data-prefix="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}"
-					data-keywords="{{ icon.label.toLowerCase() }} {% for keyword in icon.search.terms %} {{ keyword }} {% endfor%}"
+					data-prefix="{{ icon.prefix }}"
+					data-keywords="{% for keyword in icon.keywords %} {{ keyword }} {% endfor%}"
 					class="icons__single" 
 					onclick="setIcon(
 						'{{ icon.key }}', 
-						'{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %}'
+						'{{ icon.prefix }}'
 					)"
 				">
-					<i class="{% if icon.free.includes('brands') %}fab{% else %}fas{% endif %} fa-{{ icon.key }}"></i>
+					<i class="{{ icon.prefix }} fa-{{ icon.key }}"></i>
 				</div>
 			{% endfor %}
 		</div>
