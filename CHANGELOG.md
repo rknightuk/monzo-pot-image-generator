@@ -1,3 +1,7 @@
+## 2.3
+
+- Add text to images
+
 ## 2.2
 
 - Design tweaks to be better on wider screens
