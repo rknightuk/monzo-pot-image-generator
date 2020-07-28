@@ -626,11 +626,11 @@
 
 	<div class="icon-search-wrapper">
 		<div class="icon-filter">
-			<input id="filter-fas" type="checkbox" checked="checked" onchange="search()"><label for="filter-fas">Solid</label>
-			<input id="filter-far" type="checkbox" checked="checked" onchange="search()"><label for="filter-far">Regular</label>
-			<input id="filter-fal" type="checkbox" checked="checked" onchange="search()"><label for="filter-fal">Light</label>
-			<input id="filter-fad" type="checkbox" checked="checked" onchange="search()"><label for="filter-fad">Duotone</label>
-			<input id="filter-fab" type="checkbox" checked="checked" onchange="search()"><label for="filter-fab">Brands</label>
+			<input name="icon-filter" id="fas" value="fas" type="radio" checked="checked" onchange="search()"><label for="fas">Solid</label>
+			<input name="icon-filter" id="far" value="far" type="radio" onchange="search()"><label for="far">Regular</label>
+			<input name="icon-filter" id="fal" value="fal" type="radio" onchange="search()"><label for="fal">Light</label>
+			<input name="icon-filter" id="fad" value="fad" type="radio" onchange="search()"><label for="fad">Duotone</label>
+			<input name="icon-filter" id="fab" value="fab" type="radio" onchange="search()"><label for="fab">Brands</label>
 		</div>
 		<input type="text" onkeyup="search()" id="icon-search" class="icon-search" placeholder="Search for an icon">
 		<div class="icons">
@@ -645,6 +645,7 @@
 						'{{ icon.key }}', 
 						'{{ icon.prefix }}'
 					)"
+					style="{% if icon.prefix !== 'fas' %}display: none;{% endif %}
 				">
 					<i class="{{ icon.prefix }} fa-{{ icon.key }}"></i>
 				</div>
@@ -868,12 +869,7 @@
 
 		search = function() {
 			const search = document.getElementById('icon-search').value.toLowerCase()
-			const filters = []
-			if (document.getElementById('filter-fas').checked) filters.push('fas')
-			if (document.getElementById('filter-far').checked) filters.push('far')
-			if (document.getElementById('filter-fal').checked) filters.push('fal')
-			if (document.getElementById('filter-fad').checked) filters.push('fad')
-			if (document.getElementById('filter-fab').checked) filters.push('fab')
+			const filters = [document.querySelector('input[name="icon-filter"]:checked').value]
 
 			Array.from(document.getElementsByClassName('icons__single')).forEach(function(element) {
 				const keywordMatch = element.dataset.keywords.includes(search)
