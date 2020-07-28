@@ -284,6 +284,7 @@
 
 		.example-card img {
 		    height: 100%;
+		    width: 100%;
 		}
 
 		.footer {
@@ -434,15 +435,24 @@
 			font-family: 'Work Sans', sans-serif;
 			position: absolute;
 			color: {{config.light}};
-			top: -10px;
-			right: 16px;
-			font-size: 2.1em;
 			line-height: 0;
 		}
 
+		.example-card-text {
+			top: -1px;
+			right: 3px;
+			font-size: 0.5em;
+		}
+
+		#preview .image-text {
+			top: -18px;
+			right: 9px;
+			font-size: 2.1em;
+		}
+
 		#generated .image-text {
-			top: -58px;
-			right: 32px;
+			top: -74px;
+			right: 36px;
 			font-size: 8.3em;
 		}
 
@@ -644,6 +654,7 @@
 				<input 
 					type="text"
 					id="text-input" 
+					class="text-input" 
 					value=""
 					onkeyup="setText()" 
 				>
@@ -769,7 +780,7 @@
 			}
 
 			// text
-			const text = document.getElementById('text-input').value
+			const text = PotData.text
 			document.getElementById('preview-image-text').innerHTML = text
 			document.getElementById('generated-image-text').innerHTML = text
 			document.getElementById('text-input').value = text
@@ -940,6 +951,7 @@
 				gradientLeft: data.gradientLeft,
 				gradientRight: data.gradientRight,
 				rotation: data.rotation ? data.rotation : 0,
+				text: data.text != null ? data.text : '',
 			}
 			update()
 		}
@@ -962,12 +974,20 @@
 			card.dataset.prefix = data.prefix
 			card.dataset.size = data.size
 			card.dataset.image = data.image
+			card.dataset.text = data.text
 			card.onclick = loadCard
 
 			if (data.image) {
 				let image = document.createElement('img')
 				image.src = data.image
 				card.appendChild(image)
+			}
+
+			if (data.text != null) {
+				let text = document.createElement('p')
+				text.className = 'example-card-text image-text'
+				text.innerHTML = data.text
+				card.appendChild(text)
 			}
 
 			let icon = document.createElement('div')
