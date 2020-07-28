@@ -25,9 +25,9 @@
 	<title>{{ config.title }}</title>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&display=swap" rel="stylesheet" crossorigin="anonymous">
 
-	<style type="text/css">
+	<style type="text/css">		
 		body {
 			max-width: 1000px
 		}
@@ -431,14 +431,19 @@
 		}
 
 		.image-text {
-			font-family: 'Roboto', sans-serif;
+			font-family: 'Work Sans', sans-serif;
 			position: absolute;
-			top: -17px;
-			right: 5px;
-			color: white;
-			letter-spacing: 1px;
+			color: {{config.light}};
+			top: -10px;
+			right: 16px;
 			font-size: 2.1em;
 			line-height: 0;
+		}
+
+		#generated .image-text {
+			top: -58px;
+			right: 32px;
+			font-size: 8.3em;
 		}
 
 	</style>
@@ -485,9 +490,7 @@
 	    		<div class="image__iconwrapper" id="preview-icon-wrap">
 	    			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 	    		</div>
-	    		<p class="image-text">
-	    			monzo
-	    		</p>
+	    		<p class="image-text" id="preview-image-text"></p>
 	    	</div>
     	</div>
     	<div class="preview__controls">
@@ -545,6 +548,7 @@
 			<div class="image__iconwrapper" id="generated-icon-wrap">
 				<i id="generated-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 			</div>
+			<p class="image-text" id="generated-image-text"></p>
 		</div>
 	</div>
 
@@ -635,6 +639,14 @@
 						onclick="setBackgroundImage('/assets/img/backgrounds/{{ image.path }}', {% if image.type === 'light' %}true{% else %}false{% endif %})"
 					>
 				{% endfor %}
+				<div style="clear: both;"></div>
+				<h2>Text</h2>
+				<input 
+					type="text"
+					id="text-input" 
+					value=""
+					onkeyup="setText()" 
+				>
 			</div>
 		</div>
 	</div>
@@ -755,6 +767,12 @@
 				document.getElementById('preview-overlay-image').style.display = 'none'
 				document.getElementById('generated-overlay-image').style.display = 'none'
 			}
+
+			// text
+			const text = document.getElementById('text-input').value
+			document.getElementById('preview-image-text').innerHTML = text
+			document.getElementById('generated-image-text').innerHTML = text
+			document.getElementById('text-input').value = text
 		}
 
 		changeSizeFromInput = function() {
@@ -826,6 +844,11 @@
 			PotData.gradientLeft = null
 			PotData.gradientRight = null
 			if (contrastChangeEnabled()) PotData.color = setToDarkIcon ? "{{ config.dark }}" : "{{ config.light }}"
+			update()
+		}
+
+		setText = function() {
+			PotData.text = document.getElementById('text-input').value
 			update()
 		}
 
