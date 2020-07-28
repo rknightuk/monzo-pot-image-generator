@@ -25,6 +25,7 @@
 	<title>{{ config.title }}</title>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
 
 	<style type="text/css">
 		body {
@@ -429,6 +430,17 @@
 			font-size: 12px;
 		}
 
+		.image-text {
+			font-family: 'Roboto', sans-serif;
+			position: absolute;
+			top: -17px;
+			right: 5px;
+			color: white;
+			letter-spacing: 1px;
+			font-size: 2.1em;
+			line-height: 0;
+		}
+
 	</style>
 
 	<script>
@@ -473,6 +485,9 @@
 	    		<div class="image__iconwrapper" id="preview-icon-wrap">
 	    			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
 	    		</div>
+	    		<p class="image-text">
+	    			monzo
+	    		</p>
 	    	</div>
     	</div>
     	<div class="preview__controls">
