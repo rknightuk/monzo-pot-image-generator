@@ -658,6 +658,23 @@
 					value=""
 					onkeyup="setText()" 
 				>
+				<div style="margin-top: 0">
+					{% for color in colors.icon %}
+						<div class="color" onclick="setTextColor('{{ color }}')" style="background: {{ color }};"></div>	
+					{% endfor %}
+					<div class="hex-input-wrap">
+						<div class="hex-input-icon">
+							<input type="color" class="hex-selector" id="text-color-picker" value="{{ config.light }}">
+						</div>
+						<input 
+							maxlength="6" 
+							type="text" 
+							class="hex-input" 
+							id="text-hex-input" 
+							value="{{ config.light.replace('#', '') }}"
+						>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -781,9 +798,16 @@
 
 			// text
 			const text = PotData.text
-			document.getElementById('preview-image-text').innerHTML = text
-			document.getElementById('generated-image-text').innerHTML = text
-			document.getElementById('text-input').value = text
+			const textColor = PotData.textColor ? PotData.textColor : "{{ config.light }}"
+			document.getElementById('text-color-picker').value = textColor
+			document.getElementById('text-hex-input').value = textColor.replace('#', '')
+			if (text != null) {
+				document.getElementById('preview-image-text').innerHTML = text
+				document.getElementById('preview-image-text').style.color = textColor
+				document.getElementById('generated-image-text').innerHTML = text
+				document.getElementById('generated-image-text').style.color = textColor
+				document.getElementById('text-input').value = text
+			}
 		}
 
 		changeSizeFromInput = function() {
@@ -874,6 +898,11 @@
 			update()
 		}
 
+		setTextColor = function(color) {
+			PotData.textColor = color
+			update()
+		}
+
 		getIconColorFromBackground = function(bgColor) {
 		   var nThreshold = 105;
 		   var components = getRGBComponents(bgColor);
@@ -898,8 +927,16 @@
 			setIconColor(document.getElementById('icon-color-picker').value)
 		}
 
+		setTextColorFromPicker = function() {
+			setTextColor(document.getElementById('text-color-picker').value)
+		}
+
 		setIconColorFromInput = function() {
 			setIconColor('#' + document.getElementById('icon-hex-input').value)
+		}
+
+		setTextColorFromInput = function() {
+			setTextColor('#' + document.getElementById('text-hex-input').value)
 		}
 
 		setGradientFromPickers = function() {
@@ -947,11 +984,12 @@
 				size: data.size,
 				color: data.color,
 				backgroundColor: data.background,
-				image: data.image,
+				image: data.image != null ? data.image : '',
 				gradientLeft: data.gradientLeft,
 				gradientRight: data.gradientRight,
 				rotation: data.rotation ? data.rotation : 0,
 				text: data.text != null ? data.text : '',
+				textColor: data.textColor != null ? data.textColor : "{{config.light}}",
 			}
 			update()
 		}
@@ -975,6 +1013,7 @@
 			card.dataset.size = data.size
 			card.dataset.image = data.image
 			card.dataset.text = data.text
+			card.dataset.textColor = data.textColor
 			card.onclick = loadCard
 
 			if (data.image) {
@@ -987,6 +1026,7 @@
 				let text = document.createElement('p')
 				text.className = 'example-card-text image-text'
 				text.innerHTML = data.text
+				text.style.color = data.textColor
 				card.appendChild(text)
 			}
 
@@ -1034,11 +1074,13 @@
 		document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromPicker, false)
 		document.getElementById('gradient-left-color-picker').addEventListener("input", setGradientFromPickers, false)
 		document.getElementById('gradient-right-color-picker').addEventListener("input", setGradientFromPickers, false)
+		document.getElementById('text-color-picker').addEventListener("input", setTextColorFromPicker, false)
 
 		document.getElementById('background-hex-input').addEventListener("keyup", setBackgroundColorFromInput, false)
 		document.getElementById('icon-hex-input').addEventListener("keyup", setIconColorFromInput, false)
 		document.getElementById('gradient-left-hex-input').addEventListener("keyup", setGradientFromInputs, false)
 		document.getElementById('gradient-right-hex-input').addEventListener("keyup", setGradientFromInputs, false)
+		document.getElementById('text-hex-input').addEventListener("keyup", setTextColorFromInput, false)
 
 		document.getElementById('icon-size').addEventListener("change", changeSizeFromInput, false)
 		document.getElementById('icon-size').addEventListener("keyup", changeSizeFromInput, false)
