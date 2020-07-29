@@ -6,7 +6,7 @@ module.exports = {
 	light: "#f7f7f7",
 	icon: {
 		icon: "rocket",
-		prefix: "fas",
+		prefix: "fad",
 		size: 100
 	},
 	rotation: 0,
