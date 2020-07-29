@@ -650,31 +650,33 @@
 					>
 				{% endfor %}
 				<div style="clear: both;"></div>
-				<h2>Text</h2>
-				<input 
-					type="text"
-					id="text-input" 
-					class="text-input" 
-					value=""
-					onkeyup="setText()" 
-				>
-				<div style="margin-top: 0">
-					{% for color in colors.icon %}
-						<div class="color" onclick="setTextColor('{{ color }}')" style="background: {{ color }};"></div>	
-					{% endfor %}
-					<div class="hex-input-wrap">
-						<div class="hex-input-icon">
-							<input type="color" class="hex-selector" id="text-color-picker" value="{{ config.light }}">
+				<details>
+					<summary>Text</summary>
+					<input 
+						type="text"
+						id="text-input" 
+						class="text-input" 
+						value=""
+						onkeyup="setText()" 
+					>
+					<div style="margin-top: 0">
+						{% for color in colors.icon %}
+							<div class="color" onclick="setTextColor('{{ color }}')" style="background: {{ color }};"></div>	
+						{% endfor %}
+						<div class="hex-input-wrap">
+							<div class="hex-input-icon">
+								<input type="color" class="hex-selector" id="text-color-picker" value="{{ config.light }}">
+							</div>
+							<input 
+								maxlength="6" 
+								type="text" 
+								class="hex-input" 
+								id="text-hex-input" 
+								value="{{ config.light.replace('#', '') }}"
+							>
 						</div>
-						<input 
-							maxlength="6" 
-							type="text" 
-							class="hex-input" 
-							id="text-hex-input" 
-							value="{{ config.light.replace('#', '') }}"
-						>
 					</div>
-				</div>
+				</details>
 			</div>
 		</div>
 	</div>
