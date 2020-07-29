@@ -1,4 +1,9 @@
-update = function() {
+update = function(data) {
+	window.PotData = {
+		...PotData,
+		...data,
+	}
+
 	// background color
 	const backgroundColor = PotData.backgroundColor
 	document.getElementById('generated').style.background = backgroundColor
@@ -89,8 +94,7 @@ changeSize = function(result) {
 		result = 0
 	}
 
-	PotData.size = result
-	update()
+	update({ size: result })
 }
 
 increaseSize = function() { changeSize(parseInt(PotData.size, 10) + 25) }
@@ -105,8 +109,7 @@ rotate = function(change) {
 	} else if (result === -180) {
 		result = 180
 	}
-	PotData.rotation = result
-	update()
+	update({ rotation: result })
 }
 
 rotateLeft = function() { rotate(-90) }
@@ -117,21 +120,21 @@ contrastChangeEnabled = function() {
 }
 
 setBackgroundColor = function(color, skipContrast) {
-	PotData.backgroundColor = color
-	PotData.image = null
-	PotData.gradientLeft = null
-	PotData.gradientRight = null
-	if (contrastChangeEnabled()) {
-		PotData.color = getIconColorFromBackground(color)
-	}
-	update()
+	update({
+		backgroundColor: color,
+		image: null,
+		gradientLeft: null,
+		gradientRight: null,
+		color: contrastChangeEnabled ? getIconColorFromBackground(color) : PotData.color,
+	})
 }
 
 setGradientColor = function(left, right) {
-	PotData.gradientLeft = left
-	PotData.gradientRight = right
-	PotData.image = null
-	update()
+	update({
+		gradientLeft: left,
+		gradientRight: right,
+		image: null,
+	})
 }
 
 setBackgroundColorFromPicker = function() {
@@ -143,32 +146,33 @@ setBackgroundColorFromInput = function() {
 }
 
 setBackgroundImage = function(backgroundImage, setToDarkIcon) {
-	PotData.image = backgroundImage
-	PotData.gradientLeft = null
-	PotData.gradientRight = null
-	if (contrastChangeEnabled()) PotData.color = setToDarkIcon ? MPIGConfig.dark : MPIGConfig.light
-	update()
+	update({
+		image: backgroundImage,
+		gradientLeft: null,
+		gradientRight: null,
+		color: contrastChangeEnabled() && setToDarkIcon ? MPIGConfig.dark : MPIGConfig.light,
+	})
 }
 
 setText = function() {
-	PotData.text = document.getElementById('text-input').value
-	update()
+	update({
+		text: document.getElementById('text-input').value,
+	})
 }
 
 setIcon = function(icon, prefix) {
-	PotData.icon = icon
-	PotData.prefix = prefix
-	update()
+	update({
+		icon: icon,
+		prefix: prefix,
+	})
 }
 
 setIconColor = function(iconColor) {
-	PotData.color = iconColor
-	update()
+	update({ color: iconColor })
 }
 
 setTextColor = function(color) {
-	PotData.textColor = color
-	update()
+	update({ textColor: color })
 }
 
 getIconColorFromBackground = function(bgColor) {
@@ -246,7 +250,7 @@ loadCard = function(e) {
 	if (e.target.className !== 'example-card') { // clicked the icon not the card itself
 		data = e.target.closest('.example-card').dataset
 	}
-	PotData = {
+	update({
 		icon: data.icon,
 		prefix: data.prefix,
 		size: data.size,
@@ -258,8 +262,7 @@ loadCard = function(e) {
 		rotation: data.rotation ? data.rotation : 0,
 		text: data.text != null ? data.text : '',
 		textColor: data.textColor != null ? data.textColor : MPIGConfig.light,
-	}
-	update()
+	})
 }
 
 addHistoryCard = function(data) {
@@ -372,24 +375,26 @@ document.getElementById('random').onclick = function() {
 	const randomElement = icons[Math.floor(Math.random() * icons.length)]
 	const randomColor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
 
-	PotData.icon = randomElement.dataset.key,
-	PotData.prefix = randomElement.dataset.prefix,
-	PotData.size = PotData.size,
-	PotData.color = getIconColorFromBackground(randomColor)
-	PotData.backgroundColor = randomColor
-	PotData.image = null
-	PotData.gradientLeft = null
-	PotData.gradientRight = null
-	PotData.rotation = 0
-	update()
+	update({
+		icon: randomElement.dataset.key,
+		prefix: randomElement.dataset.prefix,
+		size: PotData.size,
+		color: getIconColorFromBackground(randomColor),
+		backgroundColor: randomColor,
+		image: null,
+		gradientLeft: null,
+		gradientRight: null,
+		rotation: 0,
+	})
 }
 
 document.getElementById('random-gradient').onclick = function() {
 	const randomColor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
 	const randomColor2 = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
 
-	PotData.image = null
-	PotData.gradientLeft = randomColor
-	PotData.gradientRight = randomColor2
-	update()
+	update({
+		image: null,
+		gradientLeft: randomColor,
+		gradientRight: randomColor2,
+	})
 }
