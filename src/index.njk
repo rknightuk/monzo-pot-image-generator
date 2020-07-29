@@ -1074,6 +1074,7 @@
 		document.getElementById('icon-size').addEventListener("keyup", changeSizeFromInput, false)
 
 		document.getElementById('download').onclick = function() {
+		  window.fathom.trackGoal('QAZHZCEC', 0);
 		  domtoimage.toBlob(document.getElementById('generated'))
 		      .then(function (blob) {
 		      	// doing this twice fixes a bug where an image background wouldn't show on first download
