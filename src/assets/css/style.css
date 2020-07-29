@@ -1,0 +1,424 @@
+body {
+	max-width: 1000px
+}
+h2 {
+	font-size: 1.2em;
+	margin-bottom: 3px;
+	margin-top: 0;
+}
+
+.header {
+    margin: 0 auto;
+}
+
+.header__main {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+@media (max-width: 475px) {
+    .header__main {
+        font-size: 1.5em;
+    }
+}
+
+.header__icon {
+    color: #ff1414;
+}
+
+@media (max-width: 800px) {
+    .preview__controls__manage__group {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 700px) {
+	.header {
+        text-align: center;
+    }
+    .preview-wrapper {
+        flex-direction: column;
+    }
+    .preview__controls {
+        margin: 0 auto;
+        margin-top: 10px;
+        width: 100%;
+    }
+    .preview__controls__manage {
+        justify-content: center;
+    }
+}
+
+.image {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.image__iconwrapper {
+    position: absolute;
+}
+
+.image__iconwrapper svg {
+	width: 100%!important;
+	height: 100%!important;
+}
+
+.overlay-image {
+	position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.preview-wrapper {
+	margin-top: 10px;
+	display: flex;
+	min-height: 225px;
+}
+
+#preview {
+	width: 316px;
+	height: 205px;
+	border-radius: 10px;
+	box-shadow: 3px 3px 2px 0px rgba(214,214,214,1);
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#preview .image__iconwrapper {
+	width: 100px;
+    height: 100px;
+}
+
+.generated-wrapper {
+	overflow: hidden;
+	height: 0;
+}
+
+#generated {
+	width: 1266px;
+	height: 822px;
+}
+
+#generated .image__iconwrapper {
+	width: 400px;
+    height: 400px;
+}
+
+.size-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#icon-size {
+	margin-left: 0;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.buttons {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+.config-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.picker-wrapper {
+	flex: 1;
+	flex-basis: 50%;
+}
+
+.picker {
+	overflow: auto;
+	padding: 5px;
+}
+
+.color {
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	float: left;
+	border-radius: 4px;
+	margin: 0px 6px 6px 0px;
+}
+
+.color-input {
+    position: relative;
+	float: left;
+	width: 30px;
+    height: 30px;
+}
+
+.color-input input {
+	outline: none;
+	padding: 0;
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.background {
+	height: 50px;
+	width: 75px;
+	max-width: 100%;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	float: left;
+	border-radius: 4px;
+	margin: 0px 6px 6px 0px;
+}
+
+.icon-search-wrapper {
+	margin-top: 20px;
+}
+
+.icon-filter {
+	margin-bottom: 5px;
+}
+
+.icon-search {
+	width: 100%;
+    margin-left: -10px;
+}
+
+.icons {
+	height: 400px;
+	overflow: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.icons__single {
+	text-align: center;
+	cursor: pointer;
+	padding: 5px;
+	flex-basis: 75px;
+	font-size: 40px;
+}
+
+.icons__single:hover {
+	background: #f3f3f3;
+}
+
+.examples {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 5px;
+}
+
+.example-card {
+    position: relative;
+    float: left;
+	overflow: hidden;
+	width: 85px;
+	height: 55px;
+	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	flex-basis: 85px;
+}
+
+.example-card img,
+.example-card-icon {
+	position: absolute;
+}
+
+.example-card img {
+    height: 100%;
+    width: 100%;
+}
+
+.footer {
+	text-align: center;
+}
+
+.hex-inputs {
+	display: flex;
+    clear: both;
+}
+
+.hex-input-wrap {
+	display: flex;
+	align-items: center;
+    clear: both;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.hex-input-icon {
+    border: 1px solid #EEEFEE;
+    height: 36px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #676767;
+    position: relative;
+}
+
+.hex-selector {
+	padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+}
+
+.hex-input {
+    margin: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    text-transform: lowercase;
+    width: 60px;
+}
+
+.preview {
+    margin-top: 10px;
+    display: flex;
+    min-height: 225px;
+}
+
+.preview__controls {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.preview__controls__manage {
+    display: flex;
+}
+
+.preview__controls__manage__group {
+    display: flex;
+}
+
+.preview__controls__manage__adjuster {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.preview__controls__manage__adjuster button {
+    width: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.preview__controls__manage__adjuster__value {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    width: 40px;
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+    .preview__controls__manage__group {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 700px) {
+    .preview {
+        flex-direction: column;
+    }
+    .preview__controls {
+        margin: 0 auto;
+        margin-top: 10px;
+        width: 100%;
+    }
+    .preview__controls__manage {
+        justify-content: center;
+    }
+}
+
+details {
+    clear: both;
+}
+
+summary {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+summary:hover {
+    cursor: pointer;
+}
+
+summary:focus {
+    outline: none;
+}
+
+.clear-history {
+    padding: 3px 12px;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-bottom: 0;
+}
+
+button {
+	padding-left: 10px;
+	padding-right: 10px;
+	width:40px;
+}
+
+.clear-history-button {
+	width: auto;
+	padding: 3px 12px;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+.image-text {
+	font-family: 'Work Sans', sans-serif;
+	position: absolute;
+	line-height: 0;
+}
+
+.example-card-text {
+	top: -1px;
+	right: 3px;
+	font-size: 0.5em;
+}
+
+#preview .image-text {
+	top: -8px;
+	right: 9px;
+	font-size: 2.1em;
+}
+
+#generated .image-text {
+	top: -44px;
+	right: 36px;
+	font-size: 8.3em;
+}
