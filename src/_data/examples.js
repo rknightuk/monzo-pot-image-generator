@@ -1,121 +1,86 @@
 module.exports = [
 	{
-		icon: {
-			icon: "home",
-			prefix: "fas",
-			size: 100,
-		},
+		icon: "home",
+		prefix: "fas",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#f1c40f",
-		image: null
+		backgroundColor: "#f1c40f",
 	},
 	{
-		icon: {
-			icon: "coins",
-			prefix: "fas",
-			size: 100,
-		},
+		icon: "coins",
+		prefix: "fas",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#e67e22",
-		image: null
+		backgroundColor: "#e67e22",
 	},
 	{
-		icon: {
-			icon: "umbrella-beach",
-			prefix: "fas",
-			size: 100,
-		},
+		icon: "umbrella-beach",
+		prefix: "fas",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#3498db",
-		image: null
+		backgroundColor: "#3498db",
 	},
 	{
-		icon: {
-			icon: "gas-pump",
-			prefix: "fas",
-			size: 100,
-		},
+		icon: "gas-pump",
+		prefix: "fas",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#9b59b6"
+		backgroundColor: "#9b59b6"
 	},
 	{
-		icon: {
-			icon: "cloud-rain",
-			prefix: "fas",
-			size: 100,
-		},
+		icon: "cloud-rain",
+		prefix: "fas",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#7f8c8d",
-		image: null
+		backgroundColor: "#7f8c8d",
 	},
 	{
-		icon: {
-			icon: "gifts",
-			prefix: "fas",
-			size: 100,
-		},
+		icon: "gifts",
+		prefix: "fas",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#27ae60",
-		image: null
+		backgroundColor: "#27ae60",
 	},
 	{
-		icon: {
-			icon: "receipt",
-			prefix: "fas",
-			size: 100,
-		},
+		icon: "receipt",
+		prefix: "fas",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#008D8E",
-		image: null
+		backgroundColor: "#008D8E",
 	},
 	{
-		icon: {
-			icon: "playstation",
-			prefix: "fab",
-			size: 100
-		},
+		icon: "playstation",
+		prefix: "fab",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#003087",
-		image: null
+		backgroundColor: "#003087",
 	},
 	{
-		icon: {
-			icon: "xbox",
-			prefix: "fab",
-			size: 100
-		},
+		icon: "xbox",
+		prefix: "fab",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#52b043",
-		image: null
+		backgroundColor: "#52b043",
 	},
 	{
-		icon: {
-			icon: "steam",
-			prefix: "fab",
-			size: 100
-		},
+		icon: "steam",
+		prefix: "fab",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#333333",
-		image: null
+		backgroundColor: "#333333",
 	},
 	{
-		icon: {
-			icon: 'dropbox',
-        	prefix: 'fab',
-        	size: 100,
-		},
+		icon: 'dropbox',
+    	prefix: 'fab',
+    	size: 100,
 		color: '#f7f7f7',
-		background: '#007ee5',
-		image: null,
+		backgroundColor: '#007ee5',
     },
 	{
-		icon: {
-			icon: "cc-amex",
-			prefix: "fab",
-			size: 100
-		},
+		icon: "cc-amex",
+		prefix: "fab",
+		size: 100,
 		color: "#f7f7f7",
-		background: "#4d4f53",
-		image: null
+		backgroundColor: "#4d4f53",
 	}
 ]

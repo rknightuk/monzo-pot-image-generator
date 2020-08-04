@@ -54,7 +54,7 @@
 	    	<div class="image" id="preview" style="background:{{ config.primary }}">
 	    		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/pride.png" style="display: none">
 	    		<div class="image__iconwrapper" id="preview-icon-wrap" style="color: {{ config.light }}">
-	    			<i id="preview-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
+	    			<i id="preview-icon" class="{{ config.prefix }} fa-{{ config.icon }}"></i>
 	    		</div>
 	    		<p class="image-text" id="preview-image-text" style="color: {{ config.light }}"></p>
 	    	</div>
@@ -64,7 +64,7 @@
     			<div class="preview__controls__manage__group">
     				<div class="preview__controls__manage__adjuster">
     					<div><button onclick="decreaseSize()"><i class="fas fa-minus"></i></button></div>
-    					<input min="0" max="200" type="number" id="icon-size" style="text-align: center;" value="{{ config.icon.size }}">
+    					<input min="0" max="200" type="number" id="icon-size" style="text-align: center;" value="{{ config.size }}">
     					<div><button onclick="increaseSize()"><i class="fas fa-plus"></i></button></div>
     				</div>
     				<div class="preview__controls__manage__adjuster">
@@ -84,17 +84,17 @@
     		  	{% for example in examples %}
 					<div 
 						class="example-card"
-						data-background="{{ example.background }}" 
+						data-background="{{ example.backgroundColor }}" 
 						data-color="{{ example.color }}" 
-						data-icon="{{ example.icon.icon }}" 
-						data-prefix="{{ example.icon.prefix }}" 
-						data-size="{{ example.icon.size }}" 
+						data-icon="{{ example.icon }}" 
+						data-prefix="{{ example.prefix }}" 
+						data-size="{{ example.size }}" 
 						data-image="{{ example.image }}"
-						style="background: {{ example.background }}"
+						style="background: {{ example.backgroundColor }}"
 						onclick="loadCard(event)"
 					>
 						<div class="example-card-icon">
-							<i class="{{ example.icon.prefix }} fa-{{ example.icon.icon }}" style="color:{{ example.color }}"></i>
+							<i class="{{ example.prefix }} fa-{{ example.icon }}" style="color:{{ example.color }}"></i>
 						</div>
 					</div>
 				{% endfor %}
@@ -112,7 +112,7 @@
 		<div class="image" id="generated" style="background:{{ config.primary }}">
 			<img id="generated-overlay-image" class="overlay-image" src="/assets/img/backgrounds/plus-blank.png" style="display: none">
 			<div class="image__iconwrapper" id="generated-icon-wrap" style="color: {{ config.light }}">
-				<i id="generated-icon" class="{{ config.icon.prefix }} fa-{{ config.icon.icon }}"></i>
+				<i id="generated-icon" class="{{ config.prefix }} fa-{{ config.icon }}"></i>
 			</div>
 			<p class="image-text" id="generated-image-text" style="color: {{ config.light }}"></p>
 		</div>
@@ -142,7 +142,7 @@
 		<div class="picker-wrapper">
 			<div class="picker">
 				<h2>Gradient</h2>
-				{% for gradient in gradients %}
+				{% for gradient in colors.gradients %}
 					<div class="color" onclick="setGradientColor('{{ gradient.left }}', '{{ gradient.right }}')" style="background-image: linear-gradient(to top right, {{ gradient.left }}, {{ gradient.right }});"></div>	
 				{% endfor %}
 				<div class="hex-inputs" id="gradient-hex-inputs">
@@ -274,9 +274,9 @@
 
 	<script>
 		PotData = {
-			icon: "{{ config.icon.icon }}",
-			prefix: "{{ config.icon.prefix }}",
-			size: "{{ config.icon.size }}",
+			icon: "{{ config.icon }}",
+			prefix: "{{ config.prefix }}",
+			size: "{{ config.size }}",
 			color: "{{ config.light }}",
 			backgroundColor: "{{ config.primary }}",
 			image: null
