@@ -249,10 +249,10 @@
 		<div class="icons">
 			{% for icon in pro %}
 				<div 
-					title="{{ icon.key }}"
+					title="{{ icon.label }}"
 					data-key="{{ icon.key }}"
 					data-prefix="{{ icon.prefix }}"
-					data-keywords="{% for keyword in icon.keywords %} {{ keyword }} {% endfor%}"
+					data-keywords="{{ icon.keywords }}"
 					class="icons__single" 
 					onclick="setIcon(
 						'{{ icon.key }}', 
@@ -261,6 +261,7 @@
 					style="{% if icon.prefix !== 'fas' %}display: none;{% endif %}
 				">
 					<i class="{{ icon.prefix }} fa-{{ icon.key }}"></i>
+					<div class="icons__label">{{ icon.key }}</div>
 				</div>
 			{% endfor %}
 		</div>
