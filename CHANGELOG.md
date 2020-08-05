@@ -1,5 +1,6 @@
 ## 2.4
 
+- Switch between icon styles
 - Show name of icon underneath
 - Fix icon search and include all keywords
 - Show/hide the icon to just download backgrounds
