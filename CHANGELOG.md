@@ -1,3 +1,11 @@
+## 2.4
+
+- Show name of icon underneath
+- Fix icon search and include all keywords
+- Show/hide the icon to just download backgrounds
+- Structure cleanup - JS/CSS now in separate files
+- Optimised images
+
 ## 2.3
 
 - Add text to images
