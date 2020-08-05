@@ -60,6 +60,7 @@ update = function(data) {
 
 	document.getElementById('preview-icon-wrap').style.display = showIcon ? 'flex' : 'none'
 	document.getElementById('generated-icon-wrap').style.display = showIcon ? 'flex' : 'none'
+	document.getElementById('toggle-icon-icon').className = 'fas fa-toggle-' + (showIcon ? 'on' : 'off')
 
 	document.getElementById('generated-icon').className = iconClassName
 	document.getElementById('preview-icon').className = iconClassName
