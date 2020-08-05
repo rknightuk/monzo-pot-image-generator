@@ -45,6 +45,7 @@ update = function(data) {
 	// icon
 	const icon = PotData.icon
 	const prefix = PotData.prefix
+	const showIcon = PotData.showIcon
 	let iconClassName = prefix + ' fa-' + icon
 	const rotation = PotData.rotation
 
@@ -52,6 +53,9 @@ update = function(data) {
 		if (rotation > 0) iconClassName += ' fa-rotate-' + rotation
 		document.getElementById('rotation').innerHTML = rotation + '&deg;'
 	}
+
+	document.getElementById('preview-icon-wrap').style.display = showIcon ? 'flex' : 'none'
+	document.getElementById('generated-icon-wrap').style.display = showIcon ? 'flex' : 'none'
 
 	document.getElementById('generated-icon').className = iconClassName
 	document.getElementById('preview-icon').className = iconClassName
@@ -164,6 +168,7 @@ setIcon = function(icon, prefix) {
 	update({
 		icon: icon,
 		prefix: prefix,
+		showIcon: true,
 	})
 }
 
@@ -262,6 +267,7 @@ loadCard = function(e) {
 		rotation: data.rotation ? data.rotation : 0,
 		text: data.text != null ? data.text : '',
 		textColor: data.textColor != null ? data.textColor : MPIGConfig.light,
+		showIcon: data.showIcon === 'false' ? false : true,
 	})
 }
 
@@ -282,9 +288,10 @@ addHistoryCard = function(data) {
 	card.dataset.icon = data.icon
 	card.dataset.prefix = data.prefix
 	card.dataset.size = data.size
-	card.dataset.image = data.image
-	card.dataset.text = data.text
+	card.dataset.image = data.image != null ? data.image : '',
+	card.dataset.text = data.text != null ? data.text : ''
 	card.dataset.textColor = data.textColor
+	card.dataset.showIcon = data.showIcon
 	card.onclick = loadCard
 
 	if (data.image) {
@@ -307,6 +314,9 @@ addHistoryCard = function(data) {
 	i.className = data.prefix + ' fa-' + data.icon
 	if (data.rotation) {
 		i.className += ' fa-rotate-' + data.rotation
+	}
+	if (!data.showIcon) {
+		icon.style.display = 'none'
 	}
 	i.style.color = data.color
 	icon.appendChild(i)
@@ -385,6 +395,12 @@ document.getElementById('random').onclick = function() {
 		gradientLeft: null,
 		gradientRight: null,
 		rotation: 0,
+	})
+}
+
+document.getElementById('toggle-icon').onclick = function() {
+	update({
+		showIcon: !PotData.showIcon,
 	})
 }
 

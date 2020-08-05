@@ -74,6 +74,7 @@
     				</div>
     			</div>
     			<div class="preview__controls__manage__group">
+    				<button id="toggle-icon"><i class="fas fa-rocket"></i></button>
     				<button id="random"><i class="fas fa-random"></i></button>
     				<button id="download"><i class="fas fa-download"></i></button>
     			</div>
@@ -280,7 +281,8 @@
 			size: "{{ config.size }}",
 			color: "{{ config.light }}",
 			backgroundColor: "{{ config.primary }}",
-			image: null
+			image: null,
+			showIcon: true,
 		}
 	</script>
 
