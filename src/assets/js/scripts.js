@@ -54,6 +54,10 @@ update = function(data) {
 		document.getElementById('rotation').innerHTML = rotation + '&deg;'
 	}
 
+	Array.from(document.getElementsByClassName('preview__controls-icon-changer-button')).forEach(function(element) {
+		element.disabled = prefix === 'fab'
+	})
+
 	document.getElementById('preview-icon-wrap').style.display = showIcon ? 'flex' : 'none'
 	document.getElementById('generated-icon-wrap').style.display = showIcon ? 'flex' : 'none'
 
@@ -174,6 +178,12 @@ setIcon = function(icon, prefix) {
 
 setIconColor = function(iconColor) {
 	update({ color: iconColor })
+}
+
+setIconPrefix = function(prefix) {
+	update({
+		prefix: prefix,
+	})
 }
 
 setTextColor = function(color) {

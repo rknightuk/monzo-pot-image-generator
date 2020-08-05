@@ -26,12 +26,6 @@ h2 {
     color: #ff1414;
 }
 
-@media (max-width: 800px) {
-    .preview__controls__manage__group {
-        flex-direction: column;
-    }
-}
-
 @media (max-width: 700px) {
 	.header {
         text-align: center;
@@ -348,10 +342,10 @@ h2 {
     text-align: center;
 }
 
-@media (max-width: 800px) {
-    .preview__controls__manage__group {
-        flex-direction: column;
-    }
+.preview__controls-icon-changer {
+	clear: both;
+	margin-top: 10px;
+	text-align: center;
 }
 
 @media (max-width: 700px) {
@@ -364,7 +358,9 @@ h2 {
         width: 100%;
     }
     .preview__controls__manage {
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
 }
 

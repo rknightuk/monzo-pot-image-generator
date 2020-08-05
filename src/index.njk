@@ -58,6 +58,16 @@
 	    		</div>
 	    		<p class="image-text" id="preview-image-text" style="color: {{ config.light }}"></p>
 	    	</div>
+	    	<div class="preview__controls-icon-changer">
+	    		{% for prefix in ['fas', 'far', 'fal', 'fad'] %}
+	    			<button 
+	    				class="preview__controls-icon-changer-button" 
+	    				onclick="setIconPrefix('{{ prefix }}')"
+    				>
+	    				<i class="{{ prefix }} fa-rocket"></i>
+	    			</button>
+    			{% endfor %}
+	    	</div>
     	</div>
     	<div class="preview__controls">
     		<div class="preview__controls__manage">
