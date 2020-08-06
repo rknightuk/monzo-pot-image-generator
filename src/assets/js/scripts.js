@@ -261,6 +261,16 @@ getHistory = function() {
 	return JSON.parse(window.localStorage.getItem('MPIG-history')) || []
 }
 
+loadHistoryCard = function(e) {
+	if (window.fathom) window.fathom.trackGoal('8BQURW72', 0);
+	loadCard(e)
+}
+
+loadExampleCard = function(e) {
+	if (window.fathom) window.fathom.trackGoal('OI8A0MWO', 0);
+	loadCard(e)
+}
+
 loadCard = function(e) {
 	let data = e.target.dataset
 	if (e.target.className !== 'example-card') { // clicked the icon not the card itself
@@ -303,7 +313,7 @@ addHistoryCard = function(data) {
 	card.dataset.text = data.text != null ? data.text : ''
 	card.dataset.textColor = data.textColor
 	card.dataset.showIcon = data.showIcon
-	card.onclick = loadCard
+	card.onclick = loadHistoryCard
 
 	if (data.image) {
 		let image = document.createElement('img')
