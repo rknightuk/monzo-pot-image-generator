@@ -438,6 +438,8 @@ document.getElementById('random').onclick = function() {
 	update({
 		icon: randomElement.dataset.key,
 		prefix: randomElement.dataset.prefix,
+		iconv2: randomElement.dataset.key,
+		prefixv2: randomElement.dataset.prefix,
 		size: PotData.size,
 		color: getIconColorFromBackground(randomColor),
 		backgroundColor: randomColor,
