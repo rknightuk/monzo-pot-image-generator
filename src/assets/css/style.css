@@ -22,10 +22,6 @@ h2 {
     }
 }
 
-.header__icon {
-    color: #ff1414;
-}
-
 @media (max-width: 700px) {
 	.header {
         text-align: center;
@@ -396,6 +392,12 @@ button {
 	padding-left: 10px;
 	padding-right: 10px;
 	width:40px;
+	height: 40px;
+}
+
+button svg {
+	height: 100%;
+	width: 100%;
 }
 
 .clear-history-button {

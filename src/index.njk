@@ -35,7 +35,6 @@
 
 	<script src="https://cdn.usefathom.com/script.js" excluded-domains="localhost" site="HHYTRXSK" defer></script>
 
-	<script src="/assets/js/fa-pro.min.js"></script>
 	<script src="/assets/js/dom-to-image.min.js"></script>
 	<script src="/assets/js/FileSaver.min.js"></script>
 
@@ -53,7 +52,7 @@
 
 	<header class="header">
         <h1 class="header__main">
-            <span class="header__icon"><i class="fas fa-money-check"></i></span> {{ config.title }}
+            {{ config.title }}
         </h1>
     </header>
 
@@ -62,17 +61,19 @@
 	    	<div class="image" id="preview" style="background:{{ config.primary }}">
 	    		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/pride.png" style="display: none">
 	    		<div class="image__iconwrapper" id="preview-icon-wrap" style="fill: {{ config.light }}; color: {{ config.light }}">
-					<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Monzo</title><path d="M4.244 1.174a.443.443 0 00-.271.13l-3.97 3.97-.001.001c3.884 3.882 8.093 8.092 11.748 11.748v-8.57L4.602 1.305a.443.443 0 00-.358-.131zm15.483 0a.443.443 0 00-.329.13L12.25 8.456v8.568L24 5.275c-1.316-1.322-2.647-2.648-3.97-3.97a.443.443 0 00-.301-.131zM0 5.979l.002 10.955c0 .294.118.577.326.785l4.973 4.976c.28.282.76.083.758-.314V12.037zm23.998.003l-6.06 6.061v10.338c-.004.399.48.6.76.314l4.974-4.976c.208-.208.326-.49.326-.785z"/></svg>
+					<svg id="fa-duotone-rocket" viewBox="0 0 512 512">
+						<path d="M51.94117,154.48438,2.531,253.29688A28.125,28.125,0,0,0-.00023,264a24.00619,24.00619,0,0,0,24,24H117.4607c23.44141-47.41211,61.01172-123.373,77.89063-157.32812.51953-.91407,1-1.76758,1.52344-2.67188H94.82008C78.47633,128.01562,59.28883,139.875,51.94117,154.48438Zm172.0586,240.1621V488.209A24.12394,24.12394,0,0,0,247.9607,512a28.02965,28.02965,0,0,0,10.625-2.53125l98.72657-49.39063c14.625-7.3125,26.5-26.5,26.5-42.85937V315.70312c.0664-.041.125-.08789.1875-.1289v-.52734c-.90625.51953-1.7461,1.002-2.66407,1.52539C347.37477,333.58008,271.2732,371.252,223.99977,394.64648Z" class="fa-secondary"></path><path d="M505.15992,19.51562A16.73971,16.73971,0,0,0,492.62477,6.94531C460.22633,0,434.37477,0,409.48414,0,320.3357,0,252.80836,40.61523,196.97633,127.81836c-.5586.97852-1.07031,1.877-1.625,2.85352-19.59766,39.42578-67.20313,135.70312-88.04688,177.877a31.91421,31.91421,0,0,0,6.09766,36.76172L167.05445,398.709a31.88923,31.88923,0,0,0,36.64844,5.98047l14.17578-7.01367c46.57422-23.04883,128.06641-63.3789,163.457-81.10351.96094-.54883,1.832-1.04883,2.78907-1.59766,87.23437-56.06055,127.85937-123.51172,127.85937-212.27734C512.06227,77.60742,512.12867,52.08789,505.15992,19.51562ZM367.99977,192a48,48,0,1,1,48-48.00195A48.02156,48.02156,0,0,1,367.99977,192Z" class="fa-primary"></path>
+					</svg>
 	    		</div>
 	    		<p class="image-text" id="preview-image-text" style="color: {{ config.light }}"></p>
 	    	</div>
-	    	<div class="preview__controls-icon-changer">
-	    		{% for prefix in ['fas', 'far', 'fal', 'fad'] %}
+	    	<div id="fa-icon-type-changer" class="preview__controls-icon-changer">
+	    		{% for prefix in ['fa-solid', 'fa-regular', 'fa-light', 'fa-duotone'] %}
 	    			<button 
 	    				class="preview__controls-icon-changer-button" 
 	    				onclick="setIconPrefix('{{ prefix }}')"
     				>
-	    				<i class="{{ prefix }} fa-rocket"></i>
+						<svg><use xlink:href="#{{ prefix }}-rocket"></use></svg>
 	    			</button>
     			{% endfor %}
 	    	</div>
@@ -81,20 +82,20 @@
     		<div class="preview__controls__manage">
     			<div class="preview__controls__manage__group">
     				<div class="preview__controls__manage__adjuster">
-    					<div><button onclick="decreaseSize()"><i class="fas fa-minus"></i></button></div>
+    					<div><button onclick="decreaseSize()"><svg><use xlink:href="#fa-solid-minus"></use></svg></i></button></div>
     					<input min="0" max="200" type="number" id="icon-size" style="text-align: center;" value="{{ config.size }}">
-    					<div><button onclick="increaseSize()"><i class="fas fa-plus"></i></button></div>
+    					<div><button onclick="increaseSize()"><svg><use xlink:href="#fa-solid-plus"></use></svg></i></button></div>
     				</div>
     				<div class="preview__controls__manage__adjuster">
-    					<div><button onclick="rotateLeft()"><i class="fas fa-undo"></i></button></div>
+    					<div><button onclick="rotateLeft()"><svg><use xlink:href="#fa-solid-undo"></use></svg></i></button></div>
     					<div id="rotation" class="preview__controls__manage__adjuster__value">{{ config.rotation }}&deg;</div>
-    					<div><button onclick="rotateRight()"><i class="fas fa-redo"></i></button></div>
+    					<div><button onclick="rotateRight()"><svg><use xlink:href="#fa-solid-redo"></use></svg></i></button></div>
     				</div>
     			</div>
     			<div class="preview__controls__manage__group">
-    				<button id="toggle-icon"><i id="toggle-icon-icon" class="fas fa-toggle-on"></i></button>
-    				<button id="random"><i class="fas fa-random"></i></button>
-    				<button id="download"><i class="fas fa-download"></i></button>
+    				<button id="toggle-icon"><svg><use id="toggle-icon-icon" xlink:href="#fa-solid-toggle-on"></use></svg></button>
+    				<button id="random"><svg><use xlink:href="#fa-solid-random"></use></svg></i></button>
+    				<button id="download"><svg><use xlink:href="#fa-solid-download"></use></svg></i></button>
     			</div>
     		</div>
     		<details>
@@ -133,7 +134,9 @@
 		<div class="image" id="generated" style="background:{{ config.primary }}">
 			<img id="generated-overlay-image" class="overlay-image" src="/assets/img/backgrounds/plus-blank.png" style="display: none">
 			<div class="image__iconwrapper" id="generated-icon-wrap" style="fill: {{ config.light }}; color: {{ config.light }}">
-				<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Monzo</title><path d="M4.244 1.174a.443.443 0 00-.271.13l-3.97 3.97-.001.001c3.884 3.882 8.093 8.092 11.748 11.748v-8.57L4.602 1.305a.443.443 0 00-.358-.131zm15.483 0a.443.443 0 00-.329.13L12.25 8.456v8.568L24 5.275c-1.316-1.322-2.647-2.648-3.97-3.97a.443.443 0 00-.301-.131zM0 5.979l.002 10.955c0 .294.118.577.326.785l4.973 4.976c.28.282.76.083.758-.314V12.037zm23.998.003l-6.06 6.061v10.338c-.004.399.48.6.76.314l4.974-4.976c.208-.208.326-.49.326-.785z"/></svg>
+				<svg id="fa-duotone-rocket" viewBox="0 0 512 512">
+					<path d="M51.94117,154.48438,2.531,253.29688A28.125,28.125,0,0,0-.00023,264a24.00619,24.00619,0,0,0,24,24H117.4607c23.44141-47.41211,61.01172-123.373,77.89063-157.32812.51953-.91407,1-1.76758,1.52344-2.67188H94.82008C78.47633,128.01562,59.28883,139.875,51.94117,154.48438Zm172.0586,240.1621V488.209A24.12394,24.12394,0,0,0,247.9607,512a28.02965,28.02965,0,0,0,10.625-2.53125l98.72657-49.39063c14.625-7.3125,26.5-26.5,26.5-42.85937V315.70312c.0664-.041.125-.08789.1875-.1289v-.52734c-.90625.51953-1.7461,1.002-2.66407,1.52539C347.37477,333.58008,271.2732,371.252,223.99977,394.64648Z" class="fa-secondary"></path><path d="M505.15992,19.51562A16.73971,16.73971,0,0,0,492.62477,6.94531C460.22633,0,434.37477,0,409.48414,0,320.3357,0,252.80836,40.61523,196.97633,127.81836c-.5586.97852-1.07031,1.877-1.625,2.85352-19.59766,39.42578-67.20313,135.70312-88.04688,177.877a31.91421,31.91421,0,0,0,6.09766,36.76172L167.05445,398.709a31.88923,31.88923,0,0,0,36.64844,5.98047l14.17578-7.01367c46.57422-23.04883,128.06641-63.3789,163.457-81.10351.96094-.54883,1.832-1.04883,2.78907-1.59766,87.23437-56.06055,127.85937-123.51172,127.85937-212.27734C512.06227,77.60742,512.12867,52.08789,505.15992,19.51562ZM367.99977,192a48,48,0,1,1,48-48.00195A48.02156,48.02156,0,0,1,367.99977,192Z" class="fa-primary"></path>
+				</svg>
 			</div>
 			<p class="image-text" id="generated-image-text" style="color: {{ config.light }}"></p>
 		</div>
@@ -191,7 +194,7 @@
 							value=""
 						>
 					</div>
-					<button id="random-gradient"><i class="fas fa-random"></i></button>
+					<button id="random-gradient"><svg><use xlink:href="#fas-solid-random"></use></svg></button>
 				</div>
 			</div>
 		</div>

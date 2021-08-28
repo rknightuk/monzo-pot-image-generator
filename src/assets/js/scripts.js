@@ -59,9 +59,8 @@ update = function(data) {
 
 	document.getElementById('preview-icon-wrap').style.display = showIcon ? 'block' : 'none'
 	document.getElementById('generated-icon-wrap').style.display = showIcon ? 'block' : 'none'
-	document.getElementById('toggle-icon-icon').className = 'fas fa-toggle-' + (showIcon ? 'on' : 'off')
+	document.getElementById('toggle-icon-icon').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#fa-solid-toggle-' + (showIcon ? 'on' : 'off'))
 
-	console.log(console.log(PotData.prefixv2 + '-' + PotData.iconv2))
 	selected = document.getElementById(PotData.prefixv2 + '-' + PotData.iconv2).outerHTML.replaceAll('symbol', 'svg')
 	document.getElementById('preview-icon-wrap').innerHTML = selected
 	document.getElementById('generated-icon-wrap').innerHTML = selected
@@ -97,11 +96,22 @@ changeIconSet = function() {
 	const prefixV2 = document.getElementById('icon-set-selector').value
 
 	const iconSetWrapper = document.getElementById('icons-' + prefixV2)
-	console.log(iconSetWrapper)
 	if (iconSetWrapper.style.display === 'flex') return
 	
 	document.querySelectorAll('.icons').forEach(i => {
 		i.style.display = i.id.replace('icons-', '') === prefixV2 ? 'flex' : 'none'
+	})
+
+	window.PotData.prefixv2 = prefixV2
+
+	// disable font awesome buttons
+	document.querySelectorAll('.preview__controls-icon-changer-button').forEach(function(b) {
+		if (window.PotData.prefixv2.startsWith('fa-'))
+		{
+			b.removeAttribute('disabled')
+		} else {
+			b.setAttribute('disabled', true)
+		}
 	})
 }
 
@@ -204,6 +214,7 @@ setIconColor = function(iconColor) {
 setIconPrefix = function(prefix) {
 	update({
 		prefix: prefix,
+		prefixv2: prefix,
 	})
 }
 
@@ -263,12 +274,10 @@ setGradientFromInputs = function() {
 
 search = function() {
 	const search = document.getElementById('icon-search').value.toLowerCase()
-	const filters = [document.querySelector('input[name="icon-filter"]:checked').value]
 
-	Array.from(document.getElementsByClassName('icons__single')).forEach(function(element) {
+	document.getElementById('icons-' + window.PotData.prefixv2).querySelectorAll('.icons__single').forEach(function(element) {
 		const keywordMatch = element.dataset.keywords.includes(search)
-		const filterMatch = filters.includes(element.dataset.prefix)
-		element.style.display = keywordMatch && filterMatch ? 'block' : 'none'
+		element.style.display = keywordMatch ? 'block' : 'none'
 	})
 }
 
