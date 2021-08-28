@@ -210,11 +210,16 @@ h2 {
 	cursor: pointer;
 	padding: 5px;
 	flex-basis: 75px;
-	font-size: 40px;
+	width: 75px;
 }
 
 .icons__single:hover {
 	background: #f3f3f3;
+}
+
+.icons__single svg {
+	width: 30px;
+	height: 30px;
 }
 
 .icons__label {

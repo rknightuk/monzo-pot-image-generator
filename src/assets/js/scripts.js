@@ -29,8 +29,10 @@ update = function(data) {
 
 	// icon color
 	const iconColor = PotData.color
-	document.getElementById('generated-icon').style.color = iconColor
-	document.getElementById('preview-icon').style.color = iconColor
+	document.getElementById('preview-icon-wrap').style.fill = iconColor
+	document.getElementById('preview-icon-wrap').style.color = iconColor
+	document.getElementById('generated-icon-wrap').style.fill = iconColor
+	document.getElementById('generated-icon-wrap').style.color = iconColor
 	document.getElementById('icon-color-picker').value = iconColor
 	document.getElementById('icon-hex-input').value = iconColor.replace('#', '')
 
@@ -46,13 +48,11 @@ update = function(data) {
 	const icon = PotData.icon
 	const prefix = PotData.prefix
 	const showIcon = PotData.showIcon
-	let iconClassName = prefix + ' fa-' + icon
-	const rotation = PotData.rotation
+	const rotation = PotData.rotation || 0
 
-	if (rotation >= 0) {
-		if (rotation > 0) iconClassName += ' fa-rotate-' + rotation
-		document.getElementById('rotation').innerHTML = rotation + '&deg;'
-	}
+	document.getElementById('rotation').innerHTML = rotation + '&deg;'
+	document.getElementById('preview-icon-wrap').style.transform = 'rotate(' + rotation + 'deg)'
+	document.getElementById('generated-icon-wrap').style.transform = 'rotate(' + rotation + 'deg)'
 
 	Array.from(document.getElementsByClassName('preview__controls-icon-changer-button')).forEach(function(element) {
 		element.disabled = prefix === 'fab'
@@ -62,8 +62,9 @@ update = function(data) {
 	document.getElementById('generated-icon-wrap').style.display = showIcon ? 'block' : 'none'
 	document.getElementById('toggle-icon-icon').className = 'fas fa-toggle-' + (showIcon ? 'on' : 'off')
 
-	document.getElementById('generated-icon').className = iconClassName
-	document.getElementById('preview-icon').className = iconClassName
+	selected = document.getElementById(PotData.iconv2).outerHTML.replaceAll('symbol', 'svg')
+	document.getElementById('preview-icon-wrap').innerHTML = selected
+	document.getElementById('generated-icon-wrap').innerHTML = selected
 
 	// background image
 	const backgroundImage = PotData.image
@@ -174,6 +175,12 @@ setIcon = function(icon, prefix) {
 		icon: icon,
 		prefix: prefix,
 		showIcon: true,
+	})
+}
+
+setIconv2 = function(icon) {
+	update({
+		iconv2: icon,
 	})
 }
 
