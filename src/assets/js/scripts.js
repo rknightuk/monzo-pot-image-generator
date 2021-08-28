@@ -45,7 +45,6 @@ update = function(data) {
 	document.getElementById('icon-size').value = iconSize
 
 	// icon
-	const icon = PotData.icon
 	const prefix = PotData.prefix
 	const showIcon = PotData.showIcon
 	const rotation = PotData.rotation || 0
@@ -62,7 +61,8 @@ update = function(data) {
 	document.getElementById('generated-icon-wrap').style.display = showIcon ? 'block' : 'none'
 	document.getElementById('toggle-icon-icon').className = 'fas fa-toggle-' + (showIcon ? 'on' : 'off')
 
-	selected = document.getElementById(PotData.iconv2).outerHTML.replaceAll('symbol', 'svg')
+	console.log(console.log(PotData.prefixv2 + '-' + PotData.iconv2))
+	selected = document.getElementById(PotData.prefixv2 + '-' + PotData.iconv2).outerHTML.replaceAll('symbol', 'svg')
 	document.getElementById('preview-icon-wrap').innerHTML = selected
 	document.getElementById('generated-icon-wrap').innerHTML = selected
 
@@ -91,6 +91,18 @@ update = function(data) {
 		document.getElementById('generated-image-text').style.color = textColor
 		document.getElementById('text-input').value = text
 	}
+}
+
+changeIconSet = function() {
+	const prefixV2 = document.getElementById('icon-set-selector').value
+
+	const iconSetWrapper = document.getElementById('icons-' + prefixV2)
+	console.log(iconSetWrapper)
+	if (iconSetWrapper.style.display === 'flex') return
+	
+	document.querySelectorAll('.icons').forEach(i => {
+		i.style.display = i.id.replace('icons-', '') === prefixV2 ? 'flex' : 'none'
+	})
 }
 
 changeSizeFromInput = function() {
@@ -178,9 +190,10 @@ setIcon = function(icon, prefix) {
 	})
 }
 
-setIconv2 = function(icon) {
+setIconv2 = function(icon, prefix) {
 	update({
 		iconv2: icon,
+		prefixv2: prefix,
 	})
 }
 

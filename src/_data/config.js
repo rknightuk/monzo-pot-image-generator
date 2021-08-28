@@ -6,6 +6,8 @@ module.exports = {
 	light: "#f7f7f7",
 	icon: "rocket",
 	prefix: "fad",
+	iconv2: 'monzo',
+	prefixv2: 'fa-duotone',
 	size: 100,
 	rotation: 0,
 }
