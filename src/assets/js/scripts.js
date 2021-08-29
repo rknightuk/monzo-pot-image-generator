@@ -113,6 +113,8 @@ changeIconSet = function() {
 			b.setAttribute('disabled', true)
 		}
 	})
+
+	search()
 }
 
 openCreditUrl = function() {
