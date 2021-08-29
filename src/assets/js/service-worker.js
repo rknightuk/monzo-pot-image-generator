@@ -10,7 +10,7 @@ var version = 'v1::';
    then the service worker won't be installed either.
 */
 var offlineFundamentals = [
-    '/index.html',
+    '/',
     '/assets/css/style.css',
     '/assets/js/dom-to-image.min.js',
     '/assets/js/FileSaver.min.js',
