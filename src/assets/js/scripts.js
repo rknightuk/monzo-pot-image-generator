@@ -482,3 +482,25 @@ document.getElementById('random-gradient').onclick = function() {
 		gradientRight: randomColor2,
 	})
 }
+
+document.querySelector('input[type="file"]').addEventListener('change', function() {
+	if (this.files && this.files[0]) {
+		var img = document.querySelector('img')
+		img.onload = () => {
+			URL.revokeObjectURL(img.src)
+		}
+
+		const reader = new FileReader();
+
+		reader.addEventListener("load", function () {
+			setBackgroundImage(reader.result)
+			
+		}, false);
+		
+		file = this.files[0]
+
+		if (file) {
+			reader.readAsDataURL(file)
+		}
+	}
+})

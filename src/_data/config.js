@@ -5,7 +5,7 @@ module.exports = {
 	dark: "#333333",
 	light: "#f7f7f7",
 	icon: "rocket",
-	prefix: "fad",
+	prefix: 'fa-duotone',
 	iconv2: 'rocket',
 	prefixv2: 'fa-duotone',
 	size: 100,
