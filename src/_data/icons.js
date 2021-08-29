@@ -4640,6 +4640,7 @@ const icons = [
         title: 'Flags',
         url: 'https://github.com/lipis/flag-icon-css',
         key: 'flags',
+        country: true,
         icons: [
             'ad',
             'ae',
@@ -4905,6 +4906,7 @@ const icons = [
         title: 'Countries',
         url: 'https://github.com/djaiss/mapsicon',
         key: 'countries',
+        country: true,
         icons: [
             'ad',
             'ae',

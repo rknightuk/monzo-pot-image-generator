@@ -31,7 +31,6 @@
 	<script>
 		MPIGConfig = {{ config | dump | safe }}
 		IconUrls = {{ icons.links | dump | safe }}
-		CountryCodes = {{ countrycodes | dump | safe }}
 	</script>
 
 	<script src="https://cdn.usefathom.com/script.js" excluded-domains="localhost" site="HHYTRXSK" defer></script>
@@ -307,7 +306,7 @@
 						title="{{ icon }}"
 						data-key="{{ icon }}"
 						data-prefix="{{ set.key }}"
-						data-keywords="{{ icon }} {{ countrycodes[icon.toUpperCase()] }}"
+						data-keywords="{{ icon }} {% if set.country %}{{ countrycodes[icon.toUpperCase()] }}{% endif %}"
 						class="icons__single"
 						onclick="setIconv2(
 							'{{ icon }}',
