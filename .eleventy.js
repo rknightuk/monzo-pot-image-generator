@@ -1,6 +1,7 @@
 const htmlmin = require('html-minifier')
 
 module.exports = function(eleventyConfig) {
+  eleventyConfig.addPassthroughCopy({ 'src/assets/js/service-worker.js': 'service-worker.js' })
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
   eleventyConfig.addPassthroughCopy("src/android-chrome-192x192.png");
