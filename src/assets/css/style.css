@@ -448,3 +448,41 @@ button svg {
 .rotate-0 {
 	transform: rotate(0deg);
 }
+
+.about-modal {
+	z-index: 101;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+
+.modal-content {
+	max-width: 600px;
+	max-height: 80vh;
+	background: white;
+	margin: 0 auto;
+	margin-top: 150px;
+	padding: 10px 20px;
+	box-shadow: 0 3px 10px rgb(0 0 0 / 60%);
+	position: relative;
+}
+
+.modal-close-button {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+.modal-close-button:hover {
+	cursor: pointer;
+}
+
+.modal-close-button svg {
+	width: 20px;
+	height: 20px;
+}

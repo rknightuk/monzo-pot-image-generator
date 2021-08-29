@@ -408,6 +408,15 @@ updateHistory = function() {
 	} catch (e) {}
 }
 
+showAboutModal = function() {
+	
+	document.getElementById('about-modal').style.display = 'block'
+}
+
+closeAboutModal = function() {
+	document.getElementById('about-modal').style.display = 'none'
+}
+
 document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromPicker, false)
 document.getElementById('icon-color-picker').addEventListener("input", setIconColorFromPicker, false)
 document.getElementById('gradient-left-color-picker').addEventListener("input", setGradientFromPickers, false)

@@ -54,10 +54,30 @@
 	{% include 'sprites/countries.svg' %}
 
 	<header class="header">
-        <h1 class="header__main">
+        <div class="header__main">
             {{ config.title }}
-        </h1>
+        </div>
+		<div>
+			<a href="#" id="about-link" onclick="showAboutModal()">About</a> &bull; <a href="https://monzo.me/robbknight?d=Pot%20Image%20Generator" rel="noopener" target="_blank">Buy Me a Coffee</a> &bull; <a href="https://twitter.com/intent/tweet?text=Monzo%20Pot%20Images%20Generator%20by%20@rknightuk&url=https://potimages.rknight.me" rel="noopener" target="_blank">Tweet This</a>
+		</div>
     </header>
+
+	<div class="about-modal" id="about-modal">
+		<div class="modal-content">
+			<div class="modal-close-button" onclick="closeAboutModal()">
+				<svg><use xlink:href="#fa-solid-times"></use></svg>
+			</div>
+			<p>Generate pot images for your Monzo pots. Made by <a href="https://rknight.me" rel="noopener" target="_blank">Robb Knight</a>. <a href="https://github.com/rknightuk/monzo-pot-image-generator" rel="noopener" target="_blank">Code on GitHub</a>.<p>
+
+			<p>The generator using the following icon sets:</p>
+
+			<ul>
+				{% for set in icons.icons %}
+					<li><a href="{{ set.url }}" rel="noopener" target="_blank">{{ set.title}}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
 
     <div class="preview-wrapper">
     	<div>
