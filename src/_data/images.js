@@ -23,4 +23,12 @@ module.exports = [
 		path: "pride.png",
 		type: "dark"
 	},
+	{
+		path: "apple-pay.png",
+		type: "light"
+	},
+	{
+		path: "apple-pay-ms.png",
+		type: "light"
+	},
 ]
