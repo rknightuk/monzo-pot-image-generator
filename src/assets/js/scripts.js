@@ -362,16 +362,13 @@ addHistoryCard = function(data) {
 
 	let icon = document.createElement('div')
 	icon.className = 'example-card-icon'
-	let i = document.createElement('i')
-	i.className = data.prefix + ' fa-' + data.icon
-	if (data.rotation) {
-		i.className += ' fa-rotate-' + data.rotation
-	}
+	icon.style.fill = data.color
+	icon.style.color = data.color
 	if (!data.showIcon) {
 		icon.style.display = 'none'
 	}
-	i.style.color = data.color
-	icon.appendChild(i)
+	const i = '<svg class="rotate-' + data.rotation + '"><use xlink:href="#' + data.prefixv2 + '-' + data.iconv2 + '"></use></svg>'
+	icon.innerHTML = i
 	card.appendChild(icon)
 
 	const historyBlock = document.getElementById('history')
