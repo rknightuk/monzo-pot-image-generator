@@ -115,6 +115,10 @@ changeIconSet = function() {
 	})
 }
 
+openCreditUrl = function() {
+	window.open(window.IconUrls[window.PotData.prefixv2], '_blank')
+}
+
 changeSizeFromInput = function() {
 	changeSize(parseInt(document.getElementById('icon-size').value, 10))
 }

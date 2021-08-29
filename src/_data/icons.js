@@ -1854,7 +1854,7 @@ const FA_ICONS = [
     'yin-yang',
 ]
 
-module.exports = [
+const icons = [
     {
         title: 'Feather',
         url: 'https://feathericons.com/',
@@ -4150,7 +4150,7 @@ module.exports = [
     },
     {
         title: 'Font Awesome - Brands',
-        url: '',
+        url: 'https://fontawesome.com/v5.15/icons?s=brands',
         key: 'fa-brands',
         icons: [
             '500px',
@@ -4614,26 +4614,37 @@ module.exports = [
     },
     {
         title: 'Font Awesome - Light',
-        url: '',
+        url: 'https://fontawesome.com/v5.15/icons?s=light',
         key: 'fa-light',
         icons: FA_ICONS,
     },
     {
         title: 'Font Awesome - Regular',
-        url: '',
+        url: 'https://fontawesome.com/v5.15/icons?s=regular',
         key: 'fa-regular',
         icons: FA_ICONS,
     },
     {
         title: 'Font Awesome - Solid',
-        url: '',
+        url: 'https://fontawesome.com/v5.15/icons?s=solid',
         key: 'fa-solid',
         icons: FA_ICONS,
     },
     {
         title: 'Font Awesome - Duotone',
-        url: '',
+        url: 'https://fontawesome.com/v5.15/icons?s=duotone',
         key: 'fa-duotone',
         icons: FA_ICONS,
     }
 ]
+
+const links = {}
+
+icons.forEach(i => {
+    links[i.key] = i.url
+})
+
+module.exports = {
+    icons,
+    links,
+}

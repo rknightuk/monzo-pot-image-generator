@@ -186,6 +186,7 @@ h2 {
 
 .icon-filter {
 	margin-bottom: 5px;
+	display: flex;
 }
 
 .icon-search {
