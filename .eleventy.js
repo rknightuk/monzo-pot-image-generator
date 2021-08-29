@@ -1,3 +1,5 @@
+const htmlmin = require('html-minifier')
+
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
@@ -10,6 +12,20 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/mstile-150x150.png");
   eleventyConfig.addPassthroughCopy("src/safari-pinned-tab.svg");
   eleventyConfig.addPassthroughCopy("src/site.webmanifest");
+
+  eleventyConfig.addTransform("htmlmin", function(content, outputPath) {
+    // Eleventy 1.0+: use this.inputPath and this.outputPath instead
+    if( outputPath && outputPath.endsWith(".html") ) {
+      let minified = htmlmin.minify(content, {
+        useShortDoctype: true,
+        removeComments: true,
+        collapseWhitespace: true
+      });
+      return minified;
+    }
+
+    return content;
+  })
 
   return {
     passthroughFileCopy: true,
