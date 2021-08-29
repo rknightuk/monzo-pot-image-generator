@@ -107,16 +107,14 @@
 						data-background="{{ example.backgroundColor }}" 
 						data-color="{{ example.color }}" 
 						data-icon="{{ example.icon }}" 
-						data-prefix="{{ example.prefix }}" 
+						data-prefix="{{ example.prefix }}"
 						data-size="{{ example.size }}" 
 						data-image="{{ example.image }}"
 						style="background: {{ example.backgroundColor }}"
 						onclick="loadExampleCard(event)"
 					>
-						<div class="example-card-icon">
-							<svg viewBox="0 0 100 100">
-							  <use xlink:href="#feather-airplay"></use>
-							</svg>
+						<div class="example-card-icon" style="fill: {{ example.color }}">
+							<svg><use xlink:href="#{{ example.prefix }}-{{ example.icon }}"></use></svg>
 						</div>
 					</div>
 				{% endfor %}
@@ -194,7 +192,7 @@
 							value=""
 						>
 					</div>
-					<button id="random-gradient"><svg><use xlink:href="#fas-solid-random"></use></svg></button>
+					<button id="random-gradient"><svg><use xlink:href="#fa-solid-random"></use></svg></button>
 				</div>
 			</div>
 		</div>

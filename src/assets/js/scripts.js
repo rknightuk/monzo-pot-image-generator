@@ -308,6 +308,8 @@ loadCard = function(e) {
 	update({
 		icon: data.icon,
 		prefix: data.prefix,
+		iconv2: data.icon,
+		prefixv2: data.prefix,
 		size: data.size,
 		color: data.color,
 		backgroundColor: data.background,
