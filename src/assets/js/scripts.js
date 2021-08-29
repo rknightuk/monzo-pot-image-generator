@@ -208,6 +208,8 @@ setIconv2 = function(icon, prefix) {
 	update({
 		iconv2: icon,
 		prefixv2: prefix,
+		icon: icon,
+		prefix: prefix,
 	})
 }
 
@@ -280,7 +282,7 @@ search = function() {
 	const search = document.getElementById('icon-search').value.toLowerCase()
 
 	document.getElementById('icons-' + window.PotData.prefixv2).querySelectorAll('.icons__single').forEach(function(element) {
-		const keywordMatch = element.dataset.keywords.includes(search)
+		const keywordMatch = element.dataset.keywords.toLowerCase().includes(search)
 		element.style.display = keywordMatch ? 'block' : 'none'
 	})
 }
@@ -291,7 +293,7 @@ clearHistory = function() {
 }
 
 getHistory = function() {
-	return JSON.parse(window.localStorage.getItem('MPIG-history')) || []
+	return JSON.parse(window.localStorage.getItem('MPIG-history-v2')) || []
 }
 
 loadHistoryCard = function(e) {
@@ -399,7 +401,7 @@ updateHistory = function() {
 			history.pop()
 		}
 		history.unshift(PotData)
-		window.localStorage.setItem('MPIG-history', JSON.stringify(history))
+		window.localStorage.setItem('MPIG-history-v2', JSON.stringify(history))
 		showHistory(history)
 	} catch (e) {}
 }

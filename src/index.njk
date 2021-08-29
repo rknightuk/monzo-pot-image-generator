@@ -31,6 +31,7 @@
 	<script>
 		MPIGConfig = {{ config | dump | safe }}
 		IconUrls = {{ icons.links | dump | safe }}
+		CountryCodes = {{ countrycodes | dump | safe }}
 	</script>
 
 	<script src="https://cdn.usefathom.com/script.js" excluded-domains="localhost" site="HHYTRXSK" defer></script>
@@ -49,6 +50,7 @@
 	{% include 'sprites/fa/light.svg' %}
 	{% include 'sprites/fa/regular.svg' %}
 	{% include 'sprites/fa/solid.svg' %}
+	{% include 'sprites/flags.svg' %}
 
 	<header class="header">
         <h1 class="header__main">
@@ -284,7 +286,7 @@
 						title="{{ icon }}"
 						data-key="{{ icon }}"
 						data-prefix="{{ set.key }}"
-						data-keywords="{{ icon }}"
+						data-keywords="{{ icon }} {{ countrycodes[icon.toUpperCase()] }}"
 						class="icons__single"
 						onclick="setIconv2(
 							'{{ icon }}',
