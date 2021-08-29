@@ -51,6 +51,7 @@
 	{% include 'sprites/fa/solid.svg' %}
 	{% include 'sprites/flags.svg' %}
 	{% include 'sprites/countries.svg' %}
+	{% include 'sprites/openmoji.svg' %}
 
 	<header class="header">
         <div class="header__main">
@@ -309,7 +310,7 @@
 						title="{{ icon }}"
 						data-key="{{ icon }}"
 						data-prefix="{{ set.key }}"
-						data-keywords="{{ icon }} {% if set.country %}{{ countrycodes[icon.toUpperCase()] }}{% endif %}"
+						data-keywords="{{ icon }} {% if set.country %}{{ countrycodes[icon.toUpperCase()] }}{% endif %} {% if set.emoji %}{{ emojicodes[icon] }}{% endif %}"
 						class="icons__single"
 						onclick="setIconv2(
 							'{{ icon }}',
