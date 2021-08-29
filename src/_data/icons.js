@@ -3263,6 +3263,7 @@ const icons = [
             'monkeytie',
             'monster',
             'monzo',
+            'monzo-color',
             'moo',
             'moscowmetro',
             'motorola',
