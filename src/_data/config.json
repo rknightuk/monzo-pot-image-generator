@@ -12,5 +12,6 @@
 	"rotation": 0,
 	"type": "monzo",
 	"repo": "monzo-pot-image-generator",
-	"fathomSiteId": "HHYTRXSK"
+	"fathomSiteId": "HHYTRXSK",
+	"footerDesc": "Generate images for your Monzo pots or your Starling goals"
 }
