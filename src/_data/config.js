@@ -10,4 +10,5 @@ module.exports = {
 	prefixv2: 'fa-duotone',
 	size: 100,
 	rotation: 0,
+	type: 'monzo',
 }

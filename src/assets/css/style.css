@@ -86,6 +86,10 @@ h2 {
 	justify-content: center;
 }
 
+.app-icons #preview {
+	width: 205px;
+}
+
 #preview .image__iconwrapper {
 	width: 100px;
     height: 100px;
@@ -99,6 +103,11 @@ h2 {
 #generated {
 	width: 1266px;
 	height: 822px;
+}
+
+.app-icons #generated {
+	overflow: auto;
+	height: 1266px;
 }
 
 #generated .image__iconwrapper {
@@ -245,6 +254,11 @@ h2 {
 	margin-right: 5px;
 	margin-bottom: 5px;
 	flex-basis: 85px;
+}
+
+.app-icons .example-card {
+	width: 55px;
+	flex-basis: 55px;
 }
 
 .example-card img,
