@@ -12,4 +12,5 @@ module.exports = {
 	rotation: 0,
 	type: 'monzo',
 	repo: 'monzo-pot-image-generator',
+	fathomSiteId: 'HHYTRXSK',
 }

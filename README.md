@@ -4,6 +4,8 @@ Generate images for [Monzo pots](https://monzo.com/help/budgeting-overdrafts-sav
 
 https://potimages.rknight.me/
 
+This code also powers the same generator for app icons: https://appicons.rknight.me
+
 ## Development
 
 - `npm install`

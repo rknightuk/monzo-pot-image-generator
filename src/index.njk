@@ -33,7 +33,7 @@
 		IconUrls = {{ icons.links | dump | safe }}
 	</script>
 
-	<script src="https://cdn.usefathom.com/script.js" excluded-domains="localhost" site="HHYTRXSK" defer></script>
+	<script src="https://cdn.usefathom.com/script.js" excluded-domains="localhost" site="{{ config.fathomSiteId }}" defer></script>
 
 	<script src="/assets/js/dom-to-image.min.js"></script>
 	<script src="/assets/js/FileSaver.min.js"></script>
@@ -327,8 +327,8 @@
 
 	<footer class="footer">
 		<p><em>Generate images for your Monzo pots or your Starling goals</em></p>
-		<p>{{ config.title }} by <a href="https://rknight.me">Robb Knight</a> | Icons from <a href="https://fontawesome.com/">Font Awesome</a></p>
-		<p><a href="https://app.usefathom.com/share/hhytrxsk/potimages.rknight.me">Stats</a> | <a href="https://github.com/rknightuk/monzo-pot-image-generator">Source</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a> | <a href="https://community.monzo.com/t/monzo-pot-image-generator/102120">Discuss</a></p>
+		<p>{{ config.title }} by <a href="https://rknight.me">Robb Knight</a></p>
+		<p><a href="https://app.usefathom.com/share/{{ config.fathomSiteId }}/potimages.rknight.me">Stats</a> | <a href="https://github.com/rknightuk/{{ config.repo }}">Source</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a> | <a href="https://community.monzo.com/t/monzo-pot-image-generator/102120">Discuss</a></p>
 	</footer>
 
 	<script>
