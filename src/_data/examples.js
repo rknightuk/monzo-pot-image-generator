@@ -28,8 +28,8 @@ module.exports = [
 		backgroundColor: "#27ae60",
 	},
 	{
-		icon: "receipt",
-		prefix: "fa-solid",
+		icon: "hmrc",
+		prefix: "simpleicons",
 		size: 100,
 		color: "#f7f7f7",
 		backgroundColor: "#008D8E",
