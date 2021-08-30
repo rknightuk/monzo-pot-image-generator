@@ -2153,6 +2153,9 @@ const icons = [
         url: 'https://simpleicons.org/',
         key: 'simpleicons',
         icons: [
+            'monzo-color',
+            'hmrc',
+            'hmrc-circle',
             '1password',
             '3m',
             '4d',
@@ -3263,7 +3266,6 @@ const icons = [
             'monkeytie',
             'monster',
             'monzo',
-            'monzo-color',
             'moo',
             'moscowmetro',
             'motorola',
