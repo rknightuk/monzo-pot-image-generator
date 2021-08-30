@@ -495,6 +495,24 @@ document.getElementById('random-gradient').onclick = function() {
 	})
 }
 
+document.getElementById('random-background-color').onclick = function () {
+	const randomColor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+
+	update({
+		backgroundColor: randomColor,
+		gradientLeft: null,
+		gradientRight: null,
+	})
+}
+
+document.getElementById('random-icon-color').onclick = function () {
+	const randomColor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+
+	update({
+		color: randomColor,
+	})
+}
+
 document.querySelector('input[type="file"]').addEventListener('change', function() {
 	if (this.files && this.files[0]) {
 		var img = document.querySelector('img')

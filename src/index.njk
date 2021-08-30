@@ -172,17 +172,20 @@
 				{% for color in colors.background %}
 					<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
 				{% endfor %}
-				<div class="hex-input-wrap">
-					<div class="hex-input-icon">
-						<input type="color" class="hex-selector" id="background-color-picker" value="{{ config.primary }}">
+				<div class="hex-inputs">
+					<div class="hex-input-wrap">
+						<div class="hex-input-icon">
+							<input type="color" class="hex-selector" id="background-color-picker" value="{{ config.primary }}">
+						</div>
+						<input 
+							maxlength="6" 
+							type="text" 
+							class="hex-input" 
+							id="background-hex-input" 
+							value="{{ config.primary.replace('#', '') }}"
+						>
 					</div>
-					<input 
-						maxlength="6" 
-						type="text" 
-						class="hex-input" 
-						id="background-hex-input" 
-						value="{{ config.primary.replace('#', '') }}"
-					>
+					<button id="random-background-color"><svg><use xlink:href="#fa-solid-random"></use></svg></button>
 				</div>
 			</div>
 		</div>
@@ -227,17 +230,20 @@
 				{% for color in colors.icon %}
 					<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
 				{% endfor %}
-				<div class="hex-input-wrap">
-					<div class="hex-input-icon">
-						<input class="hex-selector" type="color" id="icon-color-picker" value="{{ config.light }}">
+				<div class="hex-inputs">
+					<div class="hex-input-wrap">
+						<div class="hex-input-icon">
+							<input class="hex-selector" type="color" id="icon-color-picker" value="{{ config.light }}">
+						</div>
+						<input 
+							maxlength="6" 
+							type="text" 
+							class="hex-input" 
+							id="icon-hex-input" 
+							value="{{ config.light.replace('#', '') }}"
+						>
 					</div>
-					<input 
-						maxlength="6" 
-						type="text" 
-						class="hex-input" 
-						id="icon-hex-input" 
-						value="{{ config.light.replace('#', '') }}"
-					>
+					<button id="random-icon-color"><svg><use xlink:href="#fa-solid-random"></use></svg></button>
 				</div>
 				<div style="clear:both;"><input type="checkbox" id="calc-contrast" checked="checked"><label class="calc-contrast-label" for="calc-contrast">auto change colour</label></div>
 			</div>
