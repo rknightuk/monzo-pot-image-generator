@@ -1,6 +1,6 @@
 module.exports = {
 	title: "Monzo Pot Image Generator",
-	description: "Generate images for your Monzo pots",
+	description: "Generate pot images for your Monzo pots",
 	primary: "#FE4D59",
 	dark: "#333333",
 	light: "#f7f7f7",
@@ -11,4 +11,5 @@ module.exports = {
 	size: 100,
 	rotation: 0,
 	type: 'monzo',
+	repo: 'monzo-pot-image-generator',
 }
