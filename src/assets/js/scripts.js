@@ -1,3 +1,15 @@
+if('serviceWorker' in navigator) {
+	console.log('CLIENT: service worker registration in progress.');
+	
+	navigator.serviceWorker.register('/service-worker.js').then(function() {
+		console.log('CLIENT: service worker registration complete.');
+	}, function() {
+		console.log('CLIENT: service worker registration failure.');
+	});
+} else {
+	console.log('CLIENT: service worker is not supported.');
+}
+
 update = function(data) {
 	window.PotData = {
 		...PotData,
@@ -29,8 +41,10 @@ update = function(data) {
 
 	// icon color
 	const iconColor = PotData.color
-	document.getElementById('generated-icon').style.color = iconColor
-	document.getElementById('preview-icon').style.color = iconColor
+	document.getElementById('preview-icon-wrap').style.fill = iconColor
+	document.getElementById('preview-icon-wrap').style.color = iconColor
+	document.getElementById('generated-icon-wrap').style.fill = iconColor
+	document.getElementById('generated-icon-wrap').style.color = iconColor
 	document.getElementById('icon-color-picker').value = iconColor
 	document.getElementById('icon-hex-input').value = iconColor.replace('#', '')
 
@@ -43,16 +57,13 @@ update = function(data) {
 	document.getElementById('icon-size').value = iconSize
 
 	// icon
-	const icon = PotData.icon
 	const prefix = PotData.prefix
 	const showIcon = PotData.showIcon
-	let iconClassName = prefix + ' fa-' + icon
-	const rotation = PotData.rotation
+	const rotation = PotData.rotation || 0
 
-	if (rotation >= 0) {
-		if (rotation > 0) iconClassName += ' fa-rotate-' + rotation
-		document.getElementById('rotation').innerHTML = rotation + '&deg;'
-	}
+	document.getElementById('rotation').innerHTML = rotation + '&deg;'
+	document.getElementById('preview-icon-wrap').style.transform = 'rotate(' + rotation + 'deg)'
+	document.getElementById('generated-icon-wrap').style.transform = 'rotate(' + rotation + 'deg)'
 
 	Array.from(document.getElementsByClassName('preview__controls-icon-changer-button')).forEach(function(element) {
 		element.disabled = prefix === 'fab'
@@ -60,10 +71,11 @@ update = function(data) {
 
 	document.getElementById('preview-icon-wrap').style.display = showIcon ? 'block' : 'none'
 	document.getElementById('generated-icon-wrap').style.display = showIcon ? 'block' : 'none'
-	document.getElementById('toggle-icon-icon').className = 'fas fa-toggle-' + (showIcon ? 'on' : 'off')
+	document.getElementById('toggle-icon-icon').setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#fa-solid-toggle-' + (showIcon ? 'on' : 'off'))
 
-	document.getElementById('generated-icon').className = iconClassName
-	document.getElementById('preview-icon').className = iconClassName
+	selected = document.getElementById(PotData.prefixv2 + '-' + PotData.iconv2).outerHTML.replaceAll('symbol', 'svg')
+	document.getElementById('preview-icon-wrap').innerHTML = selected
+	document.getElementById('generated-icon-wrap').innerHTML = selected
 
 	// background image
 	const backgroundImage = PotData.image
@@ -90,6 +102,35 @@ update = function(data) {
 		document.getElementById('generated-image-text').style.color = textColor
 		document.getElementById('text-input').value = text
 	}
+}
+
+changeIconSet = function() {
+	const prefixV2 = document.getElementById('icon-set-selector').value
+
+	const iconSetWrapper = document.getElementById('icons-' + prefixV2)
+	if (iconSetWrapper.style.display === 'flex') return
+	
+	document.querySelectorAll('.icons').forEach(i => {
+		i.style.display = i.id.replace('icons-', '') === prefixV2 ? 'flex' : 'none'
+	})
+
+	window.PotData.prefixv2 = prefixV2
+
+	// disable font awesome buttons
+	document.querySelectorAll('.preview__controls-icon-changer-button').forEach(function(b) {
+		if (window.PotData.prefixv2.startsWith('fa-'))
+		{
+			b.removeAttribute('disabled')
+		} else {
+			b.setAttribute('disabled', true)
+		}
+	})
+
+	search()
+}
+
+openCreditUrl = function() {
+	window.open(window.IconUrls[window.PotData.prefixv2], '_blank')
 }
 
 changeSizeFromInput = function() {
@@ -177,6 +218,15 @@ setIcon = function(icon, prefix) {
 	})
 }
 
+setIconv2 = function(icon, prefix) {
+	update({
+		iconv2: icon,
+		prefixv2: prefix,
+		icon: icon,
+		prefix: prefix,
+	})
+}
+
 setIconColor = function(iconColor) {
 	update({ color: iconColor })
 }
@@ -184,6 +234,7 @@ setIconColor = function(iconColor) {
 setIconPrefix = function(prefix) {
 	update({
 		prefix: prefix,
+		prefixv2: prefix,
 	})
 }
 
@@ -243,12 +294,10 @@ setGradientFromInputs = function() {
 
 search = function() {
 	const search = document.getElementById('icon-search').value.toLowerCase()
-	const filters = [document.querySelector('input[name="icon-filter"]:checked').value]
 
-	Array.from(document.getElementsByClassName('icons__single')).forEach(function(element) {
-		const keywordMatch = element.dataset.keywords.includes(search)
-		const filterMatch = filters.includes(element.dataset.prefix)
-		element.style.display = keywordMatch && filterMatch ? 'block' : 'none'
+	document.getElementById('icons-' + window.PotData.prefixv2).querySelectorAll('.icons__single').forEach(function(element) {
+		const keywordMatch = element.dataset.keywords.toLowerCase().includes(search)
+		element.style.display = keywordMatch ? 'block' : 'none'
 	})
 }
 
@@ -258,7 +307,7 @@ clearHistory = function() {
 }
 
 getHistory = function() {
-	return JSON.parse(window.localStorage.getItem('MPIG-history')) || []
+	return JSON.parse(window.localStorage.getItem('MPIG-history-v2')) || []
 }
 
 loadHistoryCard = function(e) {
@@ -279,6 +328,8 @@ loadCard = function(e) {
 	update({
 		icon: data.icon,
 		prefix: data.prefix,
+		iconv2: data.icon,
+		prefixv2: data.prefix,
 		size: data.size,
 		color: data.color,
 		backgroundColor: data.background,
@@ -331,16 +382,13 @@ addHistoryCard = function(data) {
 
 	let icon = document.createElement('div')
 	icon.className = 'example-card-icon'
-	let i = document.createElement('i')
-	i.className = data.prefix + ' fa-' + data.icon
-	if (data.rotation) {
-		i.className += ' fa-rotate-' + data.rotation
-	}
+	icon.style.fill = data.color
+	icon.style.color = data.color
 	if (!data.showIcon) {
 		icon.style.display = 'none'
 	}
-	i.style.color = data.color
-	icon.appendChild(i)
+	const i = '<svg class="rotate-' + data.rotation + '"><use xlink:href="#' + data.prefixv2 + '-' + data.iconv2 + '"></use></svg>'
+	icon.innerHTML = i
 	card.appendChild(icon)
 
 	const historyBlock = document.getElementById('history')
@@ -367,9 +415,18 @@ updateHistory = function() {
 			history.pop()
 		}
 		history.unshift(PotData)
-		window.localStorage.setItem('MPIG-history', JSON.stringify(history))
+		window.localStorage.setItem('MPIG-history-v2', JSON.stringify(history))
 		showHistory(history)
 	} catch (e) {}
+}
+
+showAboutModal = function() {
+	
+	document.getElementById('about-modal').style.display = 'block'
+}
+
+closeAboutModal = function() {
+	document.getElementById('about-modal').style.display = 'none'
 }
 
 document.getElementById('background-color-picker').addEventListener("input", setBackgroundColorFromPicker, false)
@@ -409,6 +466,8 @@ document.getElementById('random').onclick = function() {
 	update({
 		icon: randomElement.dataset.key,
 		prefix: randomElement.dataset.prefix,
+		iconv2: randomElement.dataset.key,
+		prefixv2: randomElement.dataset.prefix,
 		size: PotData.size,
 		color: getIconColorFromBackground(randomColor),
 		backgroundColor: randomColor,
@@ -435,3 +494,43 @@ document.getElementById('random-gradient').onclick = function() {
 		gradientRight: randomColor2,
 	})
 }
+
+document.getElementById('random-background-color').onclick = function () {
+	const randomColor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+
+	update({
+		backgroundColor: randomColor,
+		gradientLeft: null,
+		gradientRight: null,
+	})
+}
+
+document.getElementById('random-icon-color').onclick = function () {
+	const randomColor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+
+	update({
+		color: randomColor,
+	})
+}
+
+document.querySelector('input[type="file"]').addEventListener('change', function() {
+	if (this.files && this.files[0]) {
+		var img = document.querySelector('img')
+		img.onload = () => {
+			URL.revokeObjectURL(img.src)
+		}
+
+		const reader = new FileReader();
+
+		reader.addEventListener("load", function () {
+			setBackgroundImage(reader.result)
+			
+		}, false);
+		
+		file = this.files[0]
+
+		if (file) {
+			reader.readAsDataURL(file)
+		}
+	}
+})

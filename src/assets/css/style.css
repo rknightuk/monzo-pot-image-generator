@@ -1,5 +1,6 @@
 body {
-	max-width: 1000px
+	max-width: 1000px;
+	margin: 10px auto;
 }
 h2 {
 	font-size: 1.2em;
@@ -20,10 +21,6 @@ h2 {
     .header__main {
         font-size: 1.5em;
     }
-}
-
-.header__icon {
-    color: #ff1414;
 }
 
 @media (max-width: 700px) {
@@ -89,6 +86,10 @@ h2 {
 	justify-content: center;
 }
 
+.app-icons #preview {
+	width: 205px;
+}
+
 #preview .image__iconwrapper {
 	width: 100px;
     height: 100px;
@@ -102,6 +103,11 @@ h2 {
 #generated {
 	width: 1266px;
 	height: 822px;
+}
+
+.app-icons #generated {
+	overflow: auto;
+	height: 1266px;
 }
 
 #generated .image__iconwrapper {
@@ -190,6 +196,7 @@ h2 {
 
 .icon-filter {
 	margin-bottom: 5px;
+	display: flex;
 }
 
 .icon-search {
@@ -210,11 +217,15 @@ h2 {
 	cursor: pointer;
 	padding: 5px;
 	flex-basis: 75px;
-	font-size: 40px;
 }
 
 .icons__single:hover {
 	background: #f3f3f3;
+}
+
+.icons__single svg {
+	width: 30px;
+	height: 30px;
 }
 
 .icons__label {
@@ -245,14 +256,19 @@ h2 {
 	flex-basis: 85px;
 }
 
+.app-icons .example-card {
+	width: 55px;
+	flex-basis: 55px;
+}
+
 .example-card img,
 .example-card-icon {
 	position: absolute;
 }
 
-.example-card img {
-    height: 100%;
-    width: 100%;
+.example-card svg {
+    height: 20px;
+    width: 20px;
 }
 
 .footer {
@@ -392,6 +408,12 @@ button {
 	padding-left: 10px;
 	padding-right: 10px;
 	width:40px;
+	height: 40px;
+}
+
+button svg {
+	height: 100%;
+	width: 100%;
 }
 
 .clear-history-button {
@@ -423,4 +445,58 @@ button {
 	top: -44px;
 	right: 36px;
 	font-size: 8.3em;
+}
+
+.rotate-90 {
+	transform: rotate(90deg);
+}
+
+.rotate-180 {
+	transform: rotate(180deg);
+}
+
+.rotate-270 {
+	transform: rotate(270deg);
+}
+
+.rotate-0 {
+	transform: rotate(0deg);
+}
+
+.about-modal {
+	z-index: 101;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+
+.modal-content {
+	max-width: 600px;
+	max-height: 80vh;
+	background: white;
+	margin: 0 auto;
+	margin-top: 150px;
+	padding: 10px 20px;
+	box-shadow: 0 3px 10px rgb(0 0 0 / 60%);
+	position: relative;
+}
+
+.modal-close-button {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+.modal-close-button:hover {
+	cursor: pointer;
+}
+
+.modal-close-button svg {
+	width: 20px;
+	height: 20px;
 }

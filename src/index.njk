@@ -29,19 +29,29 @@
 	<link rel="stylesheet" href="/assets/css/style.css">
 
 	<script>
-		FontAwesomeConfig = { autoReplaceSvg: 'nest' }
 		MPIGConfig = {{ config | dump | safe }}
+		IconUrls = {{ icons.links | dump | safe }}
 	</script>
 
-	<script src="https://cdn.usefathom.com/script.js" excluded-domains="localhost" site="HHYTRXSK" defer></script>
+	<script src="https://cdn.usefathom.com/script.js" excluded-domains="localhost" site="{{ config.fathomSiteId }}" defer></script>
 
-	<script src="/assets/js/fa-pro.min.js"></script>
 	<script src="/assets/js/dom-to-image.min.js"></script>
 	<script src="/assets/js/FileSaver.min.js"></script>
 
 </head>	
 
-<body onload="loadHistory()">
+<body onload="loadHistory()" class="{{ config.type }}">
+
+	{% include 'sprites/feather.svg' %}
+	{% include 'sprites/simpleicons.svg' %}
+	{% include 'sprites/fa/brands.svg' %}
+	{% include 'sprites/fa/duotone.svg' %}
+	{% include 'sprites/fa/light.svg' %}
+	{% include 'sprites/fa/regular.svg' %}
+	{% include 'sprites/fa/solid.svg' %}
+	{% include 'sprites/flags.svg' %}
+	{% include 'sprites/countries.svg' %}
+	{% include 'sprites/openmoji.svg' %}
 
 	<style>
 		.alert-bar {
@@ -58,27 +68,51 @@
 	</div>
 
 	<header class="header">
-        <h1 class="header__main">
-            <span class="header__icon"><i class="fas fa-money-check"></i></span> {{ config.title }}
-        </h1>
+        <div class="header__main">
+            {{ config.title }}
+        </div>
+		<div>
+			<a href="#" id="about-link" onclick="showAboutModal()">About</a> &bull; <a href="https://monzo.me/robbknight?d=Pot%20Image%20Generator" rel="noopener" target="_blank">Buy Me a Coffee</a> &bull; <a href="https://twitter.com/intent/tweet?text=Monzo%20Pot%20Images%20Generator%20by%20@rknightuk&url=https://potimages.rknight.me" rel="noopener" target="_blank">Tweet This</a>
+		</div>
     </header>
+
+	<div class="about-modal" id="about-modal">
+		<div class="modal-content">
+			<div class="modal-close-button" onclick="closeAboutModal()">
+				<svg><use xlink:href="#fa-solid-times"></use></svg>
+			</div>
+			<p>{{ config.description }}. Made by <a href="https://rknight.me" rel="noopener" target="_blank">Robb Knight</a>. <a href="https://github.com/rknightuk/monzo-pot-image-generator" rel="noopener" target="_blank">Code on GitHub</a>.<p>
+
+			<p>The generator using the following icon sets:</p>
+
+			<ul>
+				<li><a href="https://monzo.com/press/" rel="noopener" target="_blank">Color Monzo Logo from Monzo Press Kit</a></li>
+				<li><a href="https://community.monzo.com/t/monzo-pot-image-generator/102120/178" rel="noopener" target="_blank">Apple Pay Backgrounds by Ben</a></li>
+				{% for set in icons.icons %}
+					<li><a href="{{ set.url }}" rel="noopener" target="_blank">{{ set.title}}</a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
 
     <div class="preview-wrapper">
     	<div>
 	    	<div class="image" id="preview" style="background:{{ config.primary }}">
 	    		<img id="preview-overlay-image" class="overlay-image" src="/assets/img/backgrounds/pride.png" style="display: none">
-	    		<div class="image__iconwrapper" id="preview-icon-wrap" style="color: {{ config.light }}">
-	    			<i id="preview-icon" class="{{ config.prefix }} fa-{{ config.icon }}"></i>
+	    		<div class="image__iconwrapper" id="preview-icon-wrap" style="fill: {{ config.light }}; color: {{ config.light }}">
+					<svg id="fa-duotone-rocket" viewBox="0 0 512 512">
+						<path d="M51.94117,154.48438,2.531,253.29688A28.125,28.125,0,0,0-.00023,264a24.00619,24.00619,0,0,0,24,24H117.4607c23.44141-47.41211,61.01172-123.373,77.89063-157.32812.51953-.91407,1-1.76758,1.52344-2.67188H94.82008C78.47633,128.01562,59.28883,139.875,51.94117,154.48438Zm172.0586,240.1621V488.209A24.12394,24.12394,0,0,0,247.9607,512a28.02965,28.02965,0,0,0,10.625-2.53125l98.72657-49.39063c14.625-7.3125,26.5-26.5,26.5-42.85937V315.70312c.0664-.041.125-.08789.1875-.1289v-.52734c-.90625.51953-1.7461,1.002-2.66407,1.52539C347.37477,333.58008,271.2732,371.252,223.99977,394.64648Z" class="fa-secondary"></path><path d="M505.15992,19.51562A16.73971,16.73971,0,0,0,492.62477,6.94531C460.22633,0,434.37477,0,409.48414,0,320.3357,0,252.80836,40.61523,196.97633,127.81836c-.5586.97852-1.07031,1.877-1.625,2.85352-19.59766,39.42578-67.20313,135.70312-88.04688,177.877a31.91421,31.91421,0,0,0,6.09766,36.76172L167.05445,398.709a31.88923,31.88923,0,0,0,36.64844,5.98047l14.17578-7.01367c46.57422-23.04883,128.06641-63.3789,163.457-81.10351.96094-.54883,1.832-1.04883,2.78907-1.59766,87.23437-56.06055,127.85937-123.51172,127.85937-212.27734C512.06227,77.60742,512.12867,52.08789,505.15992,19.51562ZM367.99977,192a48,48,0,1,1,48-48.00195A48.02156,48.02156,0,0,1,367.99977,192Z" class="fa-primary"></path>
+					</svg>
 	    		</div>
 	    		<p class="image-text" id="preview-image-text" style="color: {{ config.light }}"></p>
 	    	</div>
-	    	<div class="preview__controls-icon-changer">
-	    		{% for prefix in ['fas', 'far', 'fal', 'fad'] %}
+	    	<div id="fa-icon-type-changer" class="preview__controls-icon-changer">
+	    		{% for prefix in ['fa-solid', 'fa-regular', 'fa-light', 'fa-duotone'] %}
 	    			<button 
 	    				class="preview__controls-icon-changer-button" 
 	    				onclick="setIconPrefix('{{ prefix }}')"
     				>
-	    				<i class="{{ prefix }} fa-rocket"></i>
+						<svg><use xlink:href="#{{ prefix }}-rocket"></use></svg>
 	    			</button>
     			{% endfor %}
 	    	</div>
@@ -87,20 +121,20 @@
     		<div class="preview__controls__manage">
     			<div class="preview__controls__manage__group">
     				<div class="preview__controls__manage__adjuster">
-    					<div><button onclick="decreaseSize()"><i class="fas fa-minus"></i></button></div>
+    					<div><button onclick="decreaseSize()"><svg><use xlink:href="#fa-solid-minus"></use></svg></i></button></div>
     					<input min="0" max="200" type="number" id="icon-size" style="text-align: center;" value="{{ config.size }}">
-    					<div><button onclick="increaseSize()"><i class="fas fa-plus"></i></button></div>
+    					<div><button onclick="increaseSize()"><svg><use xlink:href="#fa-solid-plus"></use></svg></i></button></div>
     				</div>
     				<div class="preview__controls__manage__adjuster">
-    					<div><button onclick="rotateLeft()"><i class="fas fa-undo"></i></button></div>
+    					<div><button onclick="rotateLeft()"><svg><use xlink:href="#fa-solid-undo"></use></svg></i></button></div>
     					<div id="rotation" class="preview__controls__manage__adjuster__value">{{ config.rotation }}&deg;</div>
-    					<div><button onclick="rotateRight()"><i class="fas fa-redo"></i></button></div>
+    					<div><button onclick="rotateRight()"><svg><use xlink:href="#fa-solid-redo"></use></svg></i></button></div>
     				</div>
     			</div>
     			<div class="preview__controls__manage__group">
-    				<button id="toggle-icon"><i id="toggle-icon-icon" class="fas fa-toggle-on"></i></button>
-    				<button id="random"><i class="fas fa-random"></i></button>
-    				<button id="download"><i class="fas fa-download"></i></button>
+    				<button id="toggle-icon"><svg><use id="toggle-icon-icon" xlink:href="#fa-solid-toggle-on"></use></svg></button>
+    				<button id="random"><svg><use xlink:href="#fa-solid-random"></use></svg></i></button>
+    				<button id="download"><svg><use xlink:href="#fa-solid-download"></use></svg></i></button>
     			</div>
     		</div>
     		<details>
@@ -112,14 +146,14 @@
 						data-background="{{ example.backgroundColor }}" 
 						data-color="{{ example.color }}" 
 						data-icon="{{ example.icon }}" 
-						data-prefix="{{ example.prefix }}" 
+						data-prefix="{{ example.prefix }}"
 						data-size="{{ example.size }}" 
 						data-image="{{ example.image }}"
 						style="background: {{ example.backgroundColor }}"
 						onclick="loadExampleCard(event)"
 					>
-						<div class="example-card-icon">
-							<i class="{{ example.prefix }} fa-{{ example.icon }}" style="color:{{ example.color }}"></i>
+						<div class="example-card-icon" style="fill: {{ example.color }}; color: {{ example.color }}">
+							<svg><use xlink:href="#{{ example.prefix }}-{{ example.icon }}"></use></svg>
 						</div>
 					</div>
 				{% endfor %}
@@ -136,8 +170,10 @@
 	<div class="generated-wrapper">
 		<div class="image" id="generated" style="background:{{ config.primary }}">
 			<img id="generated-overlay-image" class="overlay-image" src="/assets/img/backgrounds/plus-blank.png" style="display: none">
-			<div class="image__iconwrapper" id="generated-icon-wrap" style="color: {{ config.light }}">
-				<i id="generated-icon" class="{{ config.prefix }} fa-{{ config.icon }}"></i>
+			<div class="image__iconwrapper" id="generated-icon-wrap" style="fill: {{ config.light }}; color: {{ config.light }}">
+				<svg id="fa-duotone-rocket" viewBox="0 0 512 512">
+					<path d="M51.94117,154.48438,2.531,253.29688A28.125,28.125,0,0,0-.00023,264a24.00619,24.00619,0,0,0,24,24H117.4607c23.44141-47.41211,61.01172-123.373,77.89063-157.32812.51953-.91407,1-1.76758,1.52344-2.67188H94.82008C78.47633,128.01562,59.28883,139.875,51.94117,154.48438Zm172.0586,240.1621V488.209A24.12394,24.12394,0,0,0,247.9607,512a28.02965,28.02965,0,0,0,10.625-2.53125l98.72657-49.39063c14.625-7.3125,26.5-26.5,26.5-42.85937V315.70312c.0664-.041.125-.08789.1875-.1289v-.52734c-.90625.51953-1.7461,1.002-2.66407,1.52539C347.37477,333.58008,271.2732,371.252,223.99977,394.64648Z" class="fa-secondary"></path><path d="M505.15992,19.51562A16.73971,16.73971,0,0,0,492.62477,6.94531C460.22633,0,434.37477,0,409.48414,0,320.3357,0,252.80836,40.61523,196.97633,127.81836c-.5586.97852-1.07031,1.877-1.625,2.85352-19.59766,39.42578-67.20313,135.70312-88.04688,177.877a31.91421,31.91421,0,0,0,6.09766,36.76172L167.05445,398.709a31.88923,31.88923,0,0,0,36.64844,5.98047l14.17578-7.01367c46.57422-23.04883,128.06641-63.3789,163.457-81.10351.96094-.54883,1.832-1.04883,2.78907-1.59766,87.23437-56.06055,127.85937-123.51172,127.85937-212.27734C512.06227,77.60742,512.12867,52.08789,505.15992,19.51562ZM367.99977,192a48,48,0,1,1,48-48.00195A48.02156,48.02156,0,0,1,367.99977,192Z" class="fa-primary"></path>
+				</svg>
 			</div>
 			<p class="image-text" id="generated-image-text" style="color: {{ config.light }}"></p>
 		</div>
@@ -150,17 +186,20 @@
 				{% for color in colors.background %}
 					<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
 				{% endfor %}
-				<div class="hex-input-wrap">
-					<div class="hex-input-icon">
-						<input type="color" class="hex-selector" id="background-color-picker" value="{{ config.primary }}">
+				<div class="hex-inputs">
+					<div class="hex-input-wrap">
+						<div class="hex-input-icon">
+							<input type="color" class="hex-selector" id="background-color-picker" value="{{ config.primary }}">
+						</div>
+						<input 
+							maxlength="6" 
+							type="text" 
+							class="hex-input" 
+							id="background-hex-input" 
+							value="{{ config.primary.replace('#', '') }}"
+						>
 					</div>
-					<input 
-						maxlength="6" 
-						type="text" 
-						class="hex-input" 
-						id="background-hex-input" 
-						value="{{ config.primary.replace('#', '') }}"
-					>
+					<button id="random-background-color"><svg><use xlink:href="#fa-solid-random"></use></svg></button>
 				</div>
 			</div>
 		</div>
@@ -195,7 +234,7 @@
 							value=""
 						>
 					</div>
-					<button id="random-gradient"><i class="fas fa-random"></i></button>
+					<button id="random-gradient"><svg><use xlink:href="#fa-solid-random"></use></svg></button>
 				</div>
 			</div>
 		</div>
@@ -205,17 +244,20 @@
 				{% for color in colors.icon %}
 					<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
 				{% endfor %}
-				<div class="hex-input-wrap">
-					<div class="hex-input-icon">
-						<input class="hex-selector" type="color" id="icon-color-picker" value="{{ config.light }}">
+				<div class="hex-inputs">
+					<div class="hex-input-wrap">
+						<div class="hex-input-icon">
+							<input class="hex-selector" type="color" id="icon-color-picker" value="{{ config.light }}">
+						</div>
+						<input 
+							maxlength="6" 
+							type="text" 
+							class="hex-input" 
+							id="icon-hex-input" 
+							value="{{ config.light.replace('#', '') }}"
+						>
 					</div>
-					<input 
-						maxlength="6" 
-						type="text" 
-						class="hex-input" 
-						id="icon-hex-input" 
-						value="{{ config.light.replace('#', '') }}"
-					>
+					<button id="random-icon-color"><svg><use xlink:href="#fa-solid-random"></use></svg></button>
 				</div>
 				<div style="clear:both;"><input type="checkbox" id="calc-contrast" checked="checked"><label class="calc-contrast-label" for="calc-contrast">auto change colour</label></div>
 			</div>
@@ -231,6 +273,7 @@
 					>
 				{% endfor %}
 				<div style="clear: both;"></div>
+				<input type='file' />
 				<details>
 					<summary>Text</summary>
 					<input 
@@ -262,44 +305,56 @@
 		</div>
 	</div>
 
-	<div class="icon-search-wrapper">
+	<div class="icon-search-wrapper">	
 		<div class="icon-filter">
-			<input name="icon-filter" id="fas" value="fas" type="radio" checked="checked" onchange="search()"><label for="fas">Solid</label>
-			<input name="icon-filter" id="far" value="far" type="radio" onchange="search()"><label for="far">Regular</label>
-			<input name="icon-filter" id="fal" value="fal" type="radio" onchange="search()"><label for="fal">Light</label>
-			<input name="icon-filter" id="fad" value="fad" type="radio" onchange="search()"><label for="fad">Duotone</label>
-			<input name="icon-filter" id="fab" value="fab" type="radio" onchange="search()"><label for="fab">Brands</label>
-		</div>
-		<input type="text" onkeyup="search()" id="icon-search" class="icon-search" placeholder="Search for an icon">
-		<div class="icons">
-			{% for icon in pro %}
-				<div 
-					title="{{ icon.label }}"
-					data-key="{{ icon.key }}"
-					data-prefix="{{ icon.prefix }}"
-					data-keywords="{{ icon.keywords }}"
-					class="icons__single" 
-					onclick="setIcon(
-						'{{ icon.key }}', 
-						'{{ icon.prefix }}'
-					)"
-					style="{% if icon.prefix !== 'fas' %}display: none;{% endif %}
-				">
-					<i class="{{ icon.prefix }} fa-{{ icon.key }}"></i>
-					<div class="icons__label">{{ icon.key }}</div>
-				</div>
+			<select id="icon-set-selector" onchange="changeIconSet()">
+				{% for set in icons.icons %}
+					<option value="{{ set.key }}" {% if config.prefixv2 === set.key %}selected{% endif %}>
+						{{ set.title }}
+					</option>
+				{% endfor %}
+			<select>
+			{% for set in icons.icons %}
+				{% if config.prefixv2 === set.key %}
+					<button id="icon-credit" onclick="openCreditUrl()">
+						<svg><use xlink:href="#fa-solid-external-link"></use></svg>
+					</button>
+				{% endif %}
 			{% endfor %}
 		</div>
+		<input type="text" onkeyup="search()" id="icon-search" class="icon-search" placeholder="Search for an icon">
+		{% for set in icons.icons %}
+			<div id="icons-{{ set.key }}" class="icons" style="display: {% if set.key === config.prefixv2 %}flex{% else %}none{% endif %};">
+				{% for icon in set.icons %}
+					<div 
+						title="{{ icon }}"
+						data-key="{{ icon }}"
+						data-prefix="{{ set.key }}"
+						data-keywords="{{ icon }} {% if set.country %}{{ countrycodes[icon.toUpperCase()] }}{% endif %} {% if set.emoji %}{{ emojicodes[icon] }}{% endif %}"
+						class="icons__single"
+						onclick="setIconv2(
+							'{{ icon }}',
+							'{{ set.key }}'
+						)"
+					>
+						<svg><use xlink:href="#{{ set.key }}-{{ icon }}"></use></svg>
+						<div class="icons__label">{{ icon }}</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}
 	</div>
 
 	<footer class="footer">
-		<p><em>Generate images for your Monzo pots or your Starling goals</em></p>
-		<p>{{ config.title }} by <a href="https://rknight.me">Robb Knight</a> | Icons from <a href="https://fontawesome.com/">Font Awesome</a></p>
-		<p><a href="https://app.usefathom.com/share/hhytrxsk/potimages.rknight.me">Stats</a> | <a href="https://github.com/rknightuk/monzo-pot-image-generator">Source</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a> | <a href="https://community.monzo.com/t/monzo-pot-image-generator/102120">Discuss</a></p>
+		<p><em>{{ config.footerDesc }}</em></p>
+		<p>{{ config.title }} by <a href="https://rknight.me">Robb Knight</a></p>
+		<p><a href="https://app.usefathom.com/share/{{ config.fathomSiteId }}/potimages.rknight.me">Stats</a> | <a href="https://github.com/rknightuk/{{ config.repo }}">Source</a> | <a href="https://monzo.me/robbknight">Buy me a coffee</a> | <a href="https://community.monzo.com/t/monzo-pot-image-generator/102120">Discuss</a></p>
 	</footer>
 
 	<script>
 		PotData = {
+			iconv2: "{{ config.iconv2 }}",
+			prefixv2: "{{ config.prefixv2 }}",
 			icon: "{{ config.icon }}",
 			prefix: "{{ config.prefix }}",
 			size: "{{ config.size }}",
@@ -312,7 +367,7 @@
 
 	<script src="/assets/js/scripts.js"></script>
 
-	<a href="https://github.com/rknightuk/monzo-pot-image-generator" class="github-corner" aria-label="View source on GitHub"><svg width="50" height="50" viewBox="0 0 250 250" style="fill:{{config.primary}}; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+	<a href="https://github.com/rknightuk/{{ config.repo }}" class="github-corner" aria-label="View source on GitHub"><svg width="50" height="50" viewBox="0 0 250 250" style="fill:{{config.primary}}; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 </body>
 
 </html>
