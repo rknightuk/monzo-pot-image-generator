@@ -411,6 +411,22 @@ button {
 	height: 40px;
 }
 
+.header__butttons {
+	display: flex;
+	margin-top: 10px;
+}
+
+.header button {
+	width: auto;
+	display: flex;
+}
+
+.header button svg {
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+}
+
 button svg {
 	height: 100%;
 	width: 100%;
