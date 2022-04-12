@@ -31,4 +31,40 @@ module.exports = [
 		path: "apple-pay-ms.png",
 		type: "light"
 	},
+	{
+		path: "monzo-spring/monzo-spring-1.png",
+		type: "dark"
+	},
+	{
+		path: "monzo-spring/monzo-spring-2.png",
+		type: "dark"
+	},
+	{
+		path: "monzo-spring/monzo-spring-3.png",
+		type: "dark"
+	},
+	{
+		path: "monzo-spring/monzo-spring-4.png",
+		type: "dark"
+	},
+	{
+		path: "monzo-spring/monzo-spring-5.png",
+		type: "dark"
+	},
+	{
+		path: "monzo-spring/monzo-spring-6.png",
+		type: "dark"
+	},
+	{
+		path: "monzo-spring/monzo-spring-7.png",
+		type: "dark"
+	},
+	{
+		path: "monzo-spring/monzo-spring-8.png",
+		type: "dark"
+	},
+	{
+		path: "monzo-spring/monzo-spring-9.png",
+		type: "dark"
+	}
 ]
