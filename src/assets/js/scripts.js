@@ -444,6 +444,13 @@ document.getElementById('text-hex-input').addEventListener("keyup", setTextColor
 document.getElementById('icon-size').addEventListener("change", changeSizeFromInput, false)
 document.getElementById('icon-size').addEventListener("keyup", changeSizeFromInput, false)
 
+document.getElementById('mode').onclick = function() {
+	body = document.getElementsByTagName('body')[0]
+	monzoMode = body.className.includes('monzo')
+	body.className = monzoMode ? 'app-icons' : 'monzo'
+	document.getElementById('mode').innerHTML = monzoMode ? '<svg><use xlink:href="#fa-duotone-credit-card"></use></svg>' : '<svg><use xlink:href="#fa-duotone-square"></use></svg>'
+}
+
 document.getElementById('download').onclick = function() {
   domtoimage.toBlob(document.getElementById('generated'))
       .then(function (blob) {
