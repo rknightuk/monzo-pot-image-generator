@@ -516,3 +516,14 @@ button svg {
 	width: 20px;
 	height: 20px;
 }
+
+#mode {
+	width: auto;
+    display: flex;
+}
+
+#mode svg {
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+}

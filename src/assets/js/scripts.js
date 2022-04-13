@@ -448,7 +448,7 @@ document.getElementById('mode').onclick = function() {
 	body = document.getElementsByTagName('body')[0]
 	monzoMode = body.className.includes('monzo')
 	body.className = monzoMode ? 'app-icons' : 'monzo'
-	document.getElementById('mode').innerHTML = monzoMode ? '<svg><use xlink:href="#fa-duotone-credit-card"></use></svg>' : '<svg><use xlink:href="#fa-duotone-square"></use></svg>'
+	document.getElementById('mode').innerHTML = monzoMode ? '<svg><use xlink:href="#fa-duotone-credit-card"></use></svg> Monzo Mode' : '<svg><use xlink:href="#fa-duotone-square"></use></svg> Square Mode'
 }
 
 document.getElementById('download').onclick = function() {
