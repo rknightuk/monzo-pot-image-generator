@@ -66,5 +66,17 @@ module.exports = [
 	{
 		path: "monzo-spring/monzo-spring-9.png",
 		type: "dark"
+	},
+	{
+		path: "neon/yellow.png",
+		type: "dark"
+	},
+	{
+		path: "neon/green.png",
+		type: "dark"
+	},
+	{
+		path: "neon/pink.png",
+		type: "dark"
 	}
 ]
