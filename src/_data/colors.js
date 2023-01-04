@@ -1,16 +1,21 @@
 module.exports = {
   background: [
-    "#FF4D56",
-    "#E74C3C",
-    "#DB6F26",
-    "#F1C430",
-    "#2991CC",
-    "#61CD73",
-    "#6F48BC",
-    "#34495E",
-    "#707B8C",
-    "#E0E4E8",
-    "#14233C",
+    // Hot coral
+    "#FF4F40",
+
+    // Black & white (navy)
+    "#112231",
+    "#F2F8F3",
+
+    // Accents
+    "#FE6B1B",
+    "#FFD7F0",
+    "#C3FF34",
+    "#016B83",
+    "#BBF6E2",
+    "#3A4920",
+
+    // Neons
     "#FAE54D",
     "#70CF4B",
     "#EB50AD",
