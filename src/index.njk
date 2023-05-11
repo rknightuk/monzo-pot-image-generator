@@ -33,12 +33,12 @@
 		IconUrls = {{ icons.links | dump | safe }}
 	</script>
 
-	<script src="https://perfect-thirty.rknight.me/script.js" excluded-domains="localhost" site="{{ config.fathomSiteId }}" defer></script>
+	<script src="https://cdn.usefathom.com/script.js" excluded-domains="localhost" site="{{ config.fathomSiteId }}" defer></script>
 
 	<script src="/assets/js/dom-to-image.min.js"></script>
 	<script src="/assets/js/FileSaver.min.js"></script>
 
-</head>	
+</head>
 
 <body onload="loadHistory()" class="{{ config.type }}">
 
@@ -106,8 +106,8 @@
 	    	</div>
 	    	<div id="fa-icon-type-changer" class="preview__controls-icon-changer">
 	    		{% for prefix in ['fa-solid', 'fa-regular', 'fa-light', 'fa-duotone'] %}
-	    			<button 
-	    				class="preview__controls-icon-changer-button" 
+	    			<button
+	    				class="preview__controls-icon-changer-button"
 	    				onclick="setIconPrefix('{{ prefix }}')"
     				>
 						<svg><use xlink:href="#{{ prefix }}-rocket"></use></svg>
@@ -140,13 +140,13 @@
     		  <summary>Popular Images</summary>
     		  <div class="examples">
     		  	{% for example in examples %}
-					<div 
+					<div
 						class="example-card"
-						data-background="{{ example.backgroundColor }}" 
-						data-color="{{ example.color }}" 
-						data-icon="{{ example.icon }}" 
+						data-background="{{ example.backgroundColor }}"
+						data-color="{{ example.color }}"
+						data-icon="{{ example.icon }}"
 						data-prefix="{{ example.prefix }}"
-						data-size="{{ example.size }}" 
+						data-size="{{ example.size }}"
 						data-image="{{ example.image }}"
 						style="background: {{ example.backgroundColor }}"
 						onclick="loadExampleCard(event)"
@@ -183,18 +183,18 @@
 			<div class="picker">
 				<h2>Colour</h2>
 				{% for color in colors.background %}
-					<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>	
+					<div class="color" onclick="setBackgroundColor('{{ color }}')" style="background: {{ color }};"></div>
 				{% endfor %}
 				<div class="hex-inputs">
 					<div class="hex-input-wrap">
 						<div class="hex-input-icon">
 							<input type="color" class="hex-selector" id="background-color-picker" value="{{ config.primary }}">
 						</div>
-						<input 
-							maxlength="6" 
-							type="text" 
-							class="hex-input" 
-							id="background-hex-input" 
+						<input
+							maxlength="6"
+							type="text"
+							class="hex-input"
+							id="background-hex-input"
 							value="{{ config.primary.replace('#', '') }}"
 						>
 					</div>
@@ -206,18 +206,18 @@
 			<div class="picker">
 				<h2>Gradient</h2>
 				{% for gradient in colors.gradients %}
-					<div class="color" onclick="setGradientColor('{{ gradient.left }}', '{{ gradient.right }}')" style="background-image: linear-gradient(to top right, {{ gradient.left }}, {{ gradient.right }});"></div>	
+					<div class="color" onclick="setGradientColor('{{ gradient.left }}', '{{ gradient.right }}')" style="background-image: linear-gradient(to top right, {{ gradient.left }}, {{ gradient.right }});"></div>
 				{% endfor %}
 				<div class="hex-inputs" id="gradient-hex-inputs">
 					<div class="hex-input-wrap">
 						<div class="hex-input-icon">
 							<input class="hex-selector" type="color" id="gradient-left-color-picker" value="">
 						</div>
-						<input 
-							maxlength="6" 
-							type="text" 
-							class="hex-input" 
-							id="gradient-left-hex-input" 
+						<input
+							maxlength="6"
+							type="text"
+							class="hex-input"
+							id="gradient-left-hex-input"
 							value=""
 						>
 					</div>
@@ -225,11 +225,11 @@
 						<div class="hex-input-icon">
 							<input class="hex-selector" type="color" id="gradient-right-color-picker" value="">
 						</div>
-						<input 
-							maxlength="6" 
-							type="text" 
-							class="hex-input" 
-							id="gradient-right-hex-input" 
+						<input
+							maxlength="6"
+							type="text"
+							class="hex-input"
+							id="gradient-right-hex-input"
 							value=""
 						>
 					</div>
@@ -241,18 +241,18 @@
 			<div class="picker">
 				<h2>Icon Colour</h2>
 				{% for color in colors.icon %}
-					<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>	
+					<div class="color" onclick="setIconColor('{{ color }}')" style="background: {{ color }};"></div>
 				{% endfor %}
 				<div class="hex-inputs">
 					<div class="hex-input-wrap">
 						<div class="hex-input-icon">
 							<input class="hex-selector" type="color" id="icon-color-picker" value="{{ config.light }}">
 						</div>
-						<input 
-							maxlength="6" 
-							type="text" 
-							class="hex-input" 
-							id="icon-hex-input" 
+						<input
+							maxlength="6"
+							type="text"
+							class="hex-input"
+							id="icon-hex-input"
 							value="{{ config.light.replace('#', '') }}"
 						>
 					</div>
@@ -265,9 +265,9 @@
 			<div class="picker">
 				<h2>Background Image</h2>
 				{% for image in images %}
-					<img 
-						src="/assets/img/backgrounds/{{ image.path }}" 
-						class="background" 
+					<img
+						src="/assets/img/backgrounds/{{ image.path }}"
+						class="background"
 						onclick="setBackgroundImage('/assets/img/backgrounds/{{ image.path }}', {% if image.type === 'light' %}true{% else %}false{% endif %})"
 					>
 				{% endfor %}
@@ -275,26 +275,26 @@
 				<input type='file' />
 				<details>
 					<summary>Text</summary>
-					<input 
+					<input
 						type="text"
-						id="text-input" 
-						class="text-input" 
+						id="text-input"
+						class="text-input"
 						value=""
-						onkeyup="setText()" 
+						onkeyup="setText()"
 					>
 					<div style="margin-top: 0">
 						{% for color in colors.icon %}
-							<div class="color" onclick="setTextColor('{{ color }}')" style="background: {{ color }};"></div>	
+							<div class="color" onclick="setTextColor('{{ color }}')" style="background: {{ color }};"></div>
 						{% endfor %}
 						<div class="hex-input-wrap">
 							<div class="hex-input-icon">
 								<input type="color" class="hex-selector" id="text-color-picker" value="{{ config.light }}">
 							</div>
-							<input 
-								maxlength="6" 
-								type="text" 
-								class="hex-input" 
-								id="text-hex-input" 
+							<input
+								maxlength="6"
+								type="text"
+								class="hex-input"
+								id="text-hex-input"
 								value="{{ config.light.replace('#', '') }}"
 							>
 						</div>
@@ -304,7 +304,7 @@
 		</div>
 	</div>
 
-	<div class="icon-search-wrapper">	
+	<div class="icon-search-wrapper">
 		<div class="icon-filter">
 			<select id="icon-set-selector" onchange="changeIconSet()">
 				{% for set in icons.icons %}
@@ -325,7 +325,7 @@
 		{% for set in icons.icons %}
 			<div id="icons-{{ set.key }}" class="icons" style="display: {% if set.key === config.prefixv2 %}flex{% else %}none{% endif %};">
 				{% for icon in set.icons %}
-					<div 
+					<div
 						title="{{ icon }}"
 						data-key="{{ icon }}"
 						data-prefix="{{ set.key }}"
